@@ -1,0 +1,21 @@
+{
+    "mqtt": {
+        "host": "https://google.com",
+        "port": 1234545,
+        "username": "fdsfdd",
+        "password": "Aqswde123@",
+        "secret_key": "supdate"
+    },
+    "api-server": {
+        "url": "http://172.23.0.1",
+        "x_api_key": "x-api-key"
+    },
+    "api-board": {
+        "url": "http://192.168.1.6:8000"
+    },
+    "network": {
+        "mac_address": "50:9a:4c:ba:4f:bf",
+        "ip_address": "192.168.1.6",
+        "ip_config": "{\r\n    \"Unknown adapter Local Area Connection\": {\r\n        \"inet\": null,\r\n        \"inet4\": [],\r\n        \"ether\": \"00:ff:e7:aa:30:29\",\r\n        \"inet6\": [],\r\n        \"netmask\": null,\r\n        \"netmasks\": [],\r\n        \"broadcast\": null,\r\n        \"broadcasts\": [],\r\n        \"prefixlens\": [],\r\n        \"device\": \"unknown adapter local area connection\"\r\n    },\r\n    \"Ethernet adapter Ethernet\": {\r\n        \"inet\": null,\r\n        \"inet4\": [],\r\n        \"ether\": \"50:9a:4c:ba:4f:bf\",\r\n        \"inet6\": [],\r\n        \"netmask\": null,\r\n        \"netmasks\": [],\r\n        \"broadcast\": null,\r\n        \"broadcasts\": [],\r\n        \"prefixlens\": [],\r\n        \"device\": \"ethernet adapter ethernet\"\r\n    },\r\n    \"Ethernet adapter vEthernet (Default Switch)\": {\r\n        \"inet\": \"172.23.0.1\",\r\n        \"inet4\": [\r\n            \"172.23.0.1\"\r\n        ],\r\n        \"ether\": \"00:15:5d:df:f0:0a\",\r\n        \"inet6\": [],\r\n        \"netmask\": null,\r\n        \"netmasks\": [],\r\n        \"broadcast\": null,\r\n        \"broadcasts\": [],\r\n        \"prefixlens\": [],\r\n        \"device\": \"ethernet adapter vethernet (default switch)\",\r\n        \"hostname\": \"desktop-vodrhrk\"\r\n    },\r\n    \"Wireless LAN adapter Local Area Connection* 1\": {\r\n        \"inet\": null,\r\n        \"inet4\": [],\r\n        \"ether\": \"cc:2f:71:00:9c:9b\",\r\n        \"inet6\": [],\r\n        \"netmask\": null,\r\n        \"netmasks\": [],\r\n        \"broadcast\": null,\r\n        \"broadcasts\": [],\r\n        \"prefixlens\": [],\r\n        \"device\": \"wireless lan adapter local area connection* 1\"\r\n    },\r\n    \"Wireless LAN adapter Wi-Fi\": {\r\n        \"inet\": \"192.168.1.6\",\r\n        \"inet4\": [\r\n            \"192.168.1.6\"\r\n        ],\r\n        \"ether\": \"cc:2f:71:00:9c:9a\",\r\n        \"inet6\": [\r\n            \"2001:ee0:d794:27c0:847e:6a4:2975:5971\"\r\n        ],\r\n        \"netmask\": null,\r\n        \"netmasks\": [],\r\n        \"broadcast\": null,\r\n        \"broadcasts\": [],\r\n        \"prefixlens\": [],\r\n        \"device\": \"wireless lan adapter wi-fi\",\r\n        \"default_gateway\": \"fe80::1%6\",\r\n        \"hostname\": \"host.docker.internal\"\r\n    },\r\n    \"Wireless LAN adapter Local Area Connection* 2\": {\r\n        \"inet\": \"192.168.5.1\",\r\n        \"inet4\": [\r\n            \"192.168.5.1\",\r\n            \"192.168.137.1\"\r\n        ],\r\n        \"ether\": \"ce:2f:71:00:9c:9a\",\r\n        \"inet6\": [],\r\n        \"netmask\": null,\r\n        \"netmasks\": [],\r\n        \"broadcast\": null,\r\n        \"broadcasts\": [],\r\n        \"prefixlens\": [],\r\n        \"device\": \"wireless lan adapter local area connection* 2\",\r\n        \"hostname\": \"desktop-vodrhrk\"\r\n    }\r\n}"
+    }
+}

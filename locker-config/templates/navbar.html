@@ -1,0 +1,81 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <div class="logo-header">
+      <a class="navbar-brand" href="{% url 'home' %}">LOCKER CONFIG</a>
+      <div>
+        <h3 id="status">
+          
+        </h3>
+      </div>
+    </div>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a href="{% url 'info' %}" {% if request.resolver_match.url_name == 'info' %} class="nav-link active" {% else %} class="nav-link" {% endif %}>Information</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'mqtt' %}" {% if request.resolver_match.url_name == 'mqtt' %} class="nav-link active" {% else %} class="nav-link" {% endif %}>MQTT</a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'network' %}" {% if request.resolver_match.url_name == 'network' %} class="nav-link active" {% else %} class="nav-link" {% endif %}>Network</a>
+        </li>
+        
+        <li class="nav-item">
+            <a href="{% url 'box' %}" {% if request.resolver_match.url_name == 'box' %} class="nav-link active" {% else %} class="nav-link" {% endif %}>Boxes</a>
+        </li>
+          
+        <li class="nav-item">
+          <a href="{% url 'logout' %}" class="btn btn-outline-danger">Logout</a>
+        </li>
+     
+        {% else %}
+        <li class="nav-item">
+          <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+<hr />
+
+<script defer>
+  setInterval(checkMqttConnection, 1000);
+
+  function checkMqttConnection() {
+    $.ajax({
+      type: "GET",
+      url: "{% url 'mqtt-connection-check' %}",
+      success: function (response) {
+        let connected = response.connected;
+        updateStatus(connected);
+      },
+      error: function (response) {
+        alertError(
+          "Error when check mqtt connection: " +
+            response.responseJSON?.message ?? "Error"
+        );
+      },
+    });
+  }
+  
+  function updateStatus(isConnected) {
+    if (isConnected) {
+      $("#status").html('<span class="badge bg-success d-inline-block"> Connected </span>')
+    } else {
+      $("#status").html('<span class="badge bg-danger d-inline-block"> Disconnected </span>')
+    }
+  }
+</script>

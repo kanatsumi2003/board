@@ -1,0 +1,39 @@
+{% extends 'main.html' %} {% load crispy_forms_tags %} {% block content %}
+
+<div  class="col-md-6 mx-auto card p-5">
+  <div class="row">
+    <form id="form" method="post" action="">
+      <h3 class="mb-4">Network Configuration</h3>
+
+      <div class="form-group mb-3">
+        <label class="mb-2">IP Addres</label>
+        <input
+          type="text"
+          class="form-control"
+          disabled
+          value="{{ network.ip_address}}"
+        />
+      </div>
+      <div class="form-group mb-3">
+        <label class="mb-2">MAC Addres</label>
+        <input
+          type="text"
+          class="form-control"
+          disabled
+          value="{{ network.mac_address}}"
+        />
+      </div>
+      <div class="form-group mb-3">
+        <label class="mb-2">IP Config</label>
+        <textarea
+          type="text"
+          class="form-control"
+          disabled
+          rows="10"
+        >{{ network.ip_config}}</textarea>        
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'main.html' %} 
+{% load crispy_forms_tags %} 
+{% block content %}
+
+<div>
+  <div class="row">
+    <form id="form" method="POST" action="" class="col-md-6 mx-auto">
+      <h3 class="mb-4">API Board Configuration</h3>
+      {% csrf_token %} {{ form | crispy }}
+
+      <div class="mt-4">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#configModal"
+        >
+          Update
+        </button>
+      </div>
+
+      <div
+        class="modal"
+        tabindex="-1"
+        id="configModal"
+        tabindex="-1"
+        aria-labelledby="configModal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Update confirmation</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <p>
+                After this action, you need to restart your locker application.
+                Are you sure to save changes?
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="submit" class="btn btn-primary">Confirm</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script type="text/javascript">
+  document.getElementById("form").onkeypress = function(e) {
+    let key = e.charCode || e.keyCode || 0;
+    if (key == 13) {
+      e.preventDefault()
+    }
+  }
+</script>
+{% endblock %}

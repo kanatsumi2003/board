@@ -1,0 +1,14 @@
+{% extends 'main.html' %} 
+{% block content %} 
+{% load crispy_forms_tags %}
+
+<div>
+  <div class="row">
+    <form method="POST" action="" class="col-md-6 mx-auto">
+      <h3 class="mb-4">Login</h3>
+      {% crispy form %}
+    </form>
+  </div>
+</div>
+
+{% endblock %}

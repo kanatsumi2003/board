@@ -1,0 +1,140 @@
+{% extends 'main.html' %} 
+{% load crispy_forms_tags %} 
+{% load static %}
+{% block content %}
+
+<div>
+  <div class="row">
+    <form id="form" method="POST" action="" class="col-md-6 mx-auto">
+      <h3 class="mb-4">API Server Configuration</h3>
+      
+      <div class="d-flex align-items-center mb-4">
+        <p class="my-0 me-3 d-block align-baseline">Connected to API Server?</p>
+        <h4 class="my-0 me-3 d-flex align-items-center">
+          {% if connected %}
+          <span class="badge bg-success d-inline-block">Connected</span>
+          {% else %} 
+          <span class="badge bg-danger d-inline-block">Disconnected</span>
+          {% endif %}
+        </h4>
+        
+        <a href={% url 'api-server' %} class="btn btn-outline-primary">
+          <img width="20" height="20" class="img-responsive" src="{% static 'icons/refresh.svg' %}"/>
+      </a>
+      </div>
+      
+      {% csrf_token %} {{ form | crispy }}
+
+      <div class="mt-4">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#configModal"
+        >
+          Update
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-bs-toggle="modal"
+          data-bs-target="#confirmDisconectModal"
+          {% if not connected %}
+            disabled
+          {% endif %}
+        >
+          Disconnect
+        </button>
+      </div>
+
+      <div
+        class="modal"
+        tabindex="-1"
+        id="configModal"
+        tabindex="-1"
+        aria-labelledby="configModal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Update confirmation</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <p>
+                After this action, you need to restart your locker application.
+                Are you sure to save changes?
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="submit" class="btn btn-primary">Confirm</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    
+    
+    <!-- delete confirmation -->
+    <div
+        class="modal"
+        tabindex="-1"
+        id="confirmDisconectModal"
+        tabindex="-1"
+        aria-labelledby="confirmDisconectModal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Disconnect confirmation</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <p>
+                Are you sure to disconnect api service?
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <a href="{% url 'api-server-disconnect' %}" class="btn btn-primary">Confirm</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+  </div>
+</div>
+<script type="text/javascript">
+  document.getElementById("form").onkeypress = function(e) {
+    let key = e.charCode || e.keyCode || 0;
+    if (key == 13) {
+      e.preventDefault()
+    }
+  }
+</script>
+{% endblock %}

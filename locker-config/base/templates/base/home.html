@@ -1,0 +1,77 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+    
+<div>
+    <div class="row h-100 justify-content-center align-items-center g-5">
+        <img width="200" height="200" style="display: block;" class="img-fluid col-md-4" src="{% static 'images/locker.jpg' %}"/>
+        <div class="col-md-8">
+            <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Information</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+           
+                <tbody>
+                  <tr>
+                    <th scope="row">Locker Info</th>
+                    <td>
+                        <ul class="list-unstyled">
+                            <li><strong>Locker ID: </strong> {{ locker_info.locker_id }}</li>
+                            <li><strong>Locker Code: </strong> {{ locker_info.locker_code }}</li>
+                            <li><strong>Locker Name: </strong> {{ locker_info.locker_name }}</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <span class="badge bg-primary">{{ locker_info.locker_status }}</span>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <th scope="row">
+                        <a href="{% url 'mqtt' %}">MQTT Broker</a>
+                    </th>
+                    <td>{{ mqtt_info.host }}</td>
+                    <td>
+                        {% if mqtt_info.connected %}
+                        <span class="badge bg-success">Connected</span>
+                        {% else %}
+                        <span class="badge bg-danger">Disconnected</span>
+                        {% endif %}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <th scope="row">
+                        <a href="{% url 'box' %}">Boxes</a>
+                    </th>
+                    <td>
+                      <span>{{boxes|length}} boxes</span>
+                    </td>
+                    <td>
+                      {% if boxes_closed %}
+                        <span class="badge bg-success d-inline-block">All boxes closed</span>
+                      {% else %}
+                        <span class="badge bg-danger d-inline-block">All boxes not closed</span>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <th scope="row">
+                      Boards
+                    </th>
+                    <td>{{boards|length}} boards</td>
+                  </tr>
+                  
+                  
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

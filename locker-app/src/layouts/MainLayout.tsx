@@ -1,0 +1,125 @@
+import VirtualKeyboard from "@/components/core/Keyboard";
+import Message from "@/components/core/Message";
+import Header from "@/components/header/Header";
+import { PATH } from "@/constants/common";
+import useCountDown from "@/hooks/useCountdown";
+import useModal from "@/hooks/useModal";
+import { useLockerInfoQuery } from "@/services/boardService";
+import { useSettingQuery } from "@/services/settingService";
+import store, { AppState } from "@/stores";
+import { setGlobalState } from "@/stores/global.store";
+import { setLockerState } from "@/stores/locker.store";
+import { setSettingState } from "@/stores/setting.store";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+
+function MainLayout({ children }: { children: JSX.Element }) {
+  const { locker } = useSelector((state: AppState) => state.locker);
+  const { keyboard } = useSelector((state: AppState) => state.global);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const modal = useModal();
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const { data, isSuccess, isError, refetch } = useLockerInfoQuery();
+  const {
+    data: setting,
+    isSuccess: settingIsSuccess,
+    refetch: settingRefetch,
+  } = useSettingQuery(undefined, { skip: !isSuccess });
+
+  useEffect(() => {
+    if (settingIsSuccess && isSuccess) {
+      store.dispatch(setSettingState(setting));
+    }
+  }, [settingIsSuccess]);
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      store.dispatch(
+        setLockerState({
+          locker: {
+            id: Number(data.locker_id),
+            code: data.locker_code,
+            name: data.locker_name,
+            status: data.locker_status,
+            apiHost: data.api_host,
+            apiKey: data.api_key,
+          },
+        })
+      );
+    }
+    if (isError) {
+      navigate(PATH.SETUP);
+    }
+  }, [isSuccess, isError]);
+
+  const onChangeAll = (inputs: { [key: string]: string }) => {
+    store.dispatch(
+      setGlobalState({
+        inputs: inputs,
+      })
+    );
+  };
+
+  useEffect(() => {
+    store.dispatch(
+      setGlobalState({
+        keyboard: undefined,
+      })
+    );
+
+    if (location.pathname === PATH.HOME) {
+      refetch();
+      isSuccess && settingRefetch();
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
+    // Update network status
+    const handleStatusChange = () => {
+      setIsOnline(navigator.onLine);
+    };
+
+    // Listen to the online status
+    window.addEventListener("online", handleStatusChange);
+
+    // Listen to the offline status
+    window.addEventListener("offline", handleStatusChange);
+
+    return () => {
+      window.removeEventListener("online", handleStatusChange);
+      window.removeEventListener("offline", handleStatusChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isOnline) {
+      navigate(PATH.OFFLINE);
+    } else if (isOnline && location.pathname === PATH.OFFLINE) {
+      modal.success({
+        message: "Đã có kết nối mạng trở lại",
+        onClose: () => navigate(PATH.HOME),
+      });
+    }
+  }, [isOnline]);
+
+  return (
+    <div className="bg-white relative overflow-hidden h-screen w-screen items-center">
+      <div className="flex flex-col h-full">
+        <Header name={locker?.name} online={isOnline} />
+        <div className="relative h-full z-0">{children}</div>
+      </div>
+      <VirtualKeyboard
+        inputName={keyboard?.inputName}
+        onChangeAll={onChangeAll}
+        maxLength={keyboard?.maxLength ?? 6}
+        show={!!keyboard}
+        onlyNumber={keyboard?.onlyNumber}
+      />
+      <Message />
+    </div>
+  );
+}
+
+export default MainLayout;

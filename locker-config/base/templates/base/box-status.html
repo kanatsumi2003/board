@@ -1,0 +1,350 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+
+<div class="col-md-6 mx-auto card p-5">
+  <div class="row">
+    <div>
+      <h3 class="mb-2">
+        Boxes Configuration (<span id="box-count">{{ boxes | length }}</span>)
+      </h3>
+        <div class="my-4">
+          <form class="form" id="box-form"  method="POST">
+            {% csrf_token %}
+              <div class="row">
+                <div class="mb-3 form-group required col-4">
+                  <label for="boxNumber" class="form-label">Box number</label>
+                  <input
+                    min="1"
+                    type="number"
+                    required
+                    class="form-control"
+                    id="boxNumber"
+                    name="box_number"
+                    value="{{box_number}}"
+                  />
+                </div>
+                <div class="mb-3 form-group required col-4">
+                  <label for="boardNno" class="form-label">Board N.o</label>
+                  <select class="form-select" name="board_no" required id="boardNo">
+                    {% for board in boards %}
+                      {% if board == board_no %}
+                        <option value="{{board}}" selected>{{board}}</option>
+                      {% else %}
+                        <option value="{{board}}">{{board}}</option>
+                      {% endif%}
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="mb-3 form-group required col-4">
+                  <label for="pin" class="form-label">Pin</label>
+                  <input
+                    min="1"
+                    type="number"
+                    required
+                    class="form-control"
+                    id="pin"
+                    name="pin"
+                    value="{{pin}}"
+                  />
+                </div>
+              </div>
+              <div class="row g-3">
+                <div class="col-4">
+                  <button id="testButton" class="btn btn-block btn-primary w-100" type="button" >Test</button>
+                </div>
+                <div class="col-4">
+                  <button id="addButton" class="btn btn-block btn-success w-100" type="button" >Add</button>
+                </div>
+                <div class="col-4">
+                  <button
+                    id="reset"
+                    type="button"
+                    class="btn btn-danger col-md-4 w-100"
+                    data-bs-toggle="modal"
+                    data-bs-target="#restBoxesModal"
+                    {% if not boxes %}
+                      disabled
+                   {% endif %}
+                  >
+                    Reset
+                  </button>
+                </div>
+
+                <!--Reset Modal -->
+                <div
+                  class="modal fade"
+                  id="restBoxesModal"
+                  tabindex="-1"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">
+                          Reset boxes
+                        </h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">Are you sure to reset all boxes</div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button 
+                          id="resetButton" 
+                          type="button" 
+                          class="btn btn-success" 
+                          data-bs-dismiss="modal">Confirm</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+        </div>
+      <div class=" boxes-table">
+        <table class="table table-bordered" id="table-boxes">
+          <thead>
+            <th scope="col">Box N.o</th>
+            <th scope="col">Board N.o</th>
+            <th scope="col">Pin</th>
+            <th scope="col">Actions</th>
+          </thead>
+          <tbody>
+            {% for box in boxes %}
+            <tr>
+              <td class="text-center">{{ box.number }}</td>
+              <td class="text-center">{{ box.board_no }}</td>
+              <td class="text-center">{{ box.pin }}</td>
+              <td>
+                <div
+                  class="btn-toolbar flex align-center justify-content-center"
+                >
+                    <button 
+                      id="{{box.number}}"
+                      number={{box.number}}
+                      type="button" 
+                      class="btn-open btn btn-primary me-2 mb-1"
+                    >
+                      Open box
+                    </button>
+                    <button
+                      id="{{box.number}}"
+                      number={{box.number}}
+                      type="button"
+                      class="btn-remove btn btn-danger mb-1"
+                    >
+                      Remove
+                    </button>
+                </div>
+              </td>
+            </tr>
+            {% empty %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+  $(document).ready(function () {
+    $(window).keydown(function (event) {
+      if (event.keyCode == 13) {
+        event.preventDefault();
+        return false;
+      }
+    });
+    
+    // Test box
+    $("#testButton").click(function() {
+      let boardNo = $("#boardNo").val();
+      let pin = $("#pin").val();
+      
+      if (!boardNo || boardNo <= 0) {
+        alertError("Board no is required and > 0");
+        return;
+      }
+      
+      if (!pin) {
+        alertError("Pin is required and > 0");
+        return;
+      }
+      
+      $.ajax({
+        type: 'POST',
+        url: 'test-box',
+        data: {
+          board_no: boardNo,
+          pin: pin,
+          csrfmiddlewaretoken: "{{ csrf_token}}"
+        },
+        success: function(response) {
+          alertSuccess(response.message);
+        },
+        error: function(response) {
+          alertError(response.responseJSON?.message ?? "Internal server error");
+        }
+      })
+    })
+    
+    // Add box
+    $("#addButton").click(function() {
+      let boxNumber = $("#boxNumber").val();
+      let boardNo = $("#boardNo").val();
+      let pin = $("#pin").val();
+      
+      if (!boxNumber || boxNumber <= 0) {
+        alertError("Box number is required and  > 0");
+        return;
+      }
+      
+      if (!boardNo || boardNo <= 0) {
+        alertError("Board no is required and > 0");
+        return;
+      }
+      
+      if (!pin) {
+        alertError("Pin is required and > 0");
+        return;
+      }
+      
+      $.ajax({
+        type: 'POST',
+        url: 'add-box',
+        data: {
+          box_number: boxNumber,
+          board_no: boardNo,
+          pin: pin,
+          csrfmiddlewaretoken: "{{ csrf_token}}"
+        },
+        success: function(response) {
+          alertSuccess(response.message);
+          loadBoxesTable();
+        },
+        error: function(response) {
+          alertError(response.responseJSON?.message ?? "Internal server error");
+        }
+      })
+    })
+    
+    // Open box
+    $(document).on('click', '.btn-open', function() {
+      let boxNumber = $(this).attr('id');
+      if (!boxNumber) {
+        alertError("Box number is required");
+        return;
+      }
+      
+      $.ajax({
+        type: 'POST',
+        url: 'open-box',
+        data: {
+          box_number: boxNumber,
+          csrfmiddlewaretoken: "{{ csrf_token}}"
+        },
+        success: function(response) {
+          alertSuccess(response.message);
+        },
+        error: function(response) {
+          alertError(response.responseJSON?.message ?? "Internal server error");
+        }
+      })
+    })
+    
+    // Remove box
+    $(document).on('click', '.btn-remove', function() {
+      let boxNumber = $(this).attr('id');
+      if (!boxNumber) {
+        alertError("Box number is required");
+        return;
+      }
+      $.ajax({
+        type: 'POST',
+        url: 'remove-box',
+        data: {
+          box_number: boxNumber,
+          csrfmiddlewaretoken: "{{ csrf_token}}"
+        },
+        success: function(response) {
+          alertSuccess(response.message);
+          loadBoxesTable();
+        },
+        error: function(response) {
+          alertError(response.responseJSON?.message ?? "Internal server error");
+        }
+      })
+    })
+    
+    // Reset boxes
+    $("#resetButton").on('click', function() {
+      $.ajax({
+        type: 'GET',
+        url: 'reset-boxes',
+        success: function(response) {
+          alertSuccess(response.message);
+          loadBoxesTable();
+        },
+        error: function(response) {
+          alertError(response.responseJSON?.message ?? "Internal server error");
+        }
+      })
+    })
+    
+    function loadBoxesTable() {
+      $.ajax({
+        type: 'GET',
+        url: 'load-boxes',
+        success: function(response) {
+          if (response.boxes?.length === 0) {
+            $('#reset').prop('disabled', true);
+          } else {
+            $('#reset').prop('disabled', false);
+          }
+          
+          $('#table-boxes > tbody:last-child').html('');
+          response.boxes?.forEach(function(box) {
+            $('#table-boxes > tbody:last-child').append(
+              `<tr>
+               <td class="text-center">${box?.number}</td> 
+                <td class="text-center">${box?.board_no}</td> 
+                <td class="text-center">${box?.pin}</td> 
+                <td>
+                <div class="btn-toolbar flex align-center justify-content-center"> 
+                    <button  id="${box?.number}" type="button"  class="btn-open btn btn-primary me-2 mb-1"> Open box</button>
+                    <button
+                      id="${box?.number}"
+                      number=${box?.number}
+                      type="button"
+                      class="btn-remove btn btn-danger mb-1"
+                    >
+                      Remove
+                    </button>
+                </div>
+              </td>
+            </tr>`);
+            
+            $("#box-count").html(response?.boxes?.length)
+          })
+        },
+        error: function(response) {
+          alertError(response.responseJSON?.message ?? "Internal server error");
+        }
+      })
+    }
+    
+  });
+</script>
+{% endblock javascript %}

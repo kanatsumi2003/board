@@ -1,0 +1,90 @@
+:root {
+    --locker-blue: #00a3e0;
+    --locker-green: #9dc63f;
+}
+
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* Disable text select (improve touch experience) */
+
+body {
+    -webkit-touch-callout: none;
+    /*iOS Safari */
+    -webkit-user-select: none;
+    /*Safari */
+    -khtml-user-select: none;
+    /*Konqueror HTML */
+    -moz-user-select: none;
+    /*Old versions of Firefox */
+    -ms-user-select: none;
+    /*Internet Explorer/Edge */
+    user-select: none;
+    /*Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+body,
+#root {
+    height: 100vh;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.simple-keyboard .hg-button.hg-functionBtn.hg-button-space {
+    min-width: 150px;
+    max-width: none;
+}
+
+.simple-keyboard.hg-theme-default .hg-button[data-skbtnuid^="numbers-"] {
+    width: 33%;
+    max-width: none;
+}
+
+.simple-keyboard .hg-button-numbers {
+    max-width: 80px;
+}
+
+.simple-keyboard .hg-button.hg-functionBtn.hg-button-ent {
+    max-width: 80px;
+}
+
+.hg-button-default,
+.hg-button-alt,
+.hg-button.hg-functionBtn.hg-button-downkeyboard:not( [data-skbtnuid^="numbers-"]) {
+    width: 80px !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    --tw-ring-color: var(--locker-blue) !important;
+    border-color: var(--locker-blue) !important;
+}
+
+.hg-theme-default {
+    padding: 12px 20px !important;
+}
+
+input:checked~.dot {
+    transform: translateX(100%);
+    background-color: var(--locker-blue);
+}
+
+.input-container input {
+    opacity: 1 !important;
+}

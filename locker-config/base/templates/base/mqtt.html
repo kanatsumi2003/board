@@ -1,0 +1,82 @@
+{% extends 'main.html' %} {% load crispy_forms_tags %} {% load static %} 
+{% block content %}
+
+<div  class="col-md-6 mx-auto card p-5">
+  <div class="row">
+    <form id="form-mqtt" method="POST" action="">
+      <h3 class="mb-4">MQTT Configuration</h3>
+
+      {% csrf_token %} {{ form|crispy }}
+
+      <div class="mt-4">
+        <button type="submit" id="connectButton" class="btn btn-primary">
+          Connect
+        </button>
+
+        <button
+          type="button"
+          id="disconnectButton"
+          class="btn btn-danger"
+          {% if not connected %} disabled {% endif %}
+        >
+          Disconnect
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock content %} 
+{% block javascript %}
+<script type="text/javascript">
+  $(document).ready(function () {
+    $(window).keydown(function (event) {
+      if (event.keyCode == 13) {
+        event.preventDefault();
+        return false;
+      }
+    });
+
+    $("#form-mqtt").submit(function (e) {
+      e.preventDefault();
+      $("#connectButton").html("Connecting...");
+
+      let serializedData = $(this).serialize();
+
+      // Call ajax
+
+      $.ajax({
+        type: "POST",
+        url: "{% url 'mqtt-connect' %}",
+        data: serializedData,
+        success: function (response) {
+          alertSuccess(response.message);
+          $("#connectButton").html("Connect");
+          $("#disconnectButton").prop("disabled", false);
+        },
+        error: function (response) {
+          alertError(response.responseJSON?.message ?? "Error");
+          $("#connectButton").html("Connect");
+        },
+      });
+    });
+
+    $("#disconnectButton").click(function () {
+      $("#disconnectButton").html("Disconnecting...");
+
+      $.ajax({
+        type: "GET",
+        url: "{% url 'mqtt-disconnect' %}",
+        success: function (response) {
+          alertSuccess(response.message);
+          $("#disconnectButton").prop("disabled", true);
+          $("#disconnectButton").html("Disconnect");
+        },
+        error: function (response) {
+          alertError(response.responseJSON?.message ?? "Internal server error");
+          $("#disconnectButton").html("Disconnect");
+        },
+      });
+    });
+  });
+</script>
+{% endblock javascript %}
