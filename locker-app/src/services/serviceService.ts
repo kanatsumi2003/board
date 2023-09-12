@@ -18,7 +18,7 @@ export const serviceApi = createApi({
         method: "GET",
         params: {
           status: SERVICE_STATUS.ACTIVE,
-          pageSize: 9,
+          pageSize: 6,
           pageNumber: params?.pageNumber,
         },
       }),

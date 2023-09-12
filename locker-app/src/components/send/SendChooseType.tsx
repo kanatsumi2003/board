@@ -1,10 +1,18 @@
 import { ORDER_TYPE } from "@/interfaces/order";
-import { FaBoxesPacking } from "react-icons/fa6";
-import { MdLocalLaundryService } from "react-icons/md";
-import BackButton from "../core/BackButton";
-import { useSelector } from "react-redux";
 import { AppState } from "@/stores";
 import { formatCurrency } from "@/utils/formatter";
+import { FaBoxesPacking } from "react-icons/fa6";
+import { MdLocalLaundryService } from "react-icons/md";
+import { useSelector } from "react-redux";
+import BackButton from "../core/BackButton";
+
+interface TypeItemProps {
+  icon: React.ReactNode;
+  name: string;
+  description: string;
+  note?: string;
+  onClick: () => void;
+}
 
 const TypeItem = ({
   name,
@@ -12,37 +20,43 @@ const TypeItem = ({
   onClick,
   note,
   icon,
-}: {
-  icon: React.ReactNode;
-  name: string;
-  description: string;
-  note?: string;
-  onClick: () => void;
-}) => {
+}: TypeItemProps) => {
   return (
     <div
-      className="bg-locker-blue overflow-hidden hover:bg-opacity-80 rounded-lg cursor-pointer p-10 text-center max-w-[280px] shadow-md box-border relative z-30 w-full font-bold text-white transition-all duration-300 group ring-offset-2 ring-1 ease focus:outline-none h-full max-h-[400px] flex flex-col justify-between"
+      className="bg-locker-blue overflow-hidden hover:bg-opacity-80 rounded-lg cursor-pointer p-10 text-center lg:max-w-[360px] shadow-md box-border relative z-30 w-full font-bold text-white transition-all duration-300 group ring-offset-2 ring-1 ease focus:outline-none h-full lg:max-h-[440px] max-h-[400px] flex lg:flex-col justify-between items-center"
       onClick={onClick}
     >
-      <div className="flex flex-col gap-2">
+      <div className="flex lg:flex-col gap-2">
         <span className="absolute bottom-0 right-0 w-24 h-40 -mb-16 -mr-12 transition-all duration-300 ease-out transform rotate-45 translate-x-2 bg-white opacity-10 group-hover:translate-x-0"></span>
         <span className="absolute top-0 left-2 w-40 h-24 -mt-6 -ml-24 transition-all duration-300 ease-out transform -rotate-45 -translate-x-2 bg-white opacity-10 group-hover:translate-x-0"></span>
         {icon}
-        <div className="text-3xl font-bold">{name}</div>
-        <div>{description}</div>
       </div>
-      <div className="font-normal text-xs">{note}</div>
+      <div className="flex flex-col gap-4 max-w-[400px] justify-center">
+        <div className="text-5xl font-bold">{name}</div>
+        <div className="text-xl">{description}</div>
+        <div className="flex items-end h-24">
+          <div className="font-normal text-base">{note}</div>
+        </div>
+      </div>
     </div>
   );
 };
 
-function SendChooseType({ setType }: { setType: (type: ORDER_TYPE) => void }) {
+interface Props {
+  setType: (type: ORDER_TYPE) => void;
+}
+
+function SendChooseType({ setType }: Props) {
   const { orderSettings } = useSelector((state: AppState) => state.setting);
 
   return (
-    <div className="flex justify-center gap-8 items-center h-full">
+    <div className="flex justify-center gap-8 items-center h-full flex-col lg:flex-row">
       <TypeItem
-        icon={<MdLocalLaundryService className={"text-[120px] m-auto"} />}
+        icon={
+          <MdLocalLaundryService
+            className={"text-[160px] lg:text-[140px] m-auto"}
+          />
+        }
         name="Giặt sấy"
         description={`Giặt sấy chất lượng cao với nhiều dịch vụ đa dạng.`}
         note={`Chúng tôi sẽ phụ thu ${formatCurrency(
@@ -53,7 +67,9 @@ function SendChooseType({ setType }: { setType: (type: ORDER_TYPE) => void }) {
         onClick={() => setType(ORDER_TYPE.LAUNDRY)}
       />
       <TypeItem
-        icon={<FaBoxesPacking className={"text-[120px] m-auto"} />}
+        icon={
+          <FaBoxesPacking className={"text-[160px] lg:text-[140px] m-auto"} />
+        }
         name="Gửi đồ"
         description={`Gửi đồ tiện lợi với giá niêm yết ${formatCurrency(
           orderSettings?.storagePrice ?? 0

@@ -19,20 +19,19 @@ interface CreateOrderFormError {
   receiverPhone?: string;
 }
 
-function SendCreateOrder({
-  onNext,
-  onPrev,
-}: {
+interface Props {
   onNext: () => void;
   onPrev: () => void;
-}) {
+}
+
+function SendCreateOrder({ onNext, onPrev }: Props) {
   const modal = useModal();
   const [showReceiver, setShowReceiver] = useState(false);
   const [showAddress, setShowAddress] = useState(false);
   const [receiverName, setReceiverName] = useState<string>();
   const [senderName, setSenderName] = useState<string>();
   const [error, setError] = useState<CreateOrderFormError>();
-  const { inputs, keyboard } = useSelector((state: AppState) => state.global);
+  const { keyboard } = useSelector((state: AppState) => state.global);
   const { orderRequest } = useSelector((state: AppState) => state.order);
   const { locker } = useSelector((state: AppState) => state.locker);
   const [
@@ -159,8 +158,8 @@ function SendCreateOrder({
     <>
       <div
         className={`mt-4 flex flex-col px-20 gap-4 ${
-          keyboard ? "h-[calc(100vh-500px)]" : "h-[calc(100vh-380px)]"
-        } overflow-scroll `}
+          keyboard ? "h-[calc(100vh-680px)]" : "h-[calc(100vh-400px)]"
+        } overflow-y-scroll `}
       >
         <div className="w-full">
           <Input
@@ -296,26 +295,18 @@ function SendCreateOrder({
               </>
             )}
           </>
-        )}{" "}
+        )}
+      </div>
+      <div className="px-20">
         <Button
           type="primary"
-          className="mt-8 !w-fit float-right"
+          className="mt-8 !w-fit"
           small
           onClick={onSubmitCreateOrder}
         >
           Tiếp theo
         </Button>
       </div>
-      {/* <div className="px-20">
-        <Button
-          type="primary"
-          className="mt-8 !w-fit float-right"
-          small
-          onClick={onSubmitCreateOrder}
-        >
-          Tạo đơn hàng
-        </Button>
-      </div> */}
       <BackButton onClick={onPrev} />
     </>
   );

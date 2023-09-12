@@ -6,9 +6,10 @@
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 
-::-webkit-scrollbar {
+
+/* ::-webkit-scrollbar {
     display: none;
-}
+} */
 
 
 /* Disable text select (improve touch experience) */

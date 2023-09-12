@@ -11,13 +11,12 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import BackButton from "../core/BackButton";
 
-function ReceiveChooseMethod({
-  onNext,
-  onPrev,
-}: {
+interface Props {
   onNext: () => void;
   onPrev: () => void;
-}) {
+}
+
+function ReceiveChooseMethod({ onNext, onPrev }: Props) {
   const { order } = useSelector((state: AppState) => state.order);
   const [checkOut, { isSuccess, data, isError, error }] =
     useCheckOutOrderMutation();

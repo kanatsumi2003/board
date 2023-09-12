@@ -23,21 +23,21 @@ function SendPage() {
   }, [step]);
 
   return (
-    <div className="p-10 h-full flex flex-col item-center">
+    <div className="p-10 h-full flex flex-col item-center gap-4">
       <Stepper
         current={step}
         steps={[
           {
-            icon: <RxDashboard />,
+            icon: <RxDashboard className="text-3xl" />,
             onClick: () => setStep(1),
             title: "Chọn dịch vụ",
           },
           {
-            icon: <AiOutlineForm />,
+            icon: <AiOutlineForm className="text-3xl" />,
             title: "Thông tin đơn hàng",
           },
           {
-            icon: <AiOutlineFileDone />,
+            icon: <AiOutlineFileDone className="text-3xl" />,
             title: "Hoàn tất",
           },
         ]}

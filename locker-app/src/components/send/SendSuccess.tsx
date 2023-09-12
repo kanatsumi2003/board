@@ -6,7 +6,11 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Button from "../core/Button";
 
-function SendSuccess({ onNext }: { onNext: () => void }) {
+interface Props {
+  onNext: () => void;
+}
+
+function SendSuccess({ onNext }: Props) {
   const modal = useModal();
   const { order } = useSelector((state: AppState) => state.order);
   const [confirmOrder, { isSuccess, data, isError, error }] =

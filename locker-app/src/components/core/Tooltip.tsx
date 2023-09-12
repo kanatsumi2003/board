@@ -1,12 +1,9 @@
-import { useState } from "react";
-
-export const Tooltip = ({
-  children,
-  content,
-}: {
+interface Props {
   children: string | React.ReactNode;
   content: string | React.ReactNode;
-}) => {
+}
+
+export const Tooltip = ({ children, content }: Props) => {
   return (
     <>
       <div className="relative group">

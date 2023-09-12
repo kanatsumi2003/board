@@ -8,6 +8,8 @@ export enum LOCKER_STATUS {
   ACTIVE = "Active",
   INACTIVE = "Inactive",
   MAINTAINING = "Maintaining",
+  DISCONNECTED = "Disconnected",
+  CONNECTED = "Connected",
 }
 
 export enum LOCKER_EVENT {

@@ -5,7 +5,12 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import OTPInput from "react-otp-input";
 import { useSelector } from "react-redux";
 
-function Otp({ otp, setOtp }: { otp: string; setOtp: (otp: string) => void }) {
+interface Props {
+  otp: string;
+  setOtp: (otp: string) => void;
+}
+
+function Otp({ otp, setOtp }: Props) {
   const { inputs } = useSelector((state: AppState) => state.global);
   const [showPassword, setShowPassword] = useState(false);
   const ref = useRef<(HTMLInputElement | null)[]>([]);

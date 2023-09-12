@@ -5,7 +5,11 @@ import { useEffect, useState } from "react";
 import SendChooseType from "./SendChooseType";
 import SendServices from "./SendServices";
 
-function SendChooseService({ onNext }: { onNext: () => void }) {
+interface Props {
+  onNext: () => void;
+}
+
+function SendChooseService({ onNext }: Props) {
   const [type, setType] = useState<ORDER_TYPE>();
 
   useEffect(() => {

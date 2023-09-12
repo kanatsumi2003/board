@@ -2,10 +2,11 @@ import VirtualKeyboard from "@/components/core/Keyboard";
 import Message from "@/components/core/Message";
 import Header from "@/components/header/Header";
 import { PATH } from "@/constants/common";
-import useCountDown from "@/hooks/useCountdown";
 import useModal from "@/hooks/useModal";
+import { LOCKER_STATUS } from "@/interfaces/locker";
 import { useLockerInfoQuery } from "@/services/boardService";
 import { useSettingQuery } from "@/services/settingService";
+import TokenService from "@/services/tokenService";
 import store, { AppState } from "@/stores";
 import { setGlobalState } from "@/stores/global.store";
 import { setLockerState } from "@/stores/locker.store";
@@ -14,14 +15,19 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
-function MainLayout({ children }: { children: JSX.Element }) {
+interface Props {
+  children: JSX.Element;
+}
+
+function MainLayout({ children }: Props) {
   const { locker } = useSelector((state: AppState) => state.locker);
   const { keyboard } = useSelector((state: AppState) => state.global);
   const location = useLocation();
   const navigate = useNavigate();
   const modal = useModal();
   const [isOnline, setIsOnline] = useState(navigator.onLine);
-  const { data, isSuccess, isError, refetch } = useLockerInfoQuery();
+  const { data, isSuccess, isError, refetch, isFetching } =
+    useLockerInfoQuery();
   const {
     data: setting,
     isSuccess: settingIsSuccess,
@@ -35,7 +41,7 @@ function MainLayout({ children }: { children: JSX.Element }) {
   }, [settingIsSuccess]);
 
   useEffect(() => {
-    if (isSuccess && data) {
+    if (isSuccess && data && data.locker_status === LOCKER_STATUS.CONNECTED) {
       store.dispatch(
         setLockerState({
           locker: {
@@ -48,11 +54,15 @@ function MainLayout({ children }: { children: JSX.Element }) {
           },
         })
       );
-    }
-    if (isError) {
+    } else {
+      store.dispatch(
+        setLockerState({
+          locker: undefined,
+        })
+      );
       navigate(PATH.SETUP);
     }
-  }, [isSuccess, isError]);
+  }, [isSuccess, isError, isFetching]);
 
   const onChangeAll = (inputs: { [key: string]: string }) => {
     store.dispatch(
@@ -95,6 +105,7 @@ function MainLayout({ children }: { children: JSX.Element }) {
 
   useEffect(() => {
     if (!isOnline) {
+      TokenService.clearToken();
       navigate(PATH.OFFLINE);
     } else if (isOnline && location.pathname === PATH.OFFLINE) {
       modal.success({

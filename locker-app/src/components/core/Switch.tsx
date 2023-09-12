@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 
-function Switch({
-  label,
-  onChange,
-  className,
-}: {
+interface Props {
   className?: string;
   label?: string;
   onChange: (value: boolean) => void;
-}) {
+}
+
+function Switch({ label, onChange, className }: Props) {
   const [check, setCheck] = useState(false);
 
   useEffect(() => {

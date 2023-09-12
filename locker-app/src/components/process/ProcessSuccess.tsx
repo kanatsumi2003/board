@@ -3,7 +3,11 @@ import { useSelector } from "react-redux";
 import Button from "../core/Button";
 import useModal from "@/hooks/useModal";
 
-function ProcessSuccess({ onNext }: { onNext: () => void }) {
+interface Props {
+  onNext: () => void;
+}
+
+function ProcessSuccess({ onNext }: Props) {
   const { order } = useSelector((state: AppState) => state.order);
   const modal = useModal();
 

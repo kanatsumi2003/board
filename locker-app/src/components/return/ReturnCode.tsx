@@ -12,7 +12,11 @@ import { useNavigate } from "react-router-dom";
 import BackButton from "../core/BackButton";
 import OtpForm from "../core/OtpForm";
 
-function ReturnCode({ onNext }: { onNext: () => void }) {
+interface Props {
+  onNext: () => void;
+}
+
+function ReturnCode({ onNext }: Props) {
   const { locker } = useSelector((state: AppState) => state.locker);
   const navigate = useNavigate();
   const modal = useModal();

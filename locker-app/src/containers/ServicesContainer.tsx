@@ -2,10 +2,11 @@ import { useServicesQuery } from "@/services/serviceService";
 import { formatCurrency } from "@/utils/formatter";
 import { Navigation, Pagination } from "swiper/modules";
 
+import useModal from "@/hooks/useModal";
 import { IPaging } from "@/interfaces";
 import { useLockerQuery } from "@/services/lockerService";
 import { AppState } from "@/stores";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useSelector } from "react-redux";
@@ -14,7 +15,17 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Swiper, SwiperSlide } from "swiper/react";
-import useModal from "@/hooks/useModal";
+
+interface ServiceItemProps {
+  id?: number;
+  price?: number;
+  unit?: string;
+  image?: string;
+  name?: string;
+  isChoosing?: boolean;
+  onChoose?: () => void;
+  isLoading?: boolean;
+}
 
 function ServiceItem({
   id,
@@ -25,37 +36,32 @@ function ServiceItem({
   unit,
   price,
   isLoading,
-}: {
-  id?: number;
-  price?: number;
-  unit?: string;
-  image?: string;
-  name?: string;
-  isChoosing?: boolean;
-  onChoose?: () => void;
-  isLoading?: boolean;
-}) {
+}: ServiceItemProps) {
   return (
     <div
       className={`flex gap-2 p-2 px-4 border-2  ${
         isChoosing
           ? "bg-locker-blue text-white hover:bg-opacity-90"
           : "border-locker-blue text-black hover:bg-gray-100"
-      } rounded-lg cursor-pointer h-28 items-center justify-between`}
+      } rounded-lg cursor-pointer h-full items-center justify-between`}
       onClick={() => !isLoading && onChoose && onChoose()}
       key={id}
     >
       {isLoading ? (
-        <Skeleton className="w-28 h-20 rounded-lg" />
+        <Skeleton className="w-48 h-36 rounded-lg" />
       ) : (
-        <img src={image} alt="" className="w-28 h-20 object-cover rounded-lg" />
+        <img
+          src={image}
+          alt=""
+          className="w-48 h-full object-cover rounded-lg"
+        />
       )}
 
       <div className="flex flex-col justify-center gap-2 ml-2 text-ellipsis">
-        <div className="font-bold text-lg overflow-hidden text-ellipsis whitespace-nowrap text-right">
+        <div className="font-bold overflow-hidden text-ellipsis whitespace-nowrap text-right text-2xl">
           {isLoading ? <Skeleton count={1} className="xl:w-40 w-16" /> : name}
         </div>
-        <div className="text-sm text-right">
+        <div className="text-xl text-right">
           {isLoading ? (
             <Skeleton count={2} />
           ) : (
@@ -69,15 +75,13 @@ function ServiceItem({
   );
 }
 
-function ServiceContainer({
-  serviceIds,
-  setServiceIds,
-  onBack,
-}: {
+interface Props {
   serviceIds: number[];
   onBack: () => void;
   setServiceIds: React.Dispatch<React.SetStateAction<number[]>>;
-}) {
+}
+
+function ServiceContainer({ serviceIds, setServiceIds, onBack }: Props) {
   const { locker } = useSelector((state: AppState) => state.locker);
   const [pagination, setPagination] = useState<Partial<IPaging>>();
   const modal = useModal();
@@ -127,7 +131,7 @@ function ServiceContainer({
           return (
             <SwiperSlide
               key={element}
-              className="grid xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-4 w-full overflow-y-scroll items-center"
+              className="grid lg:grid-cols-3 grid-cols-2 gap-4 w-full overflow-y-scroll items-center"
             >
               {services?.items.map((service) => (
                 <ServiceItem
@@ -155,9 +159,9 @@ function ServiceContainer({
           return (
             <SwiperSlide
               key={element}
-              className="grid xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-4 w-full overflow-y-scroll"
+              className="grid lg:grid-cols-3 grid-cols-2 gap-4 w-full overflow-y-scroll"
             >
-              {[...Array(9).keys()].map((data) => (
+              {[...Array(6).keys()].map((data) => (
                 <ServiceItem isLoading key={data} />
               ))}
             </SwiperSlide>

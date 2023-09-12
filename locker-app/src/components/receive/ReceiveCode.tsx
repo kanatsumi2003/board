@@ -8,7 +8,11 @@ import OtpForm from "../core/OtpForm";
 import { setGlobalState } from "@/stores/global.store";
 import { useSelector } from "react-redux";
 
-function ReceiveCode({ onNext }: { onNext: () => void }) {
+interface Props {
+  onNext: () => void;
+}
+
+function ReceiveCode({ onNext }: Props) {
   const { locker } = useSelector((state: AppState) => state.locker);
   const [trigger, { data, isSuccess, isError, error }] =
     useLazyOrderPinCodeQuery();

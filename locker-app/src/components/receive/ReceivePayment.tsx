@@ -6,7 +6,11 @@ import { formatCurrency } from "@/utils/formatter";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-function ReceivePayment({ onNext }: { onNext: () => void }) {
+interface Props {
+  onNext: () => void;
+}
+
+function ReceivePayment({ onNext }: Props) {
   const { bill, order } = useSelector((state: AppState) => state.order);
   const { data } = useBillQuery(
     { orderId: Number(order?.id) },

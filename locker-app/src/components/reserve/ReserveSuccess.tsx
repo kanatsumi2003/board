@@ -5,7 +5,11 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Button from "../core/Button";
 
-function ReserveSuccess({ onNext }: { onNext: () => void }) {
+interface Props {
+  onNext: () => void;
+}
+
+function ReserveSuccess({ onNext }: Props) {
   const { order } = useSelector((state: AppState) => state.order);
   const [confirmOrder, { isSuccess, isError, error }] =
     useConfirmOrderMutation();

@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import Button from "./Button";
 import Otp from "./Otp";
 
-function OtpForm({ onSubmit }: { onSubmit: (otp: string) => void }) {
+interface Props {
+  onSubmit: (otp: string) => void;
+}
+
+function OtpForm({ onSubmit }: Props) {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState<string>();
 

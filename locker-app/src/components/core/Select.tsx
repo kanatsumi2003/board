@@ -16,21 +16,16 @@ interface IOptionType {
   label: string;
 }
 
-function Select({
-  data,
-  name,
-  onChange,
-  placeholder,
-  onClear,
-  value,
-}: {
+interface Props {
   data: IOptionType[];
   name: string;
   value?: string;
   placeholder: string;
   onChange: (option?: string) => void;
   onClear: () => void;
-}) {
+}
+
+function Select({ data, name, onChange, placeholder, onClear, value }: Props) {
   const { inputs, keyboard } = useSelector((state: AppState) => state.global);
   const handleChange = (selectedOption: IOptionType | null) => {
     onChange(selectedOption?.value);

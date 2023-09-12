@@ -12,19 +12,21 @@ enum KEYBOARD_LAYOUT {
   ALT = "alt",
 }
 
+interface Props {
+  show?: boolean;
+  maxLength: number;
+  inputName?: string;
+  onChangeAll: (values: { [key: string]: string }) => void;
+  onlyNumber?: boolean;
+}
+
 function VirtualKeyboard({
   maxLength,
   inputName,
   show,
   onChangeAll,
   onlyNumber,
-}: {
-  show?: boolean;
-  maxLength: number;
-  inputName?: string;
-  onChangeAll: (values: { [key: string]: string }) => void;
-  onlyNumber?: boolean;
-}) {
+}: Props) {
   const [layout, setLayout] = useState<KEYBOARD_LAYOUT>(
     KEYBOARD_LAYOUT.DEFAULT
   );

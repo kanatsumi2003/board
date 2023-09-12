@@ -1,7 +1,7 @@
-import type { Response } from "..";
+import type { IPaging, Response } from "..";
 import { IAccountItem } from "../account";
 import { IBoxItem } from "../box";
-import type { IAddress, ILockerItem } from "../locker";
+import type { ILockerItem } from "../locker";
 import { IServiceItem } from "../service";
 
 export enum ORDER_STATUS {
@@ -94,4 +94,9 @@ export interface ICheckOutOrderRequest {
 export interface IUpdateOrderRequest {
   amount: number;
   fee: number;
+}
+
+export interface IOrdersParams extends Partial<IPaging> {
+  type?: ORDER_TYPE;
+  status?: ORDER_STATUS;
 }

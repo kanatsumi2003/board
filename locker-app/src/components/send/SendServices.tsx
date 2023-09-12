@@ -5,15 +5,13 @@ import { useState } from "react";
 import BackButton from "../core/BackButton";
 import Button from "../core/Button";
 
-function SendServices({
-  onNext,
-  clearType,
-  onBack,
-}: {
+interface Props {
   onNext: () => void;
-  onBack: () => void;
   clearType: () => void;
-}) {
+  onBack: () => void;
+}
+
+function SendServices({ onNext, clearType, onBack }: Props) {
   const [serviceIds, setServiceIds] = useState<number[]>([]);
 
   const onHandleChoose = () => {

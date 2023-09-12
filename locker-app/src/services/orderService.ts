@@ -1,7 +1,9 @@
 import type {
   ICheckOutOrderRequest,
   ICreateOrderRequest,
+  IOrder,
   IOrderDetailItem,
+  IOrdersParams,
   IUpdateOrderRequest,
 } from "@/interfaces/order";
 
@@ -10,7 +12,6 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import axiosBaseQuery from "@/configs/axiosBaseQuery";
 import endpoints from "@/constants/endpoints";
 import { IBillItem } from "@/interfaces/bill";
-import { lockerApi } from "./lockerService";
 
 export const orderApi = createApi({
   reducerPath: "orderApi",
@@ -22,6 +23,14 @@ export const orderApi = createApi({
       query: ({ id }) => ({
         url: endpoints.getOrderEndpoints(id).orderById,
         method: "GET",
+      }),
+    }),
+
+    orders: build.query<IOrder, IOrdersParams | void>({
+      query: (params) => ({
+        url: endpoints.getOrderEndpoints().orders,
+        method: "GET",
+        params,
       }),
     }),
 
@@ -116,6 +125,7 @@ export const {
   useCreateOrderMutation,
   useLazyOrderPinCodeQuery,
   useOrderQuery,
+  useOrdersQuery,
   useBillQuery,
   useConfirmOrderMutation,
   useCheckOutOrderMutation,

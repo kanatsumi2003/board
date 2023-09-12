@@ -2,6 +2,17 @@ import { AppState } from "@/stores";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
+interface Props {
+  placeHolder: string;
+  label: string;
+  name: string;
+  submitError?: string;
+  onFocus: () => void;
+  value?: string;
+  validate?: (value: string) => string | undefined;
+  onChange?: (value: string | undefined) => void;
+}
+
 function Input({
   label,
   onFocus,
@@ -11,16 +22,7 @@ function Input({
   name,
   submitError,
   onChange,
-}: {
-  placeHolder: string;
-  label: string;
-  name: string;
-  submitError?: string;
-  onFocus: () => void;
-  value?: string;
-  validate?: (value: string) => string | undefined;
-  onChange?: (value: string | undefined) => void;
-}) {
+}: Props) {
   const [error, setError] = useState<string | undefined>();
   const { inputs } = useSelector((state: AppState) => state.global);
 
@@ -28,7 +30,7 @@ function Input({
     onChange && onChange(inputs?.[name]);
     setError(validate && validate(inputs?.[name] ?? ""));
   }, [inputs?.[name]]);
- 
+
   return (
     <>
       <div className="flex flex-col gap-2">

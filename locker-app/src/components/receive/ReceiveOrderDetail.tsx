@@ -6,13 +6,12 @@ import { useSelector } from "react-redux";
 import BackButton from "../core/BackButton";
 import { Draggable } from "../core/Draggable";
 
-function ReceiveOrderDetail({
-  onNext,
-  onPrev,
-}: {
+interface Props {
   onNext: () => void;
   onPrev: () => void;
-}) {
+}
+
+function ReceiveOrderDetail({ onNext, onPrev }: Props) {
   const { order } = useSelector((state: AppState) => state.order);
 
   if (!order) {

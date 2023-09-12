@@ -5,11 +5,11 @@ import Select from "../core/Select";
 import store from "@/stores";
 import { updateInputs } from "@/stores/global.store";
 
-function LocationPicker({
-  onChange,
-}: {
+interface Props {
   onChange: (location: ILocation) => void;
-}) {
+}
+
+function LocationPicker({ onChange }: Props) {
   const [location, setLocation] = useState<Partial<ILocation>>({});
   const { data: provinces } = useAddressesQuery();
   const { data: districts, refetch: refetchDistrict } = useAddressesQuery(

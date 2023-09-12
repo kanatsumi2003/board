@@ -8,7 +8,13 @@ import { AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
 import { MdSignalCellular4Bar, MdSignalCellularOff } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Tooltip } from "../core/Tooltip";
-function Header({ name, online }: { name?: string; online: boolean }) {
+
+interface Props {
+  name?: string;
+  online: boolean;
+}
+
+function Header({ name, online }: Props) {
   const [trigger, { data, isSuccess, isError, isFetching }] =
     useLazyStaffProfileQuery();
   const navigate = useNavigate();
@@ -57,23 +63,24 @@ function Header({ name, online }: { name?: string; online: boolean }) {
       <div className="col-span-1">
         {!isFetching && isSuccess && data?.fullName ? (
           <>
-            Xin chào:{" "}
-            <span className="text-xl font-bold ml-2">{data?.fullName}</span>
+            <span className="text-xl">Xin chào: </span>
+            <span className="text-3xl font-bold ml-2">{data?.fullName}</span>
           </>
         ) : (
           <>
             {name && (
               <>
-                Tủ: <span className="text-xl font-bold ml-2">{name}</span>
+                <span className="text-xl">Tủ: </span>
+                <span className="text-3xl font-bold ml-2">{name}</span>
               </>
             )}
           </>
         )}
       </div>
-      <div className="col-span-1 text-center">
+      <div className="col-span-1 text-center text-2xl">
         {current.format("hh:mm A, DD/MM/YYYY")}
       </div>
-      <div className="col-span-1 text-2xl flex items-center gap-4 justify-end">
+      <div className="col-span-1 text-3xl flex items-center gap-4 justify-end">
         {countDown < 10 && (
           <span className="text-base text-red-800">{`(${countDown}s quay về màn hình chính)`}</span>
         )}

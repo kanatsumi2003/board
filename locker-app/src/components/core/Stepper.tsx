@@ -6,12 +6,17 @@ export interface StepItem {
   onClick?: () => void;
 }
 
-function Stepper({ steps, current }: { steps: StepItem[]; current: number }) {
+interface Props {
+  steps: StepItem[];
+  current: number;
+}
+
+function Stepper({ steps, current }: Props) {
   return (
-    <ol className="items-center w-full space-y-4 sm:flex sm:space-x-8 sm:space-y-0 justify-around">
+    <ol className="items-center w-full space-y-4 sm:flex sm:space-y-0 justify-around">
       {steps.map((step, index) => (
         <React.Fragment key={index}>
-          <div className="flex items-center sm:space-x-8 sm:space-y-0 justify-between">
+          <div className="flex items-center sm:space-y-0 justify-between">
             <li
               onClick={step.onClick}
               className={`flex items-center ${
@@ -19,7 +24,7 @@ function Stepper({ steps, current }: { steps: StepItem[]; current: number }) {
               }  space-x-2.5 hover:bg-gray-50 p-4 rounded-lg cursor-pointer`}
             >
               <span
-                className={`flex items-center justify-center w-12 h-12 text-lg border-2 ${
+                className={`flex items-center justify-center w-20 h-20 text-lg border-2 ${
                   current >= index + 1
                     ? "border-locker-blue"
                     : "border-gray-500"
@@ -28,7 +33,9 @@ function Stepper({ steps, current }: { steps: StepItem[]; current: number }) {
                 {step.icon}
               </span>
               <span>
-                <h3 className="font-bold leading-tight">{step.title}</h3>
+                <h3 className="font-bold leading-tight text-3xl">
+                  {step.title}
+                </h3>
               </span>
             </li>
           </div>

@@ -15,7 +15,12 @@ interface LoginForm {
   phoneNumber?: string;
   password?: string;
 }
-function Login({ onNext }: { onNext: () => void }) {
+
+interface Props {
+  onNext: () => void;
+}
+
+function Login({ onNext }: Props) {
   const [otp, setOtp] = useState("");
   const { inputs } = useSelector((state: AppState) => state.global);
   const [form, setForm] = useState<LoginForm>();
