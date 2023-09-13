@@ -21,9 +21,7 @@ function ProcessSuccess({ onNext }: Props) {
         className={`absolute top-0 left-0 right-0 bg-locker-blue h-48 rounded-b-[120px] -z-10`}
       ></div>
       <div className="text-center text-white">
-        <div className="text-3xl font-bold">
-          Vui lòng nhận đồ cần xử lý ở ô tủ số
-        </div>
+        <div className="font-bold">Vui lòng nhận đồ cần xử lý ở ô tủ số</div>
         <div className="mt-4">
           Vui lòng nhận đồ và ấn "Xác nhận" trên màn hình để hoàn tất.
         </div>

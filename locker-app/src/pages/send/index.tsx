@@ -28,16 +28,16 @@ function SendPage() {
         current={step}
         steps={[
           {
-            icon: <RxDashboard className="text-3xl" />,
+            icon: <RxDashboard />,
             onClick: () => setStep(1),
             title: "Chọn dịch vụ",
           },
           {
-            icon: <AiOutlineForm className="text-3xl" />,
+            icon: <AiOutlineForm />,
             title: "Thông tin đơn hàng",
           },
           {
-            icon: <AiOutlineFileDone className="text-3xl" />,
+            icon: <AiOutlineFileDone />,
             title: "Hoàn tất",
           },
         ]}

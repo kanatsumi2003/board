@@ -64,9 +64,7 @@ function SendSuccess({ onNext }: Props) {
   return (
     <div className="mt-8 flex w-full items-center flex-col justify-between h-full">
       <div className="text-center">
-        <div className="text-3xl font-bold text-black">
-          Vui lòng để đồ vào ô tủ số
-        </div>
+        <div className="font-bold text-black">Vui lòng để đồ vào ô tủ số</div>
         <div className="mt-4">
           Vui lòng để đồ vào tủ và ấn "Xác nhận" trên màn hình để hoàn tất quá
           trình gửi đồ

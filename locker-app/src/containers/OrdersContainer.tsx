@@ -1,7 +1,7 @@
 import { IPaging } from "@/interfaces";
 import { IOrderDetailItem, ORDER_STATUS, ORDER_TYPE } from "@/interfaces/order";
 import { useOrdersQuery } from "@/services/orderService";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useNavigate } from "react-router-dom";
 import "swiper/css";
@@ -21,7 +21,7 @@ function OrderItem({ loading, url, ...order }: OrderItemProps) {
   return (
     <div
       onClick={() => url && navigate(url)}
-      className="flex flex-col gap-2 border-2 w-full px-8 py-4 border-locker-blue rounded-xl text-2xl hover:bg-locker-blue cursor-pointer hover:text-white transition-colors max-h-[240px]"
+      className="flex flex-col gap-2 border-2 w-full px-8 py-4 border-locker-blue rounded-xl text-2xl hover:bg-locker-blue cursor-pointer hover:text-white transition-colors max-h-[400px]"
     >
       {!loading && order ? (
         <>
@@ -29,6 +29,10 @@ function OrderItem({ loading, url, ...order }: OrderItemProps) {
           <div>
             <b>Mã Pin: </b>
             {order.pinCode}
+          </div>
+          <div>
+            <b>Trạng thái: </b>
+            {order.status}
           </div>
           <div>
             <b>Ô tủ: </b>
@@ -58,17 +62,28 @@ function OrderItem({ loading, url, ...order }: OrderItemProps) {
 
 interface Props {
   renderLink: (id: number) => string;
+  onEmpty?: () => void;
   status: ORDER_STATUS;
 }
 
-function OrdersContainer({ status, renderLink }: Props) {
+function OrdersContainer({ status, renderLink, onEmpty }: Props) {
   const [pagination, setPagination] = useState<Partial<IPaging>>();
-  const { data: orders } = useOrdersQuery({
+  const {
+    data: orders,
+    isFetching,
+    isSuccess,
+  } = useOrdersQuery({
     type: ORDER_TYPE.LAUNDRY,
     pageSize: 4,
     status: status,
     ...pagination,
   });
+
+  useEffect(() => {
+    if (!isFetching && isSuccess && orders && !orders.totalCount) {
+      onEmpty && onEmpty();
+    }
+  }, [isFetching, isSuccess, orders]);
 
   return (
     <Swiper
@@ -83,7 +98,7 @@ function OrdersContainer({ status, renderLink }: Props) {
           pageNumber: swiper.activeIndex + 1,
         }))
       }
-      className="h-full w-full px-12 pb-12"
+      className="h-full w-full px-16 pb-12"
     >
       {[...Array(orders?.totalPages).keys()].map((element) => {
         if (element + 1 === orders?.pageNumber) {

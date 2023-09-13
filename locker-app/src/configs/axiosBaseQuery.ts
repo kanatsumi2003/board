@@ -24,7 +24,11 @@ const axiosBaseQuery =
         method,
         data,
         params,
-        headers,
+        headers: {
+          ...headers,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+          lockerId: 2,
+        },
       });
 
       return { data: result.data };

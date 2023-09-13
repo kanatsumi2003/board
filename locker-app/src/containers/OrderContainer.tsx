@@ -31,7 +31,7 @@ function OrderContainer({ id }: Props) {
     <>
       <div className="flex gap-4 w-full px-12 justify-center text-2xl">
         <div className="bg-white shadow-2xl grid grid-cols-2 p-8 rounded-3xl gap-y-4 gap-x-1 basis-3/5 justify-center">
-          <div className="font-semibold col-span-2 text-3xl mb-2">
+          <div className="font-semibold col-span-2 mb-2">
             Thông tin đơn hàng:
           </div>
           <div>Mã đơn hàng:</div>
@@ -57,7 +57,7 @@ function OrderContainer({ id }: Props) {
         </div>
         <div className="flex flex-col gap-2 basis-2/5">
           <div className="bg-white shadow-2xl p-8 rounded-3xl gap-2 h-full">
-            <div className="font-semibold col-span-2 text-3xl mb-2">
+            <div className="font-semibold col-span-2 mb-2">
               Chi tiết đơn hàng:
             </div>
             <Draggable>
@@ -83,12 +83,14 @@ function OrderContainer({ id }: Props) {
                             {formatCurrency(detail.price ?? 0)}
                           </span>{" "}
                         </div>
-                        <div>
-                          Số lượng:{" "}
-                          <span className="font-semibold">
-                            {`${detail.quantity} ${detail.service.unit}`}
-                          </span>
-                        </div>
+                        {detail.quantity && (
+                          <div>
+                            Số lượng:{" "}
+                            <span className="font-semibold">
+                              {`${detail.quantity} ${detail.service.unit}`}
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

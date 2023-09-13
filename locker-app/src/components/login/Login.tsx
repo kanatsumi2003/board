@@ -34,7 +34,7 @@ function Login({ onNext }: Props) {
     store.dispatch(
       setGlobalState({
         keyboard: {
-          maxLength: 100,
+          maxLength: onlyNumber ? 10 : 100,
           inputName: inputName,
           onlyNumber: onlyNumber,
         },
@@ -100,7 +100,7 @@ function Login({ onNext }: Props) {
       form.phoneNumber
     ) {
       loginStaff({
-        phoneNumber: form?.phoneNumber,
+        username: form?.phoneNumber,
         password: form?.password,
       });
     }
@@ -132,19 +132,19 @@ function Login({ onNext }: Props) {
   return (
     <>
       <div
-        className={`absolute top-0 left-0 right-0 bg-locker-blue h-40 rounded-b-[120px] -z-10`}
+        className={`absolute top-0 left-0 right-0 bg-locker-blue h-48 rounded-b-[120px] -z-10`}
       ></div>
-      <div className="text-4xl font-bold mt-8 text-white">
+      <div className="text-5xl font-bold mt-8 text-white">
         Đăng nhập tài khoản nhân viên
       </div>
-      <div className="text-2xl font-semibold flex flex-col gap-4 mt-16">
+      <div className="font-semibold flex flex-col gap-4 mt-28">
         <div>
           <input
             type="text"
             autoFocus
             autoComplete="off"
             placeholder="Số điện thoại"
-            className={`focus:outline-locker-blue col-span-3 rounded-lg border border-black w-96 p-2 text-2xl text-center ${
+            className={`focus:outline-locker-blue col-span-3 text-4xl rounded-lg border border-black w-[600px] p-4 text-center ${
               error?.phoneNumber ? "border-locker-red" : ""
             }`}
             name="phoneNumber"
@@ -157,7 +157,7 @@ function Login({ onNext }: Props) {
             }}
             value={form?.phoneNumber}
           />
-          <div className="col-span-2 text-base text-locker-red mt-1 h-4">
+          <div className="col-span-2 text-locker-red mt-4">
             {error?.phoneNumber ?? ""}
           </div>
         </div>
@@ -165,7 +165,7 @@ function Login({ onNext }: Props) {
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
-              className={`focus:outline-locker-blue col-span-3 rounded-lg border border-black w-96 p-2 text-2xl text-center ${
+              className={`focus:outline-locker-blue col-span-3 text-4xl rounded-lg border border-black w-[600px] p-4 text-center ${
                 error?.password ? "border-locker-red" : ""
               }`}
               name="password"
@@ -187,7 +187,7 @@ function Login({ onNext }: Props) {
               {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
             </div>
           </div>
-          <div className="col-span-2 text-base text-locker-red mt-1 h-4">
+          <div className="col-span-2 text-locker-red mt-4">
             {error?.password ?? ""}
           </div>
         </div>

@@ -46,6 +46,10 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
+.simple-keyboard {
+    font-size: 40px;
+}
+
 .simple-keyboard .hg-button.hg-functionBtn.hg-button-space {
     min-width: 150px;
     max-width: none;
@@ -64,6 +68,10 @@ input[type="number"] {
     max-width: 80px;
 }
 
+.hg-theme-default.hg-layout-numeric .hg-button {
+    height: 120px !important;
+}
+
 .hg-button-default,
 .hg-button-alt,
 .hg-button.hg-functionBtn.hg-button-downkeyboard:not( [data-skbtnuid^="numbers-"]) {
@@ -78,7 +86,7 @@ select:focus {
 }
 
 .hg-theme-default {
-    padding: 12px 20px !important;
+    padding: 20px !important;
 }
 
 input:checked~.dot {

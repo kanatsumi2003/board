@@ -22,8 +22,8 @@ function Switch({ label, onChange, className }: Props) {
           className="sr-only"
           onChange={() => setCheck((prev) => !prev)}
         />
-        <div className="block bg-gray-200 shadow-sm w-14 h-8 rounded-full"></div>
-        <div className="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-all shadow-sm"></div>
+        <div className="block bg-gray-200 shadow-sm w-24 h-14 rounded-full"></div>
+        <div className="dot absolute left-2 top-2 bg-white w-10 h-10 rounded-full transition-all shadow-sm"></div>
       </div>
       <div className="ml-3 font-medium">{label}</div>
     </label>

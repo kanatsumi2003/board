@@ -39,27 +39,27 @@ function ServiceItem({
 }: ServiceItemProps) {
   return (
     <div
-      className={`flex gap-2 p-2 px-4 border-2  ${
+      className={`flex gap-2 p-8 border-2 ${
         isChoosing
           ? "bg-locker-blue text-white hover:bg-opacity-90"
           : "border-locker-blue text-black hover:bg-gray-100"
-      } rounded-lg cursor-pointer h-full items-center justify-between`}
+      } rounded-lg cursor-pointer h-full items-center justify-between flex-col`}
       onClick={() => !isLoading && onChoose && onChoose()}
       key={id}
     >
       {isLoading ? (
-        <Skeleton className="w-48 h-36 rounded-lg" />
+        <Skeleton className="w-96 h-[280px] rounded-lg" />
       ) : (
         <img
           src={image}
           alt=""
-          className="w-48 h-full object-cover rounded-lg"
+          className="w-full h-full max-h-[280px] object-cover rounded-lg"
         />
       )}
 
       <div className="flex flex-col justify-center gap-2 ml-2 text-ellipsis">
-        <div className="font-bold overflow-hidden text-ellipsis whitespace-nowrap text-right text-2xl">
-          {isLoading ? <Skeleton count={1} className="xl:w-40 w-16" /> : name}
+        <div className="font-bold overflow-hidden text-ellipsis whitespace-nowrap text-center">
+          {isLoading ? <Skeleton count={1} className="xl:w-40 w-96" /> : name}
         </div>
         <div className="text-xl text-right">
           {isLoading ? (
@@ -124,15 +124,15 @@ function ServiceContainer({ serviceIds, setServiceIds, onBack }: Props) {
           pageNumber: swiper.activeIndex + 1,
         }))
       }
-      className="h-full w-full px-12 pb-12 mt-6"
+      className="h-full w-full px-16 pb-12 mt-6"
     >
-      {[...Array(services?.totalPages).keys()].map((element) => {
-        if (element + 1 === services?.pageNumber) {
-          return (
-            <SwiperSlide
-              key={element}
-              className="grid lg:grid-cols-3 grid-cols-2 gap-4 w-full overflow-y-scroll items-center"
-            >
+      {[...Array(services?.totalPages).keys()].map((element) => (
+        <SwiperSlide
+          key={element}
+          className="grid grid-cols-2 gap-4 w-full items-center"
+        >
+          {element + 1 === services?.pageNumber ? (
+            <>
               {services?.items.map((service) => (
                 <ServiceItem
                   id={service.id}
@@ -153,21 +153,16 @@ function ServiceContainer({ serviceIds, setServiceIds, onBack }: Props) {
                   key={service.id}
                 />
               ))}
-            </SwiperSlide>
-          );
-        } else {
-          return (
-            <SwiperSlide
-              key={element}
-              className="grid lg:grid-cols-3 grid-cols-2 gap-4 w-full overflow-y-scroll"
-            >
+            </>
+          ) : (
+            <>
               {[...Array(6).keys()].map((data) => (
                 <ServiceItem isLoading key={data} />
               ))}
-            </SwiperSlide>
-          );
-        }
-      })}
+            </>
+          )}
+        </SwiperSlide>
+      ))}
     </Swiper>
   );
 }

@@ -33,6 +33,7 @@ function MainLayout({ children }: Props) {
     isSuccess: settingIsSuccess,
     refetch: settingRefetch,
   } = useSettingQuery(undefined, { skip: !isSuccess });
+  const { pathname } = useLocation();
 
   useEffect(() => {
     if (settingIsSuccess && isSuccess) {
@@ -41,7 +42,7 @@ function MainLayout({ children }: Props) {
   }, [settingIsSuccess]);
 
   useEffect(() => {
-    if (isSuccess && data && data.locker_status === LOCKER_STATUS.CONNECTED) {
+    if (isSuccess && data && data.locker_status === LOCKER_STATUS.ACTIVE) {
       store.dispatch(
         setLockerState({
           locker: {
@@ -54,13 +55,16 @@ function MainLayout({ children }: Props) {
           },
         })
       );
+      if (pathname === PATH.SETUP) {
+        navigate(PATH.HOME);
+      }
     } else {
       store.dispatch(
         setLockerState({
           locker: undefined,
         })
       );
-      navigate(PATH.SETUP);
+      navigate(PATH.HOME);
     }
   }, [isSuccess, isError, isFetching]);
 
@@ -116,7 +120,7 @@ function MainLayout({ children }: Props) {
   }, [isOnline]);
 
   return (
-    <div className="bg-white relative overflow-hidden h-screen w-screen items-center">
+    <div className="bg-white relative overflow-hidden h-screen w-screen items-center text-3xl">
       <div className="flex flex-col h-full">
         <Header name={locker?.name} online={isOnline} />
         <div className="relative h-full z-0">{children}</div>

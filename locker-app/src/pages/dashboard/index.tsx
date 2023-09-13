@@ -13,9 +13,9 @@ function Home() {
 
   const navigate = useNavigate();
   return (
-    <div className="h-full p-10 flex-col gap-12 justify-between grid grid-cols-5">
-      <div className="xl:col-span-3 hidden xl:block h-full bg-dashboard bg-cover" />
-      <div className="xl:col-span-2 col-span-5 flex flex-col justify-between h-full flex-grow">
+    <div className="h-full p-12 flex-col gap-12 justify-between grid grid-cols-5">
+      <div className="col-span-5 h-full bg-dashboard bg-cover" />
+      <div className="col-span-5 flex flex-col justify-between h-full flex-grow">
         <div className="flex flex-col w-full gap-6 justify-between h-full">
           <Button
             type="primary"

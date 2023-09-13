@@ -39,7 +39,7 @@ function ReceivePayment({ onNext }: Props) {
         <div
           className={`absolute top-0 left-0 right-0 bg-locker-blue h-60 rounded-b-[80px] -z-10`}
         ></div>
-        <div className="text-3xl font-bold mt-4 text-white">
+        <div className="font-bold mt-4 text-white">
           Vui lòng quét mã QR sau để thanh toán
         </div>
         <div className="font-light mt-2 text-white">Số tiền thanh toán</div>

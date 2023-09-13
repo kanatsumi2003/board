@@ -40,9 +40,7 @@ function MessageModal({ children, isSuccess, onClose }: Props) {
           >
             {isSuccess ? <BiCheckCircle /> : <BiErrorCircle />}
           </div>
-          <h3 className="my-5 font-normal text-gray-600 text-3xl">
-            {children}
-          </h3>
+          <h3 className="my-5 font-normal text-gray-600">{children}</h3>
           <button
             type="button"
             className={` bg-white ${

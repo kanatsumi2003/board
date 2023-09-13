@@ -12,6 +12,7 @@ interface TypeItemProps {
   description: string;
   note?: string;
   onClick: () => void;
+  className?: string;
 }
 
 const TypeItem = ({
@@ -19,11 +20,12 @@ const TypeItem = ({
   description,
   onClick,
   note,
+  className,
   icon,
 }: TypeItemProps) => {
   return (
     <div
-      className="bg-locker-blue overflow-hidden hover:bg-opacity-80 rounded-lg cursor-pointer p-10 text-center lg:max-w-[360px] shadow-md box-border relative z-30 w-full font-bold text-white transition-all duration-300 group ring-offset-2 ring-1 ease focus:outline-none h-full lg:max-h-[440px] max-h-[400px] flex lg:flex-col justify-between items-center"
+      className={`${className} overflow-hidden hover:bg-opacity-80 rounded-lg cursor-pointer p-12 text-center lg:max-w-[400px] shadow-md box-border relative z-30 w-full font-bold text-white transition-all duration-300 group ring-offset-2 ring-1 ease focus:outline-none h-full max-h-[480px] flex lg:flex-col justify-between items-center`}
       onClick={onClick}
     >
       <div className="flex lg:flex-col gap-2">
@@ -50,32 +52,36 @@ function SendChooseType({ setType }: Props) {
   const { orderSettings } = useSelector((state: AppState) => state.setting);
 
   return (
-    <div className="flex justify-center gap-8 items-center h-full flex-col lg:flex-row">
-      <TypeItem
-        icon={
-          <MdLocalLaundryService
-            className={"text-[160px] lg:text-[140px] m-auto"}
-          />
-        }
-        name="Giặt sấy"
-        description={`Giặt sấy chất lượng cao với nhiều dịch vụ đa dạng.`}
-        note={`Chúng tôi sẽ phụ thu ${formatCurrency(
-          orderSettings?.extraFee ?? 0
-        )}/giờ nếu vượt quá ${
-          orderSettings?.maxTimeInHours ?? 0
-        } giờ không nhận lại hàng.`}
-        onClick={() => setType(ORDER_TYPE.LAUNDRY)}
-      />
-      <TypeItem
-        icon={
-          <FaBoxesPacking className={"text-[160px] lg:text-[140px] m-auto"} />
-        }
-        name="Gửi đồ"
-        description={`Gửi đồ tiện lợi với giá niêm yết ${formatCurrency(
-          orderSettings?.storagePrice ?? 0
-        )}/giờ.`}
-        onClick={() => setType(ORDER_TYPE.STORAGE)}
-      />
+    <div className="h-full p-12 flex-col gap-12 justify-between grid grid-cols-5">
+      <div className="lg:col-span-5 flex justify-center gap-24 items-center flex-col">
+        <TypeItem
+          icon={
+            <MdLocalLaundryService
+              className={"text-[160px] lg:text-[140px] m-auto"}
+            />
+          }
+          name="Giặt sấy"
+          description={`Giặt sấy chất lượng cao với nhiều dịch vụ đa dạng.`}
+          note={`Chúng tôi sẽ phụ thu ${formatCurrency(
+            orderSettings?.extraFee ?? 0
+          )}/giờ nếu vượt quá ${
+            orderSettings?.maxTimeInHours ?? 0
+          } giờ không nhận lại hàng.`}
+          onClick={() => setType(ORDER_TYPE.LAUNDRY)}
+          className="bg-locker-blue"
+        />
+        <TypeItem
+          icon={
+            <FaBoxesPacking className={"text-[160px] lg:text-[140px] m-auto"} />
+          }
+          name="Gửi đồ"
+          description={`Gửi đồ tiện lợi với giá niêm yết ${formatCurrency(
+            orderSettings?.storagePrice ?? 0
+          )}/giờ.`}
+          onClick={() => setType(ORDER_TYPE.STORAGE)}
+          className="bg-locker-green"
+        />
+      </div>
       <BackButton />
     </div>
   );

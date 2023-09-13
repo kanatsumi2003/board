@@ -25,7 +25,7 @@ function SendServices({ onNext, clearType, onBack }: Props) {
 
   return (
     <>
-      <div className="px-12">
+      <div className="px-16">
         <Button type="primary" className="mt-4" small onClick={onHandleChoose}>
           Tiếp theo
         </Button>

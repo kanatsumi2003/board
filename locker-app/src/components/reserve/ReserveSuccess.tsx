@@ -36,7 +36,7 @@ function ReserveSuccess({ onNext }: Props) {
       ></div>
 
       <div className="text-center text-white">
-        <div className="text-3xl font-bold">Vui lòng để đồ vào ô tủ số</div>
+        <div className="font-bold">Vui lòng để đồ vào ô tủ số</div>
         <div className="mt-4">
           Vui lòng để đồ vào tủ và ấn "Xác nhận" trên màn hình để hoàn tất.
         </div>

@@ -23,9 +23,20 @@ interface Props {
   placeholder: string;
   onChange: (option?: string) => void;
   onClear: () => void;
+  menuPlacement?: "top" | "bottom";
+  className?: string;
 }
 
-function Select({ data, name, onChange, placeholder, onClear, value }: Props) {
+function Select({
+  data,
+  name,
+  onChange,
+  placeholder,
+  onClear,
+  value,
+  menuPlacement = "top",
+  className,
+}: Props) {
   const { inputs, keyboard } = useSelector((state: AppState) => state.global);
   const handleChange = (selectedOption: IOptionType | null) => {
     onChange(selectedOption?.value);
@@ -49,6 +60,7 @@ function Select({ data, name, onChange, placeholder, onClear, value }: Props) {
 
   return (
     <ReactSelect
+      className={className}
       classNames={{
         control: ({ isFocused }) =>
           `!rounded-lg !border-1 !shadow-locker-blue ${
@@ -76,7 +88,7 @@ function Select({ data, name, onChange, placeholder, onClear, value }: Props) {
       onChange={handleChange}
       menuIsOpen={keyboard?.inputName === name}
       options={data}
-      menuPlacement="top"
+      menuPlacement={menuPlacement}
       maxMenuHeight={180}
       openMenuOnFocus={true}
       blurInputOnSelect

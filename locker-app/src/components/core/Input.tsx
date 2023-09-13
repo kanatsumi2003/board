@@ -11,6 +11,7 @@ interface Props {
   value?: string;
   validate?: (value: string) => string | undefined;
   onChange?: (value: string | undefined) => void;
+  required?: boolean;
 }
 
 function Input({
@@ -22,6 +23,7 @@ function Input({
   name,
   submitError,
   onChange,
+  required,
 }: Props) {
   const [error, setError] = useState<string | undefined>();
   const { inputs } = useSelector((state: AppState) => state.global);
@@ -34,13 +36,13 @@ function Input({
   return (
     <>
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium">
-          {label}: <span className="text-red-600 text-lg">*</span>
+        <label className="font-medium">
+          {label} {required && <span className="text-red-600 text-lg">*</span>}
         </label>
         <input
           type="text"
           autoFocus
-          className="rounded-lg border border-black w-full p-2.5 focus:outline-locker-blue"
+          className="rounded-lg border border-black w-full p-4 focus:outline-locker-blue mt-4"
           placeholder={placeHolder}
           name={name}
           required
