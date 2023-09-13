@@ -34,10 +34,11 @@ function Select({
   placeholder,
   onClear,
   value,
-  menuPlacement = "top",
+  menuPlacement = "bottom",
   className,
 }: Props) {
   const { inputs, keyboard } = useSelector((state: AppState) => state.global);
+
   const handleChange = (selectedOption: IOptionType | null) => {
     onChange(selectedOption?.value);
     if (selectedOption) {
@@ -50,6 +51,7 @@ function Select({
       onClear();
     }
   };
+
   useEffect(() => {
     store.dispatch(
       updateInputs({
@@ -66,9 +68,12 @@ function Select({
           `!rounded-lg !border-1 !shadow-locker-blue ${
             isFocused ? "!border-locker-blue !shadow-none" : "!border-black"
           }`,
-        input: () => "input-container",
+        input: () => "input-container !p-4",
+        placeholder: () => "!p-4",
+        menu: () => "!z-50",
+        valueContainer: () => "!p-0",
       }}
-      onFocus={() =>
+      onFocus={() => {
         store.dispatch(
           setGlobalState({
             keyboard: {
@@ -77,8 +82,8 @@ function Select({
               onlyNumber: false,
             },
           })
-        )
-      }
+        );
+      }}
       isClearable
       isDisabled={!data.length}
       placeholder={<div className="line-clamp-1">{placeholder}</div>}
@@ -89,8 +94,7 @@ function Select({
       menuIsOpen={keyboard?.inputName === name}
       options={data}
       menuPlacement={menuPlacement}
-      maxMenuHeight={180}
-      openMenuOnFocus={true}
+      openMenuOnClick={true}
       blurInputOnSelect
       menuShouldScrollIntoView
       filterOption={createFilter(filterConfig)}

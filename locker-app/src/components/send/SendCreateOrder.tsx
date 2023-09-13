@@ -2,6 +2,7 @@ import useModal from "@/hooks/useModal";
 import { useEffect, useState } from "react";
 import SendPhoneNumber from "./SendPhoneNumber";
 import SendReceiveTime from "./SendReceiveTime";
+import SendAddress from "./SendAddress";
 
 interface CreateOrderFormError {
   senderPhone?: string;
@@ -29,9 +30,7 @@ function SendCreateOrder({ onNext, onPrev }: Props) {
             );
           }
           case 2: {
-            return (
-              <SendReceiveTime onNext={() => setStep(3)} onPrev={onPrev} />
-            );
+            return <SendAddress onNext={() => setStep(3)} onPrev={onPrev} />;
           }
         }
       })()}

@@ -40,9 +40,9 @@ function Otp({ otp, setOtp }: Props) {
         value={otp}
         onChange={setOtp}
         inputStyle={{
-          width: 60,
-          fontSize: 40,
-          padding: 4,
+          width: 80,
+          fontSize: 48,
+          padding: 6,
         }}
         containerStyle={{
           gap: 4,

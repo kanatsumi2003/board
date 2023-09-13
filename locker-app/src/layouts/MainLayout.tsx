@@ -120,7 +120,7 @@ function MainLayout({ children }: Props) {
   }, [isOnline]);
 
   return (
-    <div className="bg-white relative overflow-hidden h-screen w-screen items-center text-3xl">
+    <div className="bg-white relative overflow-hidden h-screen w-screen items-center text-3xl leading-tight">
       <div className="flex flex-col h-full">
         <Header name={locker?.name} online={isOnline} />
         <div className="relative h-full z-0">{children}</div>

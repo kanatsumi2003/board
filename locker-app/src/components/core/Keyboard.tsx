@@ -61,13 +61,13 @@ function VirtualKeyboard({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        store.dispatch(
-          setGlobalState({
-            keyboard: undefined,
-          })
-        );
-      }
+      // if (ref.current && !ref.current.contains(event.target as Node)) {
+      //   store.dispatch(
+      //     setGlobalState({
+      //       keyboard: undefined,
+      //     })
+      //   );
+      // }
     };
 
     document.addEventListener("mousedown", handleClickOutside);

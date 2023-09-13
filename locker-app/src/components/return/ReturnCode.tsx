@@ -73,11 +73,13 @@ function ReturnCode({ onNext }: Props) {
 
   return (
     <>
-      <div className="mt-8 flex w-full items-center flex-col gap-24 h-full">
+      <div className="mt-20 flex w-full items-center flex-col gap-24 h-full">
         <div
-          className={`absolute top-0 left-0 right-0 bg-locker-blue h-40 rounded-b-[120px] -z-10`}
+          className={`absolute top-0 left-0 right-0 bg-locker-blue h-48 rounded-b-[120px] -z-10`}
         ></div>
-        <div className="font-bold text-white">Vui lòng nhập mã đơn hàng </div>
+        <div className="font-bold text-white text-5xl">
+          Vui lòng nhập mã đơn hàng
+        </div>
         <div className="flex w-full items-center flex-col gap-8">
           <OtpForm onSubmit={handleReturnOrder} />
         </div>
