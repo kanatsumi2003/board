@@ -1,7 +1,5 @@
-import store, { AppState } from "@/stores";
-import { setGlobalState, updateInputs } from "@/stores/global.store";
+import useKeyboard from "@/hooks/useKeyboard";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import ReactSelect, { createFilter } from "react-select";
 
 const filterConfig = {
@@ -37,27 +35,19 @@ function Select({
   menuPlacement = "bottom",
   className,
 }: Props) {
-  const { inputs, keyboard } = useSelector((state: AppState) => state.global);
+  const { inputs, keyboard, close, clear, open } = useKeyboard();
 
   const handleChange = (selectedOption: IOptionType | null) => {
     onChange(selectedOption?.value);
     if (selectedOption) {
-      store.dispatch(
-        setGlobalState({
-          keyboard: undefined,
-        })
-      );
+      close();
     } else {
       onClear();
     }
   };
 
   useEffect(() => {
-    store.dispatch(
-      updateInputs({
-        [name]: "",
-      })
-    );
+    clear([name]);
   }, []);
 
   return (
@@ -74,15 +64,11 @@ function Select({
         valueContainer: () => "!p-0",
       }}
       onFocus={() => {
-        store.dispatch(
-          setGlobalState({
-            keyboard: {
-              maxLength: 100,
-              inputName: name,
-              onlyNumber: false,
-            },
-          })
-        );
+        open({
+          maxLength: 100,
+          inputName: name,
+          onlyNumber: false,
+        });
       }}
       isClearable
       isDisabled={!data.length}

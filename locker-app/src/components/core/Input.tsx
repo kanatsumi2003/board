@@ -1,3 +1,4 @@
+import useKeyboard from "@/hooks/useKeyboard";
 import { AppState } from "@/stores";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -26,7 +27,7 @@ function Input({
   required,
 }: Props) {
   const [error, setError] = useState<string | undefined>();
-  const { inputs } = useSelector((state: AppState) => state.global);
+  const { inputs } = useKeyboard();
 
   useEffect(() => {
     onChange && onChange(inputs?.[name]);

@@ -1,5 +1,6 @@
+import useKeyboard from "@/hooks/useKeyboard";
 import store, { AppState } from "@/stores";
-import { setGlobalState, updateInputs } from "@/stores/global.store";
+import { updateInputs } from "@/stores/global.store";
 import { setOrderRequest } from "@/stores/order.store";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -20,17 +21,14 @@ interface Props {
 
 function SendAddress({ onNext, onPrev }: Props) {
   const { orderRequest } = useSelector((state: AppState) => state.order);
+  const { open } = useKeyboard();
 
   const showKeyboard = (inputName: string) => {
-    store.dispatch(
-      setGlobalState({
-        keyboard: {
-          maxLength: 100,
-          onlyNumber: false,
-          inputName: inputName,
-        },
-      })
-    );
+    open({
+      maxLength: 100,
+      onlyNumber: false,
+      inputName: inputName,
+    });
   };
 
   useEffect(() => {

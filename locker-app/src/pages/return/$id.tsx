@@ -1,21 +1,17 @@
 import ReturnOrderDetail from "@/components/return/ReturnOrderDetail";
 import ReturnSuccess from "@/components/return/ReturnSuccess";
 import { PATH } from "@/constants/common";
-import store from "@/stores";
-import { setGlobalState } from "@/stores/global.store";
+import useKeyboard from "@/hooks/useKeyboard";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ReturnDetailPage() {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
+  const { close } = useKeyboard();
 
   useEffect(() => {
-    store.dispatch(
-      setGlobalState({
-        keyboard: undefined,
-      })
-    );
+    close();
   }, [step]);
 
   return (

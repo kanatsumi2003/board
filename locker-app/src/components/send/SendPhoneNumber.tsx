@@ -1,6 +1,7 @@
+import useKeyboard from "@/hooks/useKeyboard";
 import { useLazyCustomerByPhoneQuery } from "@/services/customerService";
 import store, { AppState } from "@/stores";
-import { setGlobalState, updateInputs } from "@/stores/global.store";
+import { updateInputs } from "@/stores/global.store";
 import { setOrderRequest } from "@/stores/order.store";
 import { isValidPhone } from "@/utils/validator";
 import { useEffect, useState } from "react";
@@ -26,6 +27,7 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
   const [senderName, setSenderName] = useState<string>();
   const [error, setError] = useState<CreateOrderFormError>();
   const { orderRequest } = useSelector((state: AppState) => state.order);
+  const { open } = useKeyboard();
 
   const [
     getSender,
@@ -110,15 +112,11 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
   ]);
 
   const showKeyboard = (inputName: string, onlyNumber: boolean = true) => {
-    store.dispatch(
-      setGlobalState({
-        keyboard: {
-          maxLength: 10,
-          onlyNumber: onlyNumber,
-          inputName: inputName,
-        },
-      })
-    );
+    open({
+      maxLength: 10,
+      onlyNumber: onlyNumber,
+      inputName: inputName,
+    });
   };
 
   return (

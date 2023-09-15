@@ -1,12 +1,12 @@
+import useKeyboard from "@/hooks/useKeyboard";
 import useModal from "@/hooks/useModal";
 import { useLazyOrderPinCodeQuery } from "@/services/orderService";
 import store, { AppState } from "@/stores";
 import { setOrderState } from "@/stores/order.store";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import BackButton from "../core/BackButton";
 import OtpForm from "../core/OtpForm";
-import { setGlobalState } from "@/stores/global.store";
-import { useSelector } from "react-redux";
 
 interface Props {
   onNext: () => void;
@@ -17,6 +17,7 @@ function ReceiveCode({ onNext }: Props) {
   const [trigger, { data, isSuccess, isError, error }] =
     useLazyOrderPinCodeQuery();
   const modal = useModal();
+  const { open } = useKeyboard();
 
   const handleGetOrderDetail = (otp: string) => {
     if (otp.length === 6) {
@@ -42,15 +43,11 @@ function ReceiveCode({ onNext }: Props) {
   }, [isSuccess, isError]);
 
   useEffect(() => {
-    store.dispatch(
-      setGlobalState({
-        keyboard: {
-          maxLength: 6,
-          onlyNumber: true,
-          inputName: "otp",
-        },
-      })
-    );
+    open({
+      maxLength: 6,
+      onlyNumber: true,
+      inputName: "otp",
+    });
   }, []);
 
   return (

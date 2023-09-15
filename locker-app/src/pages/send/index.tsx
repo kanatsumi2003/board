@@ -3,8 +3,7 @@ import SendChooseService from "@/components/send/SendChooseService";
 import SendCreateOrder from "@/components/send/SendCreateOrder";
 import SendSuccess from "@/components/send/SendSuccess";
 import { PATH } from "@/constants/common";
-import store from "@/stores";
-import { setGlobalState } from "@/stores/global.store";
+import useKeyboard from "@/hooks/useKeyboard";
 import { useEffect, useState } from "react";
 import { AiOutlineFileDone, AiOutlineForm } from "react-icons/ai";
 import { RxDashboard } from "react-icons/rx";
@@ -13,13 +12,10 @@ import { useNavigate } from "react-router-dom";
 function SendPage() {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
+  const { close } = useKeyboard();
 
   useEffect(() => {
-    store.dispatch(
-      setGlobalState({
-        keyboard: undefined,
-      })
-    );
+    close();
   }, [step]);
 
   return (

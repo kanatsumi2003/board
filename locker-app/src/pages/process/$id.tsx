@@ -1,21 +1,17 @@
 import ProcessOrderDetail from "@/components/process/ProcessOrderDetail";
 import ProcessSuccess from "@/components/process/ProcessSuccess";
 import { PATH } from "@/constants/common";
-import store from "@/stores";
-import { setGlobalState } from "@/stores/global.store";
+import useKeyboard from "@/hooks/useKeyboard";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ProcessDetailPage() {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
+  const { close } = useKeyboard();
 
   useEffect(() => {
-    store.dispatch(
-      setGlobalState({
-        keyboard: undefined,
-      })
-    );
+    close();
   }, [step]);
 
   return (

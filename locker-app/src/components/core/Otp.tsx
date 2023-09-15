@@ -1,26 +1,24 @@
-import store, { AppState } from "@/stores";
-import { setGlobalState, updateInputs } from "@/stores/global.store";
+import useKeyboard from "@/hooks/useKeyboard";
 import { useEffect, useRef, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import OTPInput from "react-otp-input";
-import { useSelector } from "react-redux";
 
 interface Props {
   otp: string;
   setOtp: (otp: string) => void;
 }
 
+interface OtpForm {
+  otp: string;
+}
+
 function Otp({ otp, setOtp }: Props) {
-  const { inputs } = useSelector((state: AppState) => state.global);
+  const { inputs, clear, open } = useKeyboard();
   const [showPassword, setShowPassword] = useState(false);
   const ref = useRef<(HTMLInputElement | null)[]>([]);
 
   useEffect(() => {
-    store.dispatch(
-      updateInputs({
-        otp: "",
-      })
-    );
+    clear(["otp"]);
     setOtp("");
   }, []);
 
@@ -55,15 +53,11 @@ function Otp({ otp, setOtp }: Props) {
             ref={(input) => (ref.current[index] = input)}
             onClick={() => {
               ref.current[index]?.focus();
-              store.dispatch(
-                setGlobalState({
-                  keyboard: {
-                    maxLength: 6,
-                    onlyNumber: true,
-                    inputName: "otp",
-                  },
-                })
-              );
+              open({
+                maxLength: 6,
+                onlyNumber: true,
+                inputName: "otp",
+              });
             }}
             className={`p-4 rounded-lg border-solid border-2 focus-visible:outline-locker-blue`}
           />

@@ -2,6 +2,7 @@ import VirtualKeyboard from "@/components/core/Keyboard";
 import Message from "@/components/core/Message";
 import Header from "@/components/header/Header";
 import { PATH } from "@/constants/common";
+import useKeyboard from "@/hooks/useKeyboard";
 import useModal from "@/hooks/useModal";
 import { LOCKER_STATUS } from "@/interfaces/locker";
 import { useLockerInfoQuery } from "@/services/boardService";
@@ -21,7 +22,7 @@ interface Props {
 
 function MainLayout({ children }: Props) {
   const { locker } = useSelector((state: AppState) => state.locker);
-  const { keyboard } = useSelector((state: AppState) => state.global);
+  const { keyboard, close } = useKeyboard();
   const location = useLocation();
   const navigate = useNavigate();
   const modal = useModal();
@@ -77,11 +78,7 @@ function MainLayout({ children }: Props) {
   };
 
   useEffect(() => {
-    store.dispatch(
-      setGlobalState({
-        keyboard: undefined,
-      })
-    );
+    close();
 
     if (location.pathname === PATH.HOME) {
       refetch();

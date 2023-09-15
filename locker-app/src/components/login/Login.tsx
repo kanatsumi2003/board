@@ -1,15 +1,15 @@
+import useKeyboard from "@/hooks/useKeyboard";
 import useModal from "@/hooks/useModal";
 import { useLoginStaffMutation } from "@/services/authService";
 import TokenService from "@/services/tokenService";
-import store, { AppState } from "@/stores";
-import { setGlobalState, updateInputs } from "@/stores/global.store";
+import store from "@/stores";
+import { setGlobalState } from "@/stores/global.store";
 import { isValidPhone } from "@/utils/validator";
 import { useEffect, useState } from "react";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FaAngleRight } from "react-icons/fa6";
-import { useSelector } from "react-redux";
 import BackButton from "../core/BackButton";
 import Button from "../core/Button";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 interface LoginForm {
   phoneNumber?: string;
@@ -22,33 +22,25 @@ interface Props {
 
 function Login({ onNext }: Props) {
   const [otp, setOtp] = useState("");
-  const { inputs } = useSelector((state: AppState) => state.global);
+  const { inputs } = useKeyboard();
   const [form, setForm] = useState<LoginForm>();
   const [error, setError] = useState<LoginForm>();
   const [loginStaff, { isSuccess, data, isError, error: loginError }] =
     useLoginStaffMutation();
   const [showPassword, setShowPassword] = useState(false);
   const modal = useModal();
+  const { open, clear } = useKeyboard();
 
   const showKeyboard = (inputName: string, onlyNumber: boolean) => {
-    store.dispatch(
-      setGlobalState({
-        keyboard: {
-          maxLength: onlyNumber ? 10 : 100,
-          inputName: inputName,
-          onlyNumber: onlyNumber,
-        },
-      })
-    );
+    open({
+      maxLength: onlyNumber ? 10 : 100,
+      inputName: inputName,
+      onlyNumber: onlyNumber,
+    });
   };
 
   useEffect(() => {
-    store.dispatch(
-      updateInputs({
-        phoneNumber: "",
-        password: "",
-      })
-    );
+    clear(["phoneNumber", "password"]);
   }, []);
 
   useEffect(() => {
@@ -118,15 +110,7 @@ function Login({ onNext }: Props) {
   }, [isSuccess, isError]);
 
   useEffect(() => {
-    store.dispatch(
-      setGlobalState({
-        keyboard: {
-          maxLength: 10,
-          onlyNumber: true,
-          inputName: "phoneNumber",
-        },
-      })
-    );
+    showKeyboard("phoneNumber", true);
   }, []);
 
   return (

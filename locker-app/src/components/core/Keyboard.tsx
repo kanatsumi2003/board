@@ -1,3 +1,4 @@
+import useKeyboard from "@/hooks/useKeyboard";
 import store, { AppState } from "@/stores";
 import { setGlobalState } from "@/stores/global.store";
 import { useEffect, useRef, useState } from "react";
@@ -30,10 +31,9 @@ function VirtualKeyboard({
   const [layout, setLayout] = useState<KEYBOARD_LAYOUT>(
     KEYBOARD_LAYOUT.DEFAULT
   );
-  const { keyboard } = useSelector((state: AppState) => state.global);
+  const { keyboard, inputs } = useKeyboard();
   const keyboardRef = useRef<KeyboardReactInterface | null>(null);
   const ref = useRef<HTMLDivElement>(null);
-  const { inputs } = useSelector((state: AppState) => state.global);
 
   const onKeyPress = (button: string) => {
     if (button.includes("{") && button.includes("}")) {

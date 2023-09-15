@@ -10,6 +10,7 @@ import BackButton from "../core/BackButton";
 import OtpForm from "../core/OtpForm";
 import { setGlobalState } from "@/stores/global.store";
 import { useSelector } from "react-redux";
+import useKeyboard from "@/hooks/useKeyboard";
 
 interface Props {
   onNext: () => void;
@@ -37,6 +38,7 @@ function ReserveCode({ onNext }: Props) {
   ] = useReserveMutation();
 
   const modal = useModal();
+  const { open } = useKeyboard();
 
   const handleReserveOrder = (otp: string) => {
     if (otp.length === 6) {
@@ -48,15 +50,11 @@ function ReserveCode({ onNext }: Props) {
   };
 
   useEffect(() => {
-    store.dispatch(
-      setGlobalState({
-        keyboard: {
-          maxLength: 6,
-          onlyNumber: true,
-          inputName: "otp",
-        },
-      })
-    );
+    open({
+      maxLength: 6,
+      onlyNumber: true,
+      inputName: "otp",
+    });
   }, []);
 
   useEffect(() => {

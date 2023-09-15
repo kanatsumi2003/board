@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import BackButton from "../core/BackButton";
 import Button from "../core/Button";
 import Select from "../core/Select";
+import useKeyboard from "@/hooks/useKeyboard";
 
 interface CreateOrderFormError {
   senderPhone?: string;
@@ -24,7 +25,7 @@ function SendReceiveTime({ onNext, onPrev }: Props) {
   const [receiverName, setReceiverName] = useState<string>();
   const [senderName, setSenderName] = useState<string>();
   const [error, setError] = useState<CreateOrderFormError>();
-  const { keyboard } = useSelector((state: AppState) => state.global);
+  const { keyboard } = useKeyboard();
   const { orderRequest } = useSelector((state: AppState) => state.order);
   const { locker } = useSelector((state: AppState) => state.locker);
 
