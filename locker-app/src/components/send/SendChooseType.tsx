@@ -53,7 +53,7 @@ function SendChooseType({ setType }: Props) {
 
   return (
     <div className="h-full p-12 flex-col gap-12 justify-between grid grid-cols-5">
-      <div className="lg:col-span-5 flex justify-center gap-24 items-center flex-col">
+      <div className="md:col-span-5 flex justify-center gap-24 items-center md:flex-col xl:flex-row">
         <TypeItem
           icon={
             <MdLocalLaundryService

@@ -43,7 +43,7 @@ function ServiceItem({
         isChoosing
           ? "bg-locker-blue text-white hover:bg-opacity-90"
           : "border-locker-blue text-black hover:bg-gray-100"
-      } rounded-lg cursor-pointer h-full items-center justify-between flex-col`}
+      } rounded-lg cursor-pointer md:h-full  items-center justify-between flex-col`}
       onClick={() => !isLoading && onChoose && onChoose()}
       key={id}
     >
@@ -53,7 +53,7 @@ function ServiceItem({
         <img
           src={image}
           alt=""
-          className="w-full h-full max-h-[280px] object-cover rounded-lg"
+          className="w-full h-full md:max-h-[280px] xl:max-h-[140px] object-cover rounded-lg"
         />
       )}
 
@@ -129,7 +129,7 @@ function ServiceContainer({ serviceIds, setServiceIds, onBack }: Props) {
       {[...Array(services?.totalPages).keys()].map((element) => (
         <SwiperSlide
           key={element}
-          className="grid grid-cols-2 gap-4 w-full items-center"
+          className="grid xl:grid-cols-3 grid-cols-2 md:grid-rows-3 xl:grid-rows-2 gap-4 w-full items-center"
         >
           {element + 1 === services?.pageNumber ? (
             <>

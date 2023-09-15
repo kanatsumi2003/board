@@ -40,9 +40,9 @@ function Home() {
   };
 
   return (
-    <div className="h-full p-12 flex-col gap-12 justify-between grid grid-cols-5">
-      <div className="col-span-5 h-full bg-home bg-cover flex-none" />
-      <div className="col-span-5 grid-cols-2 flex flex-col justify-between h-full flex-grow">
+    <div className="h-full p-12 flex-col gap-12 justify-between grid md:grid-cols-5 xl:grid-cols-2">
+      <div className="md:col-span-5 xl:col-span-1 h-full bg-home bg-cover flex-none bg-center" />
+      <div className="md:col-span-5 xl:col-span-1 grid-cols-2 flex flex-col justify-between h-full flex-grow">
         <div className="flex flex-col w-full gap-6 justify-between h-full">
           <Button
             type="primary"

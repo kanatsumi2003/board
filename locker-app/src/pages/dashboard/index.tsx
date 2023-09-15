@@ -14,7 +14,7 @@ function Home() {
   const navigate = useNavigate();
   return (
     <div className="h-full p-12 flex-col gap-12 justify-between grid grid-cols-5">
-      <div className="col-span-5 h-full bg-dashboard bg-cover" />
+      <div className="col-span-5 h-full bg-dashboard bg-cover bg-center" />
       <div className="col-span-5 flex flex-col justify-between h-full flex-grow">
         <div className="flex flex-col w-full gap-6 justify-between h-full">
           <Button

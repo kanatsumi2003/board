@@ -29,7 +29,7 @@ function OrderContainer({ id }: Props) {
 
   return (
     <>
-      <div className="flex gap-4 w-full px-12 justify-center text-2xl">
+      <div className="flex md:flex-col xl:flex-row gap-4 w-full px-12 justify-center">
         <div className="bg-white shadow-2xl grid grid-cols-2 p-8 rounded-3xl gap-y-4 gap-x-1 basis-3/5 justify-center">
           <div className="font-semibold col-span-2 mb-2">
             Thông tin đơn hàng:
@@ -61,22 +61,24 @@ function OrderContainer({ id }: Props) {
               Chi tiết đơn hàng:
             </div>
             <Draggable>
-              <div className="flex flex-col overflow-y-scroll h-full gap-2 w-full">
+              <div className="flex flex-col h-full gap-2 w-full">
                 {order.details.map((detail: IDetailItem) => (
                   <div
-                    className={`flex p-2 bg-gray-100 rounded-lg w-full items-center `}
+                    className={`flex p-2 bg-gray-100 rounded-lg w-full items-center md:h-52`}
                     key={detail.id}
                   >
-                    <img
-                      src={detail.service.image}
-                      alt=""
-                      className="w-32 h-20 object-cover rounded-lg"
-                    />
-                    <div className="flex flex-col justify-center gap-1 ml-2 text-ellipsis w-full">
-                      <div className="font-bold text-2xl overflow-hidden text-ellipsis whitespace-nowrap">
+                    <div className="h-full md:w-60 md:h-48 xl:w-32 xl:h-20 ">
+                      <img
+                        src={detail.service.image}
+                        alt=""
+                        className="h-full w-full object-cover rounded-lg"
+                      />
+                    </div>
+                    <div className="flex flex-col justify-center gap-1 md:ml-5 xl:ml-2 text-ellipsis xl:w-full">
+                      <div className="font-bold text-4xl overflow-hidden text-ellipsis whitespace-nowrap">
                         {detail.service.name}
                       </div>
-                      <div className="text-xl">
+                      <div className="mt-3">
                         <div>
                           Đơn giá:{" "}
                           <span className="font-semibold">

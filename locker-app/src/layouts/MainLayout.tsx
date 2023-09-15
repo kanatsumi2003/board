@@ -37,7 +37,7 @@ function MainLayout({ children }: Props) {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    if (settingIsSuccess && isSuccess) {
+    if (settingIsSuccess) {
       store.dispatch(setSettingState(setting));
     }
   }, [settingIsSuccess]);
@@ -120,7 +120,9 @@ function MainLayout({ children }: Props) {
     <div className="bg-white relative overflow-hidden h-screen w-screen items-center text-3xl leading-tight">
       <div className="flex flex-col h-full">
         <Header name={locker?.name} online={isOnline} />
-        <div className="relative h-full z-0">{children}</div>
+        <div className="relative h-full z-0 max-h-[calc(100%-101px)]">
+          {children}
+        </div>
       </div>
       <VirtualKeyboard
         inputName={keyboard?.inputName}

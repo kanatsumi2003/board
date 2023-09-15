@@ -57,7 +57,7 @@ function Login({ onNext }: Props) {
 
   useEffect(() => {
     validate();
-  }, [form]);
+  }, [form?.phoneNumber, form?.password]);
 
   const validate = () => {
     if (form?.phoneNumber && !isValidPhone(form.phoneNumber)) {
