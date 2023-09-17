@@ -32,12 +32,6 @@ function SendAddress({ onNext, onPrev }: Props) {
   };
 
   useEffect(() => {
-    store.dispatch(
-      updateInputs({
-        senderPhone: "",
-        receiverPhone: "",
-      })
-    );
     showKeyboard("address");
   }, []);
 

@@ -6,6 +6,7 @@ interface KeyboardConfig {
   inputName?: string;
   maxLength?: number;
   onlyNumber?: boolean;
+  uppercase?: boolean;
 }
 
 function useKeyboard() {
@@ -20,7 +21,13 @@ function useKeyboard() {
       })
     );
 
-  const close = () => {};
+  const close = () => {
+    store.dispatch(
+      setGlobalState({
+        keyboard: undefined,
+      })
+    );
+  };
 
   const update = (inputName: string, content: string) => {
     store.dispatch(

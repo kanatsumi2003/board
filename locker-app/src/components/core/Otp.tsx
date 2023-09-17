@@ -8,10 +8,6 @@ interface Props {
   setOtp: (otp: string) => void;
 }
 
-interface OtpForm {
-  otp: string;
-}
-
 function Otp({ otp, setOtp }: Props) {
   const { inputs, clear, open } = useKeyboard();
   const [showPassword, setShowPassword] = useState(false);
@@ -38,9 +34,9 @@ function Otp({ otp, setOtp }: Props) {
         value={otp}
         onChange={setOtp}
         inputStyle={{
-          width: 80,
+          width: 100,
           fontSize: 48,
-          padding: 6,
+          padding: 12,
         }}
         containerStyle={{
           gap: 4,
@@ -62,11 +58,11 @@ function Otp({ otp, setOtp }: Props) {
             className={`p-4 rounded-lg border-solid border-2 focus-visible:outline-locker-blue`}
           />
         )}
-        inputType={showPassword ? "number" : "password"}
+        inputType={showPassword ? "text" : "password"}
         shouldAutoFocus
       />
       <div
-        className="absolute -right-8 bg-locker-blue rounded-md flex items-center w-16 justify-center top-0 bottom-0 translate-x-full text-white cursor-pointer hover:bg-opacity-90"
+        className="text-4xl absolute -right-8 bg-locker-blue rounded-md flex items-center w-20 justify-center top-0 bottom-0 translate-x-full text-white cursor-pointer hover:bg-opacity-90"
         onClick={() => setShowPassword((prev) => !prev)}
       >
         {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}

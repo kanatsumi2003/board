@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import OrdersContainer from "../../containers/OrdersContainer";
 import BackButton from "../core/BackButton";
 import useModal from "@/hooks/useModal";
+import Title from "../Title";
 
 function ProcessOrders() {
   const navigate = useNavigate();
@@ -12,11 +13,8 @@ function ProcessOrders() {
 
   return (
     <>
-      <div className="mt-12 flex w-full items-center flex-col gap-24 h-full">
-        <div
-          className={`absolute top-0 left-0 right-0 bg-locker-blue h-48 rounded-b-[120px] -z-10`}
-        ></div>
-        <div className="text-5xl font-bold text-white">Danh sách đơn hàng</div>
+      <Title subtitle="Xử lý đơn hàng">Xử lý đơn hàng</Title>
+      <div className="mt-52 flex w-full items-center flex-col gap-24 h-full">
         <OrdersContainer
           status={ORDER_STATUS.WAITING}
           renderLink={(id) => `${PATH.PROCESS}/${id}`}

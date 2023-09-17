@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import BackButton from "../core/BackButton";
 import OtpForm from "../core/OtpForm";
+import Title from "../Title";
 
 interface Props {
   onNext: () => void;
@@ -52,9 +53,8 @@ function ReceiveCode({ onNext }: Props) {
 
   return (
     <>
-      <div className="mt-20 flex w-full items-center flex-col gap-24 h-full">
-        <div className="absolute top-0 left-0 right-0 bg-locker-blue h-48 rounded-b-[120px] -z-10"></div>
-        <div className="font-bold text-white text-5xl">Nhập mã đơn hàng </div>
+      <Title subtitle="Nhận hàng">Nhập mã đơn hàng</Title>
+      <div className="mt-52 flex w-full items-center flex-col gap-24 h-full">
         <div className="flex w-full items-center flex-col gap-8">
           <OtpForm onSubmit={handleGetOrderDetail} />
         </div>

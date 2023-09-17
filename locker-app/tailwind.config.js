@@ -12,6 +12,9 @@ export default {
         home: "url('@/assets/locker.jpg')",
         dashboard: "url('@/assets/dashboard.jpg')",
       },
+      screens: {
+        xl: "1920px",
+      },
     },
   },
 };

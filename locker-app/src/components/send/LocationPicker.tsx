@@ -1,9 +1,9 @@
 import { ILocation } from "@/interfaces";
 import { useAddressesQuery } from "@/services/addressService";
-import { useEffect, useState } from "react";
-import Select from "../core/Select";
 import store from "@/stores";
 import { updateInputs } from "@/stores/global.store";
+import { useEffect, useState } from "react";
+import Select from "../core/Select";
 
 interface Props {
   onChange: (location: ILocation) => void;
@@ -12,7 +12,7 @@ interface Props {
 function LocationPicker({ onChange }: Props) {
   const [location, setLocation] = useState<Partial<ILocation>>({});
   const { data: provinces } = useAddressesQuery();
-  const { data: districts, refetch: refetchDistrict } = useAddressesQuery(
+  const { data: districts } = useAddressesQuery(
     {
       parentCode: location.province,
     },
@@ -20,7 +20,7 @@ function LocationPicker({ onChange }: Props) {
       skip: !location.province,
     }
   );
-  const { data: wards, refetch: refetchWard } = useAddressesQuery(
+  const { data: wards } = useAddressesQuery(
     {
       parentCode: location.district,
     },
@@ -41,8 +41,9 @@ function LocationPicker({ onChange }: Props) {
 
   return (
     <>
-      <div className="col-span-1 grid grid-cols-3 gap-4 w-full">
+      <div className="col-span-1 grid grid-cols-1 gap-8 w-full">
         <Select
+          label="Chọn Tỉnh/Thành phố"
           data={
             provinces?.map((province) => ({
               label: province.name,
@@ -82,6 +83,7 @@ function LocationPicker({ onChange }: Props) {
               : []
           }
           name="district"
+          label="Chọn Quận/Huyện"
           placeholder="Chọn Quận/Huyện"
           onChange={(value) => {
             setLocation((prev) => ({
@@ -115,6 +117,7 @@ function LocationPicker({ onChange }: Props) {
               : []
           }
           value={location.ward}
+          label="Chọn Phường/Xã"
           placeholder="Chọn Phường/Xã"
           name="ward"
           onChange={(value) =>

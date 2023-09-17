@@ -130,6 +130,7 @@ function MainLayout({ children }: Props) {
         maxLength={keyboard?.maxLength ?? 6}
         show={!!keyboard}
         onlyNumber={keyboard?.onlyNumber}
+        uppercase={keyboard?.uppercase}
       />
       <Message />
     </div>

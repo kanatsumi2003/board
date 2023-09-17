@@ -19,6 +19,7 @@ interface Props {
   inputName?: string;
   onChangeAll: (values: { [key: string]: string }) => void;
   onlyNumber?: boolean;
+  uppercase?: boolean;
 }
 
 function VirtualKeyboard({
@@ -27,6 +28,7 @@ function VirtualKeyboard({
   show,
   onChangeAll,
   onlyNumber,
+  uppercase,
 }: Props) {
   const [layout, setLayout] = useState<KEYBOARD_LAYOUT>(
     KEYBOARD_LAYOUT.DEFAULT
@@ -53,11 +55,13 @@ function VirtualKeyboard({
     if (keyboard) {
       if (onlyNumber) {
         setLayout(KEYBOARD_LAYOUT.NUMBERS);
+      } else if (uppercase) {
+        setLayout(KEYBOARD_LAYOUT.SHIFT);
       } else {
         setLayout(KEYBOARD_LAYOUT.DEFAULT);
       }
     }
-  }, [keyboard, onlyNumber]);
+  }, [keyboard, onlyNumber, uppercase]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

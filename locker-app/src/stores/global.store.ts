@@ -8,6 +8,7 @@ export interface State {
     maxLength?: number;
     inputName?: string;
     onlyNumber?: boolean;
+    uppercase?: boolean;
   };
   inputs?: { [key: string]: string };
   error?: string;

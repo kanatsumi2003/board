@@ -75,6 +75,7 @@ export interface ICreateOrderRequest {
   lockerId: number;
   serviceIds?: number[];
   senderPhone?: string;
+  intendedReceiveAt?: string;
   receiverPhone?: string;
   type?: ORDER_TYPE;
   deliveryAddress?: {

@@ -3,17 +3,15 @@ import { useNavigate } from "react-router-dom";
 import OrdersContainer from "../../containers/OrdersContainer";
 import BackButton from "../core/BackButton";
 import { ORDER_STATUS } from "@/interfaces/order";
+import Title from "../Title";
 
 function ReturnOrders() {
   const navigate = useNavigate();
 
   return (
     <>
-      <div className="mt-6 flex w-full items-center flex-col gap-24 h-full">
-        <div
-          className={`absolute top-0 left-0 right-0 bg-locker-blue h-40 rounded-b-[120px] -z-10`}
-        ></div>
-        <div className="text-5xl font-bold text-white">Danh sách đơn hàng</div>
+      <Title subtitle="Hoàn trả đơn hàng">Danh sách đơn hàng</Title>
+      <div className="mt-52 flex w-full items-center flex-col gap-24 h-full">
         <OrdersContainer
           status={ORDER_STATUS.PROCESSING}
           renderLink={(id) => `${PATH.RETURN}/${id}`}
