@@ -3,7 +3,8 @@ import { PATH } from "@/constants/common";
 import useModal from "@/hooks/useModal";
 import { IBoxItem } from "@/interfaces/box";
 import { useLazyBoxesQuery } from "@/services/boxService";
-import { AppState } from "@/stores";
+import store, { AppState } from "@/stores";
+import { clearOrder, setOrderRequest } from "@/stores/order.store";
 import { useEffect } from "react";
 import { TbPackage, TbPackageExport, TbPackageImport } from "react-icons/tb";
 import { useSelector } from "react-redux";
@@ -32,6 +33,10 @@ function Home() {
       }
     }
   }, [boxesIsFetching, boxesIsUninitialized]);
+
+  useEffect(() => {
+    store.dispatch(clearOrder());
+  }, []);
 
   const handleSend = () => {
     if (locker) {

@@ -1,11 +1,10 @@
 import { PATH } from "@/constants/common";
+import useModal from "@/hooks/useModal";
 import { ORDER_STATUS } from "@/interfaces/order";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import OrdersContainer from "../../containers/OrdersContainer";
-import BackButton from "../core/BackButton";
-import useModal from "@/hooks/useModal";
 import Title from "../Title";
+import BackButton from "../core/BackButton";
 
 function ProcessOrders() {
   const navigate = useNavigate();

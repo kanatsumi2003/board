@@ -54,3 +54,12 @@ export interface ILocation {
   district: string;
   ward: string;
 }
+
+export interface IAddress {
+  address: string;
+  wardCode: string;
+  districtCode: string;
+  provinceCode: string;
+  longitude: number;
+  latitude: number;
+}

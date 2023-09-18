@@ -6,11 +6,14 @@ import { useEffect, useState } from "react";
 import Select from "../core/Select";
 
 interface Props {
+  defaultValue?: Partial<ILocation>;
   onChange: (location: ILocation) => void;
 }
 
-function LocationPicker({ onChange }: Props) {
-  const [location, setLocation] = useState<Partial<ILocation>>({});
+function LocationPicker({ onChange, defaultValue }: Props) {
+  const [location, setLocation] = useState<Partial<ILocation>>(
+    defaultValue ?? {}
+  );
   const { data: provinces } = useAddressesQuery();
   const { data: districts } = useAddressesQuery(
     {

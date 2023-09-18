@@ -10,6 +10,7 @@ import BackButton from "../core/BackButton";
 import Button from "../core/Button";
 import Input from "../core/Input";
 import Switch from "../core/Switch";
+import BackStepButton from "../core/BackStepButton";
 
 interface CreateOrderFormError {
   senderPhone?: string;
@@ -22,11 +23,11 @@ interface Props {
 }
 
 function SendPhoneNumber({ onNext, onPrev }: Props) {
+  const { orderRequest } = useSelector((state: AppState) => state.order);
   const [showReceiver, setShowReceiver] = useState(false);
   const [receiverName, setReceiverName] = useState<string>();
   const [senderName, setSenderName] = useState<string>();
   const [error, setError] = useState<CreateOrderFormError>();
-  const { orderRequest } = useSelector((state: AppState) => state.order);
   const { open } = useKeyboard();
 
   const [
@@ -66,8 +67,8 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
   useEffect(() => {
     store.dispatch(
       updateInputs({
-        senderPhone: "",
-        receiverPhone: "",
+        senderPhone: orderRequest?.senderPhone ?? "",
+        receiverPhone: orderRequest?.receiverPhone ?? "",
       })
     );
     showKeyboard("senderPhone");
@@ -163,7 +164,6 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
           }}
           className="w-full"
         />
-
         {showReceiver && (
           <>
             <div className="w-full">
@@ -196,14 +196,14 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
           </>
         )}
         <Button
-          type="primary"
+          type={orderRequest?.senderPhone ? "primary" : "disabled"}
           className="mt-8 !w-full"
           small
           onClick={onSubmitCreateOrder}
         >
           Tiếp theo
         </Button>
-        <BackButton onClick={onPrev} />
+        <BackStepButton onClick={onPrev} />
       </div>
     </>
   );

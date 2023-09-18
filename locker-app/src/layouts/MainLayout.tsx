@@ -1,7 +1,7 @@
 import VirtualKeyboard from "@/components/core/Keyboard";
 import Message from "@/components/core/Message";
 import Header from "@/components/header/Header";
-import { PATH } from "@/constants/common";
+import { LOCAL_STORAGE_ITEMS, PATH } from "@/constants/common";
 import useKeyboard from "@/hooks/useKeyboard";
 import useModal from "@/hooks/useModal";
 import { LOCKER_STATUS } from "@/interfaces/locker";
@@ -44,6 +44,10 @@ function MainLayout({ children }: Props) {
 
   useEffect(() => {
     if (isSuccess && data && data.locker_status === LOCKER_STATUS.ACTIVE) {
+      localStorage.setItem(LOCAL_STORAGE_ITEMS.API_KEY, data.api_key);
+      localStorage.setItem(LOCAL_STORAGE_ITEMS.BASE_URL, data.api_host);
+      localStorage.setItem(LOCAL_STORAGE_ITEMS.LOCKER_ID, data.locker_id);
+
       store.dispatch(
         setLockerState({
           locker: {
@@ -60,6 +64,10 @@ function MainLayout({ children }: Props) {
         navigate(PATH.HOME);
       }
     } else {
+      localStorage.removeItem(LOCAL_STORAGE_ITEMS.API_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_ITEMS.BASE_URL);
+      localStorage.removeItem(LOCAL_STORAGE_ITEMS.LOCKER_ID);
+
       store.dispatch(
         setLockerState({
           locker: undefined,

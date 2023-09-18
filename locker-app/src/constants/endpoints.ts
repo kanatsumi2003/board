@@ -1,5 +1,8 @@
-const BASE_URL = import.meta.env.VITE_API_LOCKER || "";
+import { LOCAL_STORAGE_ITEMS } from "./common";
+
+// const BASE_URL = import.meta.env.VITE_API_LOCKER || "";
 const BOARD_URL = import.meta.env.VITE_API_BOARD || "";
+const BASE_URL = `${localStorage.getItem(LOCAL_STORAGE_ITEMS.BASE_URL)}/api/v1`;
 const BASE_URL_LOCKER = BASE_URL + "/lockers";
 const BASE_URL_CUSTOMER = BASE_URL + "/customers";
 const BASE_URL_ORDER = BASE_URL + "/orders";
@@ -11,7 +14,6 @@ const BASE_URL_FILE = BASE_URL + "/file";
 const BASE_URL_SERVICE = BASE_URL + "/services";
 const BASE_URL_STAFF = BASE_URL + "/staffs";
 const BASE_URL_STORE = BASE_URL + "/stores";
-const BASE_URL_GEOLOCATION = import.meta.env.VITE_API_GEOLOCATION;
 
 const getBoardEndpoints = () => {
   return {
@@ -78,6 +80,7 @@ const getOrderEndpoints = (id?: number, pinCode?: string) => {
     orderConfirm: `${BASE_URL_ORDER}/${id}/confirm`,
     orderCheckout: `${BASE_URL_ORDER}/${id}/checkout`,
     orderProcess: `${BASE_URL_ORDER}/${id}/process`,
+    collectOrder: `${BASE_URL_ORDER}/${id}/collect`,
     orderReturn: `${BASE_URL_ORDER}/${id}/return`,
     orderReservation: `${BASE_URL_DASHBOARD}/${id}/reservation`,
     orderByPinCode: `${BASE_URL_ORDER}/pin-code/${pinCode}`,
@@ -85,10 +88,9 @@ const getOrderEndpoints = (id?: number, pinCode?: string) => {
   };
 };
 
-const getAddressEndpoints = (q?: string) => {
+const getAddressEndpoints = () => {
   return {
     addresses: BASE_URL_ADDRESS,
-    geoLocation: BASE_URL_GEOLOCATION + (q ? `&q=${q}` : ""),
   };
 };
 const getSettingEndpoints = () => {

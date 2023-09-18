@@ -78,11 +78,19 @@ function SendCreateOrder({ onNext, onPrev }: Props) {
           }
           case 2: {
             return (
-              <SendReceiveTime onNext={() => setStep(3)} onPrev={onPrev} />
+              <SendReceiveTime
+                onNext={() => setStep(3)}
+                onPrev={() => setStep(1)}
+              />
             );
           }
           case 3: {
-            return <SendAddress onNext={onSubmitCreateOrder} onPrev={onPrev} />;
+            return (
+              <SendAddress
+                onNext={onSubmitCreateOrder}
+                onPrev={() => setStep(2)}
+              />
+            );
           }
         }
       })()}

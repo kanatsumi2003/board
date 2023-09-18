@@ -6,7 +6,7 @@ interface Props {
   to?: string;
   small?: boolean;
   onClick?: () => void;
-  type: "primary" | "secondary";
+  type: "primary" | "secondary" | "disabled";
   className?: string;
   wrapperClassName?: string;
 }
@@ -25,16 +25,28 @@ function Button({
     <Link to={to ?? ""} className={wrapperClassName}>
       <div
         onClick={(e) => {
-          if (onClick) {
+          if (type !== "disabled") {
+            if (onClick) {
+              e.preventDefault();
+              onClick();
+            }
+          } else {
             e.preventDefault();
-            onClick();
           }
         }}
-        className={`overflow-hidden button flex justify-center gap-4 ${
-          type === "primary"
-            ? "bg-locker-blue ring-locker-blue border-locker-blue"
-            : "bg-locker-green ring-locker-green border-locker-green"
-        } rounded-2xl ${
+        className={`overflow-hidden button flex justify-center gap-4 ${(() => {
+          switch (type) {
+            case "primary": {
+              return "bg-locker-blue ring-locker-blue border-locker-blue";
+            }
+            case "secondary": {
+              return "bg-locker-green ring-locker-green border-locker-green";
+            }
+            case "disabled": {
+              return "bg-gray-500 ring-gray-500 border-gray-500 cursor-not-allowed";
+            }
+          }
+        })()} rounded-2xl ${
           small ? "py-4 px-8 min-w-[200px]" : "p-8"
         } text-center hover:bg-opacity-80 box-border relative z-30 inline-flex items-center justify-center w-full font-bold text-white transition-all duration-300 cursor-pointer group border-2 ease focus:outline-none ${className}`}
       >

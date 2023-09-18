@@ -10,6 +10,7 @@ import { formatCurrency } from "@/utils/formatter";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import BackButton from "../core/BackButton";
+import Title from "../Title";
 
 interface Props {
   onNext: () => void;
@@ -45,13 +46,8 @@ function ReceiveChooseMethod({ onNext, onPrev }: Props) {
 
   return (
     <>
-      <div className="flex flex-col items-center gap-2">
-        <div
-          className={`absolute top-0 left-0 right-0 bg-locker-blue h-60 rounded-b-[80px] -z-10`}
-        ></div>
-        <div className="font-bold mt-4 text-white">
-          Xác nhận thông tin đơn hàng
-        </div>
+      <Title subtitle="Nhận hàng">Xác nhận thông tin đơn hàng</Title>
+      <div className="mt-52 flex w-full items-center flex-col gap-24 h-full">
         <div className="font-light mt-2 text-white">Số tiền thanh toán</div>
         <div className="text-5xl font-bold text-white">
           {formatCurrency(order.price + (order.extraFee ?? 0))}

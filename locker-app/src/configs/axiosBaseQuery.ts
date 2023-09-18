@@ -1,7 +1,10 @@
 import type { BaseQueryFn } from "@reduxjs/toolkit/query";
 import type { AxiosError, AxiosRequestConfig } from "axios";
 
+import { AppState } from "@/stores";
+import { useSelector } from "react-redux";
 import axiosClient from "./axiosClient";
+import { LOCAL_STORAGE_ITEMS } from "@/constants/common";
 
 export type BaseQueryError = { code?: number; message: any };
 
@@ -26,8 +29,8 @@ const axiosBaseQuery =
         params,
         headers: {
           ...headers,
-          "x-api-key": import.meta.env.VITE_API_KEY,
-          lockerId: 2,
+          "x-api-key": localStorage.getItem(LOCAL_STORAGE_ITEMS.API_KEY),
+          lockerId: localStorage.getItem(LOCAL_STORAGE_ITEMS.LOCKER_ID),
         },
       });
 

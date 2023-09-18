@@ -1,7 +1,8 @@
 import ServiceContainer from "@/containers/ServicesContainer";
-import store from "@/stores";
+import store, { AppState } from "@/stores";
 import { setOrderRequest } from "@/stores/order.store";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import BackButton from "../core/BackButton";
 import Button from "../core/Button";
 
@@ -12,7 +13,10 @@ interface Props {
 }
 
 function SendServices({ onNext, clearType, onBack }: Props) {
-  const [serviceIds, setServiceIds] = useState<number[]>([]);
+  const { orderRequest } = useSelector((state: AppState) => state.order);
+  const [serviceIds, setServiceIds] = useState<number[]>(
+    orderRequest?.serviceIds ?? []
+  );
 
   const onHandleChoose = () => {
     store.dispatch(
@@ -26,7 +30,12 @@ function SendServices({ onNext, clearType, onBack }: Props) {
   return (
     <>
       <div className="px-16">
-        <Button type="primary" className="mt-4" small onClick={onHandleChoose}>
+        <Button
+          type={serviceIds.length ? "primary" : "disabled"}
+          className="mt-4"
+          small
+          onClick={onHandleChoose}
+        >
           Tiếp theo
         </Button>
       </div>

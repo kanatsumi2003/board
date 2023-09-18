@@ -4,13 +4,10 @@ import { useEffect, useState } from "react";
 import BackButton from "../core/BackButton";
 import Button from "../core/Button";
 import Select from "../core/Select";
-import store from "@/stores";
+import store, { AppState } from "@/stores";
 import { setOrderRequest } from "@/stores/order.store";
-
-interface CreateOrderFormError {
-  senderPhone?: string;
-  receiverPhone?: string;
-}
+import BackStepButton from "../core/BackStepButton";
+import { useSelector } from "react-redux";
 
 interface Props {
   onNext: () => void;
@@ -18,10 +15,20 @@ interface Props {
 }
 
 function SendReceiveTime({ onNext, onPrev }: Props) {
-  const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs>();
+  const { orderRequest } = useSelector((state: AppState) => state.order);
+
+  const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | undefined>(
+    orderRequest?.intendedReceiveAt
+      ? dayjs(orderRequest?.intendedReceiveAt).startOf("date")
+      : undefined
+  );
   const [dates, setDates] = useState<dayjs.Dayjs[]>([]);
   const [times, setTimes] = useState<number[]>();
-  const [selectedTime, setSelectedTime] = useState<number>();
+  const [selectedTime, setSelectedTime] = useState<number | undefined>(
+    orderRequest?.intendedReceiveAt
+      ? dayjs(orderRequest?.intendedReceiveAt).hour()
+      : undefined
+  );
   const { close } = useKeyboard();
 
   useEffect(() => {
@@ -107,10 +114,10 @@ function SendReceiveTime({ onNext, onPrev }: Props) {
           />
         </div>
         <Button type="primary" className="mt-8" small onClick={handleNext}>
-          Tiếp theo
+          {selectedDate ? "Tiếp theo" : "Bỏ qua bước này"}
         </Button>
       </div>
-      <BackButton onClick={onPrev} />
+      <BackStepButton onClick={onPrev} />
     </>
   );
 }

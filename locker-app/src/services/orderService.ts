@@ -95,6 +95,14 @@ export const orderApi = createApi({
       invalidatesTags: [{ type: "Order" }, { type: "Box" }],
     }),
 
+    collectOrder: build.mutation<IOrderDetailItem, { id: number }>({
+      query: ({ id }) => ({
+        url: endpoints.getOrderEndpoints(id).collectOrder,
+        method: "PUT",
+      }),
+      invalidatesTags: [{ type: "Order" }, { type: "Box" }],
+    }),
+
     returnOrder: build.mutation<IOrderDetailItem, { id: number }>({
       query: ({ id }) => ({
         url: endpoints.getOrderEndpoints(id).orderReturn,
@@ -132,4 +140,5 @@ export const {
   useProcessOrderMutation,
   useReturnOrderMutation,
   useReserveMutation,
+  useCollectOrderMutation,
 } = orderApi;

@@ -1,9 +1,9 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import axiosBaseQuery from "@/configs/axiosBaseQuery";
+import endpoints from "@/constants/endpoints";
 import { IStaffItem, IStaffLoginRequest } from "@/interfaces/account";
 import { IAuthItem } from "@/interfaces/auth";
-import endpoints from "@/constants/endpoints";
 
 export const authApi = createApi({
   reducerPath: "authApi",

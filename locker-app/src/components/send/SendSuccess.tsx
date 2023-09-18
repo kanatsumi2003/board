@@ -70,7 +70,7 @@ function SendSuccess({ onNext }: Props) {
           trình gửi đồ
         </div>
       </div>
-      <div className="text-[160px] font-bold text-locker-blue p-4 rounded-full">
+      <div className="text-[200px] font-bold text-locker-blue p-4 rounded-full">
         {order?.sendBox?.number}
       </div>
       <Button type="primary" small onClick={handleConfirmOrder}>
