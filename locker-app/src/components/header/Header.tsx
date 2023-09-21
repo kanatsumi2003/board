@@ -65,7 +65,9 @@ function Header({ name, online }: Props) {
         {!isFetching && isSuccess && data?.fullName ? (
           <>
             <span>Xin chào: </span>
-            <span className="font-bold ml-2">{data?.fullName}</span>
+            <span className="font-bold line-clamp-1 overflow-hidden max-w-[200px]">
+              {data?.fullName}
+            </span>
           </>
         ) : (
           <>

@@ -116,8 +116,8 @@ function SendReceiveTime({ onNext, onPrev }: Props) {
         <Button type="primary" className="mt-8" small onClick={handleNext}>
           {selectedDate ? "Tiếp theo" : "Bỏ qua bước này"}
         </Button>
+        <BackStepButton onClick={onPrev} />
       </div>
-      <BackStepButton onClick={onPrev} />
     </>
   );
 }

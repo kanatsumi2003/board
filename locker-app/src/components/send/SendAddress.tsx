@@ -41,9 +41,7 @@ function SendAddress({ onNext, onPrev }: Props) {
   useEffect(() => {
     showKeyboard("address");
   }, []);
-  useEffect(() => {
-    console.log(orderRequest);
-  }, [orderRequest]);
+
   return (
     <>
       <div className={`mt-8 flex flex-col px-12 gap-8`}>

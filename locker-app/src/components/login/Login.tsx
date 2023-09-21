@@ -2,9 +2,6 @@ import useKeyboard from "@/hooks/useKeyboard";
 import useModal from "@/hooks/useModal";
 import { useLoginStaffMutation } from "@/services/authService";
 import TokenService from "@/services/tokenService";
-import store from "@/stores";
-import { setGlobalState } from "@/stores/global.store";
-import { isValidPhone } from "@/utils/validator";
 import { useEffect, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FaAngleRight } from "react-icons/fa6";
@@ -12,7 +9,7 @@ import BackButton from "../core/BackButton";
 import Button from "../core/Button";
 
 interface LoginForm {
-  phoneNumber?: string;
+  username?: string;
   password?: string;
 }
 
@@ -31,22 +28,22 @@ function Login({ onNext }: Props) {
   const modal = useModal();
   const { open, clear } = useKeyboard();
 
-  const showKeyboard = (inputName: string, onlyNumber: boolean) => {
+  const showKeyboard = (inputName: string) => {
     open({
-      maxLength: onlyNumber ? 10 : 100,
+      maxLength: 100,
       inputName: inputName,
-      onlyNumber: onlyNumber,
+      onlyNumber: false,
     });
   };
 
   useEffect(() => {
-    clear(["phoneNumber", "password"]);
+    clear(["username", "password"]);
   }, []);
 
   useEffect(() => {
     if (inputs) {
       setForm({
-        phoneNumber: inputs["phoneNumber"],
+        username: inputs["username"],
         password: inputs["password"],
       });
     }
@@ -57,26 +54,18 @@ function Login({ onNext }: Props) {
 
   useEffect(() => {
     validate();
-  }, [form?.phoneNumber, form?.password]);
+  }, [form?.username, form?.password]);
 
   const validate = () => {
-    if (form?.phoneNumber && !isValidPhone(form.phoneNumber)) {
-      setError((prev) => ({
-        ...prev,
-        phoneNumber: "Số điện thoại không hợp lệ.",
-      }));
-    } else {
-      setError((prev) => ({ ...prev, phoneNumber: undefined }));
-    }
-
+    setError((prev) => ({ ...prev, username: undefined }));
     setError((prev) => ({ ...prev, password: undefined }));
   };
 
   const handleLogin = () => {
-    if (!form?.phoneNumber) {
+    if (!form?.username) {
       setError((prev) => ({
         ...prev,
-        phoneNumber: "Vui lòng nhập Số điện thoại.",
+        username: "Vui lòng nhập Username.",
       }));
     }
     if (!form?.password) {
@@ -87,12 +76,12 @@ function Login({ onNext }: Props) {
     }
     if (
       !error?.password &&
-      !error?.phoneNumber &&
+      !error?.username &&
       form?.password &&
-      form.phoneNumber
+      form.username
     ) {
       loginStaff({
-        username: form?.phoneNumber,
+        username: form?.username,
         password: form?.password,
       });
     }
@@ -110,7 +99,7 @@ function Login({ onNext }: Props) {
   }, [isSuccess, isError]);
 
   useEffect(() => {
-    showKeyboard("phoneNumber", true);
+    showKeyboard("username");
   }, []);
 
   return (
@@ -127,22 +116,22 @@ function Login({ onNext }: Props) {
             type="text"
             autoFocus
             autoComplete="off"
-            placeholder="Số điện thoại"
+            placeholder="Username"
             className={`focus:outline-locker-blue col-span-3 text-4xl rounded-lg border border-black w-[600px] p-4 text-center ${
-              error?.phoneNumber ? "border-locker-red" : ""
+              error?.username ? "border-locker-red" : ""
             }`}
-            name="phoneNumber"
+            name="username"
             required
             onClick={() => {
-              showKeyboard("phoneNumber", true);
+              showKeyboard("username");
             }}
             onFocus={() => {
-              showKeyboard("phoneNumber", true);
+              showKeyboard("username");
             }}
-            value={form?.phoneNumber}
+            value={form?.username}
           />
           <div className="col-span-2 text-locker-red mt-4">
-            {error?.phoneNumber ?? ""}
+            {error?.username ?? ""}
           </div>
         </div>
         <div>
@@ -157,10 +146,10 @@ function Login({ onNext }: Props) {
               autoComplete="off"
               required
               onClick={() => {
-                showKeyboard("password", false);
+                showKeyboard("password");
               }}
               onFocus={() => {
-                showKeyboard("password", false);
+                showKeyboard("password");
               }}
               value={form?.password}
             />

@@ -26,10 +26,10 @@ function MessageModal({ children, isSuccess, onClose }: Props) {
       <div className="relative bg-white rounded-lg shadow p-4 px-20">
         <button
           type="button"
-          className="absolute top-3 right-2.5 text-xl text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg w-8 h-8 ml-auto inline-flex justify-center items-center"
+          className="absolute top-4 right-4 text-xl text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg w-8 h-8 ml-auto inline-flex justify-center items-center"
           onClick={onClose}
         >
-          <AiOutlineClose />
+          <AiOutlineClose className="text-3xl" />
           <span className="sr-only">Close modal</span>
         </button>
         <div className="p-6 text-center flex flex-col gap-4">

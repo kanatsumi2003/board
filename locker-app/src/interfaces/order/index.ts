@@ -8,6 +8,7 @@ export enum ORDER_STATUS {
   INITIALIZED = "Initialized",
   WAITING = "Waiting",
   PROCESSING = "Processing",
+  PROCESSED = "Processed",
   RETURNED = "Returned",
   COMPLETED = "Completed",
   CANCELED = "Canceled",
