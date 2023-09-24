@@ -1,13 +1,12 @@
 import useKeyboard from "@/hooks/useKeyboard";
-import { IAddress, ILocation } from "@/interfaces";
 import store, { AppState } from "@/stores";
-import { useEffect, useState } from "react";
+import { setOrderRequest } from "@/stores/order.store";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import BackStepButton from "../core/BackStepButton";
 import Button from "../core/Button";
 import Input from "../core/Input";
 import LocationPicker from "./LocationPicker";
-import { setOrderRequest } from "@/stores/order.store";
 
 interface Props {
   onNext: () => void;
@@ -16,9 +15,7 @@ interface Props {
 
 function SendAddress({ onNext, onPrev }: Props) {
   const { orderRequest } = useSelector((state: AppState) => state.order);
-  const [address, setAddress] = useState<Partial<IAddress> | undefined>(
-    orderRequest?.deliveryAddress
-  );
+
   const { open } = useKeyboard();
 
   const showKeyboard = (inputName: string) => {
@@ -30,11 +27,20 @@ function SendAddress({ onNext, onPrev }: Props) {
   };
 
   const handleNext = () => {
-    store.dispatch(
-      setOrderRequest({
-        deliveryAddress: address,
-      })
-    );
+    if (
+      !(
+        orderRequest?.deliveryAddress?.address &&
+        orderRequest?.deliveryAddress?.wardCode &&
+        orderRequest?.deliveryAddress?.districtCode &&
+        orderRequest?.deliveryAddress?.provinceCode
+      )
+    ) {
+      store.dispatch(
+        setOrderRequest({
+          deliveryAddress: undefined,
+        })
+      );
+    }
     onNext();
   };
 
@@ -52,20 +58,40 @@ function SendAddress({ onNext, onPrev }: Props) {
           name={"address"}
           value={orderRequest?.deliveryAddress?.address}
           onChange={(value) => {
-            setAddress((prev) => ({
-              ...prev,
-              address: value,
-            }));
+            store.dispatch(
+              setOrderRequest({
+                deliveryAddress: {
+                  ...orderRequest?.deliveryAddress,
+                  address: value,
+                },
+              })
+            );
           }}
         />
         <LocationPicker
+          onClear={() => {
+            store.dispatch(
+              setOrderRequest({
+                deliveryAddress: {
+                  ...orderRequest?.deliveryAddress,
+                  provinceCode: undefined,
+                  districtCode: undefined,
+                  wardCode: undefined,
+                },
+              })
+            );
+          }}
           onChange={({ province, district, ward }) => {
-            setAddress((prev) => ({
-              ...prev,
-              provinceCode: province,
-              districtCode: district,
-              wardCode: ward,
-            }));
+            store.dispatch(
+              setOrderRequest({
+                deliveryAddress: {
+                  ...orderRequest?.deliveryAddress,
+                  provinceCode: province,
+                  districtCode: district,
+                  wardCode: ward,
+                },
+              })
+            );
           }}
         />
         <Button
@@ -74,9 +100,10 @@ function SendAddress({ onNext, onPrev }: Props) {
           small
           onClick={handleNext}
         >
-          {Object.values(orderRequest?.deliveryAddress ?? {}).filter(
-            (value) => !!value
-          ).length > 0
+          {orderRequest?.deliveryAddress?.address &&
+          orderRequest?.deliveryAddress?.wardCode &&
+          orderRequest?.deliveryAddress?.districtCode &&
+          orderRequest?.deliveryAddress?.provinceCode
             ? "Tiếp theo"
             : "Bỏ qua bước này"}
         </Button>

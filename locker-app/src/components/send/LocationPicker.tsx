@@ -8,9 +8,10 @@ import Select from "../core/Select";
 interface Props {
   defaultValue?: Partial<ILocation>;
   onChange: (location: ILocation) => void;
+  onClear: () => void;
 }
 
-function LocationPicker({ onChange, defaultValue }: Props) {
+function LocationPicker({ onChange, defaultValue, onClear }: Props) {
   const [location, setLocation] = useState<Partial<ILocation>>(
     defaultValue ?? {}
   );
@@ -39,6 +40,8 @@ function LocationPicker({ onChange, defaultValue }: Props) {
         province: location.province,
         ward: location.ward,
       });
+    } else {
+      onClear();
     }
   }, [location]);
 

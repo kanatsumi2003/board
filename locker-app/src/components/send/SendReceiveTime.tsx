@@ -1,13 +1,12 @@
 import useKeyboard from "@/hooks/useKeyboard";
-import dayjs from "dayjs";
-import { useEffect, useState } from "react";
-import BackButton from "../core/BackButton";
-import Button from "../core/Button";
-import Select from "../core/Select";
 import store, { AppState } from "@/stores";
 import { setOrderRequest } from "@/stores/order.store";
-import BackStepButton from "../core/BackStepButton";
+import dayjs from "dayjs";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import BackStepButton from "../core/BackStepButton";
+import Button from "../core/Button";
+import Select from "../core/Select";
 
 interface Props {
   onNext: () => void;
@@ -39,7 +38,9 @@ function SendReceiveTime({ onNext, onPrev }: Props) {
   const handleNext = () => {
     store.dispatch(
       setOrderRequest({
-        intendedReceiveAt: selectedDate?.toISOString(),
+        intendedReceiveAt: selectedDate
+          ?.add(selectedTime ?? 0, "hour")
+          ?.toISOString(),
       })
     );
     onNext();
@@ -98,17 +99,25 @@ function SendReceiveTime({ onNext, onPrev }: Props) {
               times?.map((data, index) => ({
                 label: `${data}:00`,
                 value: `${data}`,
-                key: index,
+                key: `${data}`,
               })) ?? []
             }
             className="mt-4"
             name="time"
-            value={selectedTime ? `${selectedTime}` : undefined}
+            value={
+              !selectedDate
+                ? undefined
+                : selectedTime
+                ? `${selectedTime}`
+                : `${times?.[0]}`
+            }
             placeholder="Hẹn giờ nhận"
             onChange={(value) => {
               setSelectedTime(Number(value));
             }}
-            onClear={() => {}}
+            onClear={() => {
+              setSelectedTime(0);
+            }}
             menuPlacement="bottom"
             searchable={false}
           />
