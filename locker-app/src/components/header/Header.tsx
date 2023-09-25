@@ -60,22 +60,24 @@ function Header({ name, online }: Props) {
   }, []);
 
   return (
-    <div className="px-16 py-8 bg-gray-50 justify-between shadow-sm grid grid-cols-3 items-center">
+    <div className="px-16 py-8 bg-gray-50 justify-between shadow-sm grid grid-cols-3 items-center gap-8">
       <div className="col-span-1">
         {!isFetching && isSuccess && data?.fullName ? (
-          <>
-            <span>Xin chào: </span>
-            <span className="font-bold line-clamp-1 overflow-hidden max-w-[200px]">
+          <div className="flex gap-2 flex-wrap">
+            <span>Xin chào:</span>
+            <span className="font-bold line-clamp-1 overflow-hidden">
               {data?.fullName}
             </span>
-          </>
+          </div>
         ) : (
           <>
             {name && (
-              <>
-                <span>Tủ: </span>
-                <span className="font-bold ml-2">{name}</span>
-              </>
+              <div className="flex gap-2">
+                <span>Tủ:</span>
+                <span className="font-bold line-clamp-1 overflow-hidden">
+                  {name}
+                </span>
+              </div>
             )}
           </>
         )}

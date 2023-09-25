@@ -1,5 +1,9 @@
 import store, { AppState } from "@/stores";
-import { setGlobalState } from "@/stores/global.store";
+import {
+  clearInput,
+  setGlobalState,
+  updateInputs,
+} from "@/stores/global.store";
 import { useSelector } from "react-redux";
 
 interface KeyboardConfig {
@@ -31,10 +35,8 @@ function useKeyboard() {
 
   const update = (inputName: string, content: string) => {
     store.dispatch(
-      setGlobalState({
-        inputs: {
-          [inputName]: content,
-        },
+      updateInputs({
+        [inputName]: content,
       })
     );
   };
@@ -42,17 +44,15 @@ function useKeyboard() {
     if (inputNames) {
       inputNames.forEach((inputName) =>
         store.dispatch(
-          setGlobalState({
-            inputs: {
-              [inputName]: "",
-            },
+          updateInputs({
+            [inputName]: "",
           })
         )
       );
     } else {
       store.dispatch(
         setGlobalState({
-          inputs: {},
+          inputs: undefined,
         })
       );
     }

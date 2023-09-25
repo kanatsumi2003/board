@@ -5,6 +5,7 @@ import TokenService from "@/services/tokenService";
 import { useEffect, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FaAngleRight } from "react-icons/fa6";
+import Title from "../Title";
 import BackButton from "../core/BackButton";
 import Button from "../core/Button";
 
@@ -18,7 +19,6 @@ interface Props {
 }
 
 function Login({ onNext }: Props) {
-  const [otp, setOtp] = useState("");
   const { inputs } = useKeyboard();
   const [form, setForm] = useState<LoginForm>();
   const [error, setError] = useState<LoginForm>();
@@ -38,6 +38,7 @@ function Login({ onNext }: Props) {
 
   useEffect(() => {
     clear(["username", "password"]);
+    showKeyboard("username");
   }, []);
 
   useEffect(() => {
@@ -47,19 +48,11 @@ function Login({ onNext }: Props) {
         password: inputs["password"],
       });
     }
-    if (inputs && inputs["default"]) {
-      setOtp(inputs["default"]);
-    }
   }, [inputs]);
 
   useEffect(() => {
-    validate();
+    setError({ username: undefined, password: undefined });
   }, [form?.username, form?.password]);
-
-  const validate = () => {
-    setError((prev) => ({ ...prev, username: undefined }));
-    setError((prev) => ({ ...prev, password: undefined }));
-  };
 
   const handleLogin = () => {
     if (!form?.username) {
@@ -98,19 +91,10 @@ function Login({ onNext }: Props) {
     }
   }, [isSuccess, isError]);
 
-  useEffect(() => {
-    showKeyboard("username");
-  }, []);
-
   return (
     <>
-      <div
-        className={`absolute top-0 left-0 right-0 bg-locker-blue h-48 rounded-b-[120px] -z-10`}
-      ></div>
-      <div className="text-5xl font-bold mt-8 text-white">
-        Đăng nhập tài khoản nhân viên
-      </div>
-      <div className="font-semibold flex flex-col gap-4 mt-28">
+      <Title>Đăng nhập tài khoản nhân viên</Title>
+      <div className="font-semibold flex flex-col gap-4 mt-52">
         <div>
           <input
             type="text"

@@ -43,7 +43,7 @@ const globalSlice = createSlice({
   },
 });
 
-export const { setGlobalState, updateInputs, clearGlobal } =
+export const { setGlobalState, updateInputs, clearGlobal, clearInput } =
   globalSlice.actions;
 
 export default globalSlice.reducer;
