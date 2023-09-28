@@ -51,7 +51,8 @@ function Otp({ otp, setOtp }: Props) {
               ref.current[index]?.focus();
               open({
                 maxLength: 6,
-                onlyNumber: true,
+                onlyNumber: false,
+                uppercase: true,
                 inputName: "otp",
               });
             }}

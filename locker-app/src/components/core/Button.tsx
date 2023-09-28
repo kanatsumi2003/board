@@ -34,7 +34,7 @@ function Button({
             e.preventDefault();
           }
         }}
-        className={`overflow-hidden button flex justify-center gap-4 ${(() => {
+        className={`text-4xl overflow-hidden button flex justify-center gap-4 ${(() => {
           switch (type) {
             case "primary": {
               return "bg-locker-blue ring-locker-blue border-locker-blue";
@@ -47,7 +47,7 @@ function Button({
             }
           }
         })()} rounded-2xl ${
-          small ? "py-4 px-8 min-w-[200px]" : "p-8"
+          small ? "py-4 px-12 min-w-[200px]" : "p-12"
         } text-center hover:bg-opacity-80 box-border relative z-30 inline-flex items-center justify-center w-full font-bold text-white transition-all duration-300 cursor-pointer group border-2 ease focus:outline-none ${className}`}
       >
         {small ? (

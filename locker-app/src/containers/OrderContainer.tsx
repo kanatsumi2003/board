@@ -30,7 +30,7 @@ function OrderContainer({ id }: Props) {
   return (
     <>
       <div className="flex md:flex-col xl:flex-row gap-12 w-full px-12 justify-center">
-        <div className="bg-white shadow-2xl grid grid-cols-2 p-8 rounded-3xl gap-y-4 gap-x-1 basis-3/5 justify-center">
+        <div className="bg-white shadow-xl grid grid-cols-2 p-8 rounded-3xl gap-y-4 gap-x-1 basis-3/5 justify-center">
           <div className="font-semibold col-span-2 mb-4">
             Thông tin đơn hàng:
           </div>
@@ -56,8 +56,8 @@ function OrderContainer({ id }: Props) {
           )}
         </div>
         <div className="flex flex-col gap-2 basis-2/5">
-          <div className="bg-white shadow-2xl p-8 rounded-3xl gap-2 h-full">
-            <div className="font-semibold col-span-2 mb-4">
+          <div className="bg-white shadow-xl p-8 rounded-3xl gap-2 h-full">
+            <div className="font-semibold col-span-2 mb-8">
               Chi tiết đơn hàng:
             </div>
             <Draggable>

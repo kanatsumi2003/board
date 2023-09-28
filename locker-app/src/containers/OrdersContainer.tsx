@@ -1,7 +1,10 @@
 import { IPaging } from "@/interfaces";
 import { IOrderDetailItem, ORDER_STATUS, ORDER_TYPE } from "@/interfaces/order";
 import { useOrdersQuery } from "@/services/orderService";
+import { formatDate } from "@/utils/formatter";
+import { renderOrderStatusTag } from "@/utils/orderStatusRender";
 import { useState, useEffect } from "react";
+import { MdOutlineLocalLaundryService } from "react-icons/md";
 import Skeleton from "react-loading-skeleton";
 import { useNavigate } from "react-router-dom";
 import "swiper/css";
@@ -21,38 +24,55 @@ function OrderItem({ loading, url, ...order }: OrderItemProps) {
   return (
     <div
       onClick={() => url && navigate(url)}
-      className="flex flex-col gap-2 border-2 w-full px-8 py-4 border-locker-blue rounded-xl text-2xl hover:bg-locker-blue cursor-pointer hover:text-white transition-colors max-h-[400px]"
+      className="flex flex-col gap-2 border-2 w-full p-8 border-locker-blue rounded-3xl hover:bg-locker-blue cursor-pointer hover:text-white transition-colors max-h-[400px]"
     >
       {!loading && order ? (
-        <>
-          <div className="font-bold text-2xl">#{order.id}</div>
-          <div>
-            <b>Mã Pin: </b>
-            {order.pinCode}
-          </div>
-          <div>
-            <b>Trạng thái: </b>
-            {order.status}
-          </div>
-          <div>
-            <b>Ô tủ: </b>
-            {order.sendBox?.number}
-          </div>
-          <div>
-            <b>Người gửi: </b>
-            {order.sender?.fullName
-              ? `${order.sender?.fullName} (${order.sender?.phoneNumber})`
-              : order.sender?.phoneNumber}
-          </div>
-          {order.receiver && (
-            <div>
-              <b>Người nhận: </b>
-              {order.receiver?.fullName
-                ? `${order.receiver?.fullName} (${order.receiver?.phoneNumber})`
-                : order.receiver?.phoneNumber}
+        <div className="flex gap-8 flex-col">
+          <div className="flex w-full justify-between">
+            <div className="flex gap-6">
+              <div className="p-6 rounded-full bg-locker-blue text-white flex justify-around items-center w-min">
+                <MdOutlineLocalLaundryService className="text-6xl" />
+              </div>
+              <div className="h-full flex flex-col justify-center">
+                <div className="font-bold text-4xl">#{order.id}</div>
+                <div className="text-2xl text-gray-500">
+                  {formatDate(order.createdAt)}
+                </div>
+              </div>
             </div>
-          )}
-        </>
+            {order.status && renderOrderStatusTag(order.status)}
+          </div>
+          <div className="w-full">
+            <div>
+              <b>Mã pin: </b>
+              {order.pinCode}
+            </div>
+            <div>
+              <div>
+                <b>Trạng thái: </b>
+                {order.status}
+              </div>
+              <div>
+                <b>Ô tủ: </b>
+                {order.sendBox?.number}
+              </div>
+              <div>
+                <b>Người gửi: </b>
+                {order.sender?.fullName
+                  ? `${order.sender?.fullName} (${order.sender?.phoneNumber})`
+                  : `${order.sender?.phoneNumber} (${order.sender?.phoneNumber})`}
+              </div>
+              <div>
+                <b>Người nhận: </b>
+                {order.receiver
+                  ? order.receiver?.fullName
+                    ? `${order.receiver?.fullName} (${order.receiver?.phoneNumber})`
+                    : order.receiver?.phoneNumber
+                  : "Không có"}
+              </div>
+            </div>
+          </div>
+        </div>
       ) : (
         <Skeleton count={4}></Skeleton>
       )}
@@ -74,7 +94,7 @@ function OrdersContainer({ status, renderLink, onEmpty }: Props) {
     isSuccess,
   } = useOrdersQuery({
     type: ORDER_TYPE.LAUNDRY,
-    pageSize: 4,
+    pageSize: 3,
     status: status,
     ...pagination,
   });
@@ -105,7 +125,7 @@ function OrdersContainer({ status, renderLink, onEmpty }: Props) {
           return (
             <SwiperSlide
               key={element}
-              className="w-full grid grid-cols-2 gap-6"
+              className="w-full grid grid-cols-1 gap-6"
             >
               {orders?.items.map((order) => (
                 <OrderItem {...order} url={renderLink(order.id)} />
@@ -116,9 +136,9 @@ function OrdersContainer({ status, renderLink, onEmpty }: Props) {
           return (
             <SwiperSlide
               key={element}
-              className="grid grid-cols-2 gap-4 w-full overflow-y-scroll"
+              className="grid grid-cols-1 gap-4 w-full overflow-y-scroll"
             >
-              {[...Array(4).keys()].map(() => (
+              {[...Array(3).keys()].map(() => (
                 <OrderItem loading />
               ))}{" "}
             </SwiperSlide>

@@ -46,7 +46,8 @@ function ReceiveCode({ onNext }: Props) {
   useEffect(() => {
     open({
       maxLength: 6,
-      onlyNumber: true,
+      onlyNumber: false,
+      uppercase: true,
       inputName: "otp",
     });
   }, []);
