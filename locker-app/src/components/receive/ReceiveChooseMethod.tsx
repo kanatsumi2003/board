@@ -111,8 +111,12 @@ function ReceiveChooseMethod({ onNext, onPrev }: Props) {
             </ul>
           </div>
         </div>
-        <div className="flex flex-col gap-8">
-          <Button type="primary" small onClick={handleCheckOut}>
+        <div className="flex flex-col gap-4">
+          <Button
+            type={method ? "primary" : "disabled"}
+            small
+            onClick={handleCheckOut}
+          >
             Xác nhận thanh toán
           </Button>
           <BackStepButton onClick={onPrev} />

@@ -96,24 +96,24 @@ function ReceiveOrderDetail({ onNext, onPrev }: Props) {
                     Chi tiết đơn hàng:
                   </div>
                   <Draggable>
-                    <div className="flex flex-col overflow-y-scroll h-[360px] gap-2 w-full">
+                    <div className="flex flex-col overflow-y-scroll h-[280px] gap-2 w-full">
                       {order.details.map((detail: IDetailItem) => (
                         <div
-                          className={`flex p-2 bg-gray-100 rounded-lg w-full items-center md:h-52`}
+                          className={`flex p-2 bg-gray-100 rounded-lg w-full items-center md:h-52 gap-8`}
                           key={detail.id}
                         >
-                          <div className="h-full md:w-60 md:h-48 xl:w-32 xl:h-20 ">
+                          <div className="h-full md:w-60 md:h-40 xl:w-32 xl:h-20">
                             <img
                               src={detail.service.image}
                               alt=""
                               className="h-full w-full object-cover rounded-lg"
                             />
                           </div>
-                          <div className="flex flex-col justify-center gap-1 md:ml-5 xl:ml-2 text-ellipsis xl:w-full">
+                          <div className="flex flex-col justify-center gap-1 text-ellipsis xl:w-full">
                             <div className="font-bold text-4xl overflow-hidden text-ellipsis whitespace-nowrap">
                               {detail.service.name}
                             </div>
-                            <div className="mt-3">
+                            <div className="mt-2">
                               <div>
                                 Đơn giá:{" "}
                                 <span className="font-semibold">
@@ -159,7 +159,7 @@ function ReceiveOrderDetail({ onNext, onPrev }: Props) {
             )}
           </div>
         </div>
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-4">
           <Button type="primary" small onClick={onNext}>
             Xác nhận thanh toán
           </Button>

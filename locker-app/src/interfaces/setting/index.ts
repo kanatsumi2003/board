@@ -1,4 +1,3 @@
-import { ITime } from "..";
 
 export enum SERVICE_STATUS {
   ACTIVE = "Active",
@@ -11,8 +10,8 @@ export interface ISettingItem {
     contactEmail: string;
     facebook: string;
     zalo: string;
-    openedAt: ITime;
-    closedAt: ITime;
+    openedAt: string;
+    closedAt: string;
   };
   accountSettings: {
     maxWrongLoginCount: number;
@@ -25,6 +24,7 @@ export interface ISettingItem {
     maxTimeInHours: number;
     extraFee: number;
     maxActiveOrderCount: number;
+    minTimeProcessLaundryOrderInHours: number;
   };
   zaloAuthSettings: {
     accessToken: string;

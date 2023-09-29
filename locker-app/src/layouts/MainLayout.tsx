@@ -33,7 +33,9 @@ function MainLayout({ children }: Props) {
     data: setting,
     isSuccess: settingIsSuccess,
     refetch: settingRefetch,
-  } = useSettingQuery(undefined, { skip: !isSuccess });
+  } = useSettingQuery(undefined, {
+    skip: !locker?.apiKey || !locker.apiHost,
+  });
   const { pathname } = useLocation();
 
   useEffect(() => {

@@ -6,11 +6,10 @@ import { setOrderRequest } from "@/stores/order.store";
 import { isValidPhone } from "@/utils/validator";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import BackButton from "../core/BackButton";
+import BackStepButton from "../core/BackStepButton";
 import Button from "../core/Button";
 import Input from "../core/Input";
 import Switch from "../core/Switch";
-import BackStepButton from "../core/BackStepButton";
 
 interface CreateOrderFormError {
   senderPhone?: string;
@@ -80,10 +79,14 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
         getSender({ phone: value });
       }
 
-      return undefined;
+      setError((prev) => ({ ...prev, senderPhone: undefined }));
+      return;
     }
     setSenderName(undefined);
-    return "Số điện thoại không hợp lệ.";
+    setError((prev) => ({
+      ...prev,
+      senderPhone: "Số điện thoại không hợp lệ.",
+    }));
   };
 
   const validateReceiverPhone = (value: string) => {
@@ -92,10 +95,14 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
         getReceiver({ phone: value });
       }
 
-      return undefined;
+      setError((prev) => ({ ...prev, receiverPhone: undefined }));
+      return;
     }
     setReceiverName(undefined);
-    return "Số điện thoại không hợp lệ.";
+    setError((prev) => ({
+      ...prev,
+      receiverPhone: "Số điện thoại không hợp lệ.",
+    }));
   };
 
   useEffect(() => {
@@ -129,12 +136,12 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
             placeHolder={"Nhập số điện thoại người gửi"}
             onFocus={() => showKeyboard("senderPhone")}
             name={"senderPhone"}
-            validate={validateSenderPhone}
             onChange={(value) => {
               store.dispatch(setOrderRequest({ senderPhone: value }));
-              setError((prev) => ({ ...prev, senderPhone: undefined }));
+              validateSenderPhone(value ?? "");
             }}
             submitError={error?.senderPhone}
+            error={error?.senderPhone}
             required
           />
         </div>
@@ -171,14 +178,13 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
                 label={"Số điện thoại người nhận:"}
                 placeHolder={"Nhập số điện thoại người nhận"}
                 onFocus={() => showKeyboard("receiverPhone")}
-                validate={validateReceiverPhone}
                 name={"receiverPhone"}
                 onChange={(value) => {
                   store.dispatch(setOrderRequest({ receiverPhone: undefined }));
-
-                  setError((prev) => ({ ...prev, address: undefined }));
+                  validateReceiverPhone(value ?? "");
                 }}
                 submitError={error?.receiverPhone}
+                error={error?.receiverPhone}
               />
             </div>
 
@@ -196,7 +202,11 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
           </>
         )}
         <Button
-          type={orderRequest?.senderPhone ? "primary" : "disabled"}
+          type={
+            !error?.senderPhone && orderRequest?.senderPhone
+              ? "primary"
+              : "disabled"
+          }
           className="mt-8 !w-full"
           small
           onClick={onSubmitCreateOrder}

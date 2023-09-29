@@ -42,34 +42,28 @@ function OrderItem({ loading, url, ...order }: OrderItemProps) {
             </div>
             {order.status && renderOrderStatusTag(order.status)}
           </div>
-          <div className="w-full">
+          <div className="w-full flex flex-col gap-2">
             <div>
               <b>Mã pin: </b>
               {order.pinCode}
             </div>
             <div>
-              <div>
-                <b>Trạng thái: </b>
-                {order.status}
-              </div>
-              <div>
-                <b>Ô tủ: </b>
-                {order.sendBox?.number}
-              </div>
-              <div>
-                <b>Người gửi: </b>
-                {order.sender?.fullName
-                  ? `${order.sender?.fullName} (${order.sender?.phoneNumber})`
-                  : `${order.sender?.phoneNumber}`}
-              </div>
-              <div>
-                <b>Người nhận: </b>
-                {order.receiver
-                  ? order.receiver?.fullName
-                    ? `${order.receiver?.fullName} (${order.receiver?.phoneNumber})`
-                    : order.receiver?.phoneNumber
-                  : "Không có"}
-              </div>
+              <b>Ô tủ: </b>
+              {order.sendBox?.number}
+            </div>
+            <div>
+              <b>Người gửi: </b>
+              {order.sender?.fullName
+                ? `${order.sender?.fullName} (${order.sender?.phoneNumber})`
+                : `${order.sender?.phoneNumber}`}
+            </div>
+            <div>
+              <b>Người nhận: </b>
+              {order.receiver
+                ? order.receiver?.fullName
+                  ? `${order.receiver?.fullName} (${order.receiver?.phoneNumber})`
+                  : order.receiver?.phoneNumber
+                : "Không có"}
             </div>
           </div>
         </div>

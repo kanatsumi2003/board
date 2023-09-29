@@ -21,14 +21,14 @@ function Home() {
             type="primary"
             to={PATH.PROCESS}
             wrapperClassName="basis-1/2"
-            className="h-full text-5xl"
+            className="h-full text-6xl"
           >
             Xử lý đơn hàng
           </Button>
           <Button
             type="secondary"
             to={PATH.RETURN}
-            className="h-full text-5xl"
+            className="h-full text-6xl"
             wrapperClassName="basis-1/2"
           >
             Hoàn trả đơn hàng

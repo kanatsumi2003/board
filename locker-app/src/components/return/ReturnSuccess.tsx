@@ -1,6 +1,8 @@
 import useModal from "@/hooks/useModal";
 import { AppState } from "@/stores";
 import { useSelector } from "react-redux";
+import Title from "../Title";
+import BoxNumber from "../core/BoxNumber";
 import Button from "../core/Button";
 
 interface Props {
@@ -15,23 +17,20 @@ function ReturnSuccess({ onNext }: Props) {
     modal.success({ message: "Hoàn trả thành công" });
   };
   return (
-    <div className="mt-8 flex w-full items-center flex-col justify-between h-full">
-      <div
-        className={`absolute top-0 left-0 right-0 bg-locker-blue h-48 rounded-b-[120px] -z-10`}
-      ></div>
-      <div className="text-center text-white">
-        <div className="font-bold">Vui lòng hoàn trả đồ đã xử lý ở ô tủ số</div>
-        <div className="mt-4">
+    <>
+      <Title subtitle="Hoàn trả đơn hàng">
+        Vui lòng hoàn trả đồ đã xử lý ở ô tủ số
+      </Title>
+      <div className="mt-52 flex w-full items-center flex-col justify-between h-full px-12">
+        <div>
           Vui lòng hoàn trả đồ và ấn "Xác nhận" trên màn hình để hoàn tất.
         </div>
+        <BoxNumber>{order?.receiveBox?.number}</BoxNumber>
+        <Button type="primary" small onClick={handleNext}>
+          Xác nhận
+        </Button>
       </div>
-      <div className="text-[160px] font-bold text-locker-blue p-4 rounded-full">
-        {order?.receiveBox?.number}
-      </div>
-      <Button type="primary" small onClick={handleNext}>
-        Xác nhận
-      </Button>
-    </div>
+    </>
   );
 }
 

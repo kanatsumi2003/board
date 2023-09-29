@@ -1,13 +1,12 @@
 import useKeyboard from "@/hooks/useKeyboard";
-import { AppState } from "@/stores";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 interface Props {
   placeHolder: string;
   label: string;
   name: string;
   submitError?: string;
+  error?: string;
   onFocus: () => void;
   value?: string;
   validate?: (value: string) => string | undefined;
@@ -25,13 +24,12 @@ function Input({
   submitError,
   onChange,
   required,
+  error,
 }: Props) {
-  const [error, setError] = useState<string | undefined>();
   const { inputs } = useKeyboard();
 
   useEffect(() => {
     onChange && onChange(inputs?.[name]);
-    setError(validate && validate(inputs?.[name] ?? ""));
   }, [inputs?.[name]]);
 
   return (

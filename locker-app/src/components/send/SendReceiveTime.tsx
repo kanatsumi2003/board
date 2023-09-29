@@ -1,12 +1,14 @@
 import useKeyboard from "@/hooks/useKeyboard";
 import store, { AppState } from "@/stores";
 import { setOrderRequest } from "@/stores/order.store";
+import { getTime } from "@/utils/converter";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import BackStepButton from "../core/BackStepButton";
 import Button from "../core/Button";
 import Select from "../core/Select";
+import Switch from "../core/Switch";
 
 interface Props {
   onNext: () => void;
@@ -15,6 +17,12 @@ interface Props {
 
 function SendReceiveTime({ onNext, onPrev }: Props) {
   const { orderRequest } = useSelector((state: AppState) => state.order);
+  const { orderSettings, informationSettings } = useSelector(
+    (state: AppState) => state.setting
+  );
+  const minDateTime = dayjs()
+    .add(orderSettings?.minTimeProcessLaundryOrderInHours ?? 0, "hour")
+    .startOf("hour");
 
   const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | undefined>(
     orderRequest?.intendedReceiveAt
@@ -49,21 +57,28 @@ function SendReceiveTime({ onNext, onPrev }: Props) {
   useEffect(() => {
     if (selectedDate) {
       setTimes(
-        [...Array(24).keys()].filter((data) =>
-          selectedDate?.startOf("date").isSame(dayjs().startOf("date"))
-            ? data > dayjs().hour()
-            : true
-        )
+        [...Array(24).keys()]
+          .filter((data) =>
+            selectedDate?.startOf("date").isSame(minDateTime.startOf("date"))
+              ? data > minDateTime.hour()
+              : true
+          )
+          .filter((data) => {
+            return (
+              data >= getTime(informationSettings?.openedAt) &&
+              data <= getTime(informationSettings?.closedAt)
+            );
+          })
       );
+      setSelectedTime(undefined);
     } else {
       setSelectedTime(undefined);
       setTimes(undefined);
     }
   }, [selectedDate]);
 
-  // HARD CODE ADD 8 HOURS
   const getListDate = () => {
-    const firstDate = dayjs().add(8, "hour").startOf("date");
+    const firstDate = minDateTime.startOf("date");
     return [...Array(4).keys()].map((number) => firstDate.add(number, "day"));
   };
 
@@ -121,6 +136,15 @@ function SendReceiveTime({ onNext, onPrev }: Props) {
             menuPlacement="bottom"
             searchable={false}
           />
+        </div>
+
+        <div>
+          <span className="text-red-600 text-4xl font-bold">*</span> Nếu bỏ qua
+          bước này, chúng tôi sẽ{" "}
+          <span className="font-bold">
+            hoàn trả sau khi hoàn tất xử lý đơn hàng
+          </span>{" "}
+          và gửi thông báo đến bạn.
         </div>
         <Button type="primary" className="mt-8" small onClick={handleNext}>
           {selectedDate ? "Tiếp theo" : "Bỏ qua bước này"}

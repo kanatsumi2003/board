@@ -51,7 +51,7 @@ function Home() {
         <div className="flex flex-col w-full gap-6 justify-between h-full">
           <Button
             type="primary"
-            className="h-full text-5xl"
+            className="h-full text-6xl"
             wrapperClassName="basis-1/3"
             onClick={handleSend}
             icon={<TbPackageExport />}
@@ -61,7 +61,7 @@ function Home() {
           <Button
             type="secondary"
             to={PATH.RECEIVE}
-            className="h-full text-5xl"
+            className="h-full text-6xl"
             wrapperClassName="basis-1/3"
             icon={<TbPackageImport />}
           >
@@ -70,7 +70,7 @@ function Home() {
           <Button
             type="secondary"
             to={PATH.RESERVE}
-            className="h-full text-5xl"
+            className="h-full text-6xl"
             wrapperClassName="basis-1/3"
             icon={<TbPackage />}
           >

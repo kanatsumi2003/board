@@ -27,20 +27,6 @@ function SendAddress({ onNext, onPrev }: Props) {
   };
 
   const handleNext = () => {
-    if (
-      !(
-        orderRequest?.deliveryAddress?.address &&
-        orderRequest?.deliveryAddress?.wardCode &&
-        orderRequest?.deliveryAddress?.districtCode &&
-        orderRequest?.deliveryAddress?.provinceCode
-      )
-    ) {
-      store.dispatch(
-        setOrderRequest({
-          deliveryAddress: undefined,
-        })
-      );
-    }
     onNext();
   };
 
@@ -94,6 +80,12 @@ function SendAddress({ onNext, onPrev }: Props) {
             );
           }}
         />
+        <div>
+          <span className="text-red-600 text-4xl font-bold">*</span> Nếu bỏ qua
+          bước này, chúng tôi sẽ mặc định{" "}
+          <span className="font-bold">hoàn trả tại Locker hiện tại</span> và gửi
+          thông báo đến bạn.
+        </div>
         <Button
           type="primary"
           className="mt-8 !w-full"

@@ -41,7 +41,13 @@ function SendCreateOrder({ onNext, onPrev }: Props) {
       receiverPhone: orderRequest?.receiverPhone,
       type: orderRequest?.type,
       serviceIds: orderRequest?.serviceIds,
-      deliveryAddress: orderRequest?.deliveryAddress,
+      deliveryAddress:
+        orderRequest?.deliveryAddress?.address &&
+        orderRequest?.deliveryAddress?.wardCode &&
+        orderRequest?.deliveryAddress?.districtCode &&
+        orderRequest?.deliveryAddress?.provinceCode
+          ? orderRequest.deliveryAddress
+          : undefined,
       intendedReceiveAt: orderRequest?.intendedReceiveAt,
     });
   };

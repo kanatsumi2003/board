@@ -3,6 +3,7 @@ import { AppState } from "@/stores";
 import { useSelector } from "react-redux";
 import Title from "../Title";
 import Button from "../core/Button";
+import BoxNumber from "../core/BoxNumber";
 
 interface Props {
   onNext: () => void;
@@ -23,9 +24,7 @@ function ReceiveSuccess({ onNext }: Props) {
         <div className="text-center">
           Vui lòng để đồ vào tủ và ấn "Xác nhận" trên màn hình để hoàn tất.
         </div>
-        <div className="text-[160px] font-bold text-locker-blue p-4 rounded-full">
-          {order?.receiveBox?.number}
-        </div>
+        <BoxNumber>{order?.receiveBox?.number}</BoxNumber>
         <Button type="primary" small onClick={handleNext}>
           Xác nhận
         </Button>
