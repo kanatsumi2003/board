@@ -36,7 +36,7 @@ function ReceivePage() {
             return (
               <ReceiveChooseMethod
                 onNext={() => setStep(4)}
-                onPrev={() => setStep(1)}
+                onPrev={() => setStep(2)}
               />
             );
           case 4:

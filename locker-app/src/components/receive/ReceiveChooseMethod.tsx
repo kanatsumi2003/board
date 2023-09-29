@@ -10,7 +10,7 @@ import { formatCurrency } from "@/utils/formatter";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Title from "../Title";
-import BackButton from "../core/BackButton";
+import BackStepButton from "../core/BackStepButton";
 
 interface Props {
   onNext: () => void;
@@ -111,12 +111,13 @@ function ReceiveChooseMethod({ onNext, onPrev }: Props) {
             </ul>
           </div>
         </div>
-        <Button type="primary" small onClick={handleCheckOut}>
-          Xác nhận thanh toán
-        </Button>
+        <div className="flex flex-col gap-8">
+          <Button type="primary" small onClick={handleCheckOut}>
+            Xác nhận thanh toán
+          </Button>
+          <BackStepButton onClick={onPrev} />
+        </div>
       </div>
-
-      <BackButton onClick={onPrev} />
     </>
   );
 }

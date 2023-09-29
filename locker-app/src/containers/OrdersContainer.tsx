@@ -60,7 +60,7 @@ function OrderItem({ loading, url, ...order }: OrderItemProps) {
                 <b>Người gửi: </b>
                 {order.sender?.fullName
                   ? `${order.sender?.fullName} (${order.sender?.phoneNumber})`
-                  : `${order.sender?.phoneNumber} (${order.sender?.phoneNumber})`}
+                  : `${order.sender?.phoneNumber}`}
               </div>
               <div>
                 <b>Người nhận: </b>

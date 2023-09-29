@@ -1,7 +1,6 @@
 import QRImage from "@/assets/qr.jpg";
 import useModal from "@/hooks/useModal";
-import { ORDER_STATUS } from "@/interfaces/order";
-import { useBillQuery, useOrderQuery } from "@/services/orderService";
+import { useBillQuery } from "@/services/orderService";
 import { AppState } from "@/stores";
 import { formatCurrency } from "@/utils/formatter";
 import { useEffect } from "react";
@@ -14,8 +13,8 @@ interface Props {
 
 function ReceivePayment({ onNext }: Props) {
   const { bill, order } = useSelector((state: AppState) => state.order);
-  const { data } = useOrderQuery(
-    { id: Number(order?.id) },
+  const { data } = useBillQuery(
+    { orderId: Number(order?.id) },
     {
       pollingInterval: 2000,
       skip: !order?.id,
@@ -24,7 +23,7 @@ function ReceivePayment({ onNext }: Props) {
   const modal = useModal();
 
   useEffect(() => {
-    if (data?.status === ORDER_STATUS.COMPLETED) {
+    if (data) {
       modal.success({
         message: "Thanh toán thành công",
         onClose: onNext,
@@ -38,7 +37,6 @@ function ReceivePayment({ onNext }: Props) {
   return (
     <>
       <Title subtitle="Nhận hàng">Vui lòng quét mã QR sau để thanh toán</Title>
-
       <div className="mt-52 flex w-full items-center flex-col gap-24 h-full px-12 justify-between">
         <div className="w-full">
           <div className="text-center w-full">
