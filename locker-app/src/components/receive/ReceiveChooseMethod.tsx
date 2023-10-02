@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Title from "../Title";
 import BackStepButton from "../core/BackStepButton";
+import { Card } from "../core/Card";
 
 interface Props {
   onNext: () => void;
@@ -55,7 +56,7 @@ function ReceiveChooseMethod({ onNext, onPrev }: Props) {
               {formatCurrency(order.price + (order.extraFee ?? 0))}
             </div>
           </div>
-          <div className="bg-white shadow-xl px-12 py-8 rounded-3xl flex flex-col w-full justify-center mt-12">
+          <Card className="flex flex-col w-full justify-center mt-12">
             <div className="mb-4 text-center">
               Vui lòng chọn phương thức thanh toán
             </div>
@@ -109,7 +110,7 @@ function ReceiveChooseMethod({ onNext, onPrev }: Props) {
                 </div>
               </li>
             </ul>
-          </div>
+          </Card>
         </div>
         <div className="flex flex-col gap-4">
           <Button

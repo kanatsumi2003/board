@@ -44,6 +44,9 @@ export interface IOrderDetailItem {
   extraFee: number;
   discount: number;
   description: string;
+  reservationFee: number;
+  totalExtraFee: number;
+  totalPrice: number;
   createdAt: string;
   updatedAt: string;
   sender: IAccountItem;

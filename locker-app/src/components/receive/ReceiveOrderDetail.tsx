@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import Title from "../Title";
 import BackStepButton from "../core/BackStepButton";
 import { Draggable } from "../core/Draggable";
+import { Card } from "../core/Card";
 
 interface Props {
   onNext: () => void;
@@ -27,11 +28,11 @@ function ReceiveOrderDetail({ onNext, onPrev }: Props) {
           <div className="text-center">
             <div className="font-light">Số tiền cần thanh toán</div>
             <div className="text-7xl font-bold mt-4">
-              {formatCurrency(order.price + (order.extraFee ?? 0))}
+              {formatCurrency(order.totalPrice ?? 0)}
             </div>
           </div>
           <div className="flex flex-col gap-12 w-full justify-center mt-12">
-            <div className="bg-white shadow-xl grid grid-cols-2 p-12 rounded-3xl gap-y-3 gap-x-1 basis-3/5 justify-center">
+            <Card className="grid grid-cols-2 gap-y-3 gap-x-1 basis-3/5 justify-center">
               <div className="font-semibold col-span-2 mb-4 text-4xl">
                 Thông tin đơn hàng:
               </div>
@@ -67,18 +68,22 @@ function ReceiveOrderDetail({ onNext, onPrev }: Props) {
                   <div className="font-semibold col-span-2 my-4 text-4xl">
                     Chi tiết hóa đơn:
                   </div>
-                  <div>Thành tiền:</div>
+                  <div>Phí dịch vụ:</div>
                   <div className="font-bold text-end">
                     {formatCurrency(order.price ?? 0)}
                   </div>
-                  <div>Thành tiền:</div>
+                  <div>Giảm giá:</div>
                   <div className="font-bold text-end">
-                    {formatCurrency(order.price ?? 0)}
+                    - {formatCurrency(order.discount ?? 0)}
+                  </div>
+                  <div>Trả trước:</div>
+                  <div className="font-bold text-end">
+                    - {formatCurrency(order.reservationFee ?? 0)}
                   </div>
                   <div>Phụ thu:</div>
                   <div className="font-bold text-end">
-                    {`${formatCurrency(order.extraFee ?? 0)}`}{" "}
-                    {order.extraFee ? (
+                    {`${formatCurrency(order.totalExtraFee ?? 0)}`}{" "}
+                    {order.totalExtraFee > 0 ? (
                       <span className="font-normal">{`(${formatCurrency(
                         order.extraCount ?? 0
                       )} giờ)`}</span>
@@ -88,12 +93,12 @@ function ReceiveOrderDetail({ onNext, onPrev }: Props) {
                   </div>
                 </>
               )}
-            </div>
+            </Card>
             {order.type === ORDER_TYPE.LAUNDRY && (
               <>
-                <div className="bg-white shadow-xl p-12 rounded-3xl gap-2">
+                <Card>
                   <div className="font-semibold mb-8 text-4xl">
-                    Chi tiết đơn hàng:
+                    {`Chi tiết đơn hàng (${order.details.length} dịch vụ):`}
                   </div>
                   <Draggable>
                     <div className="flex flex-col overflow-y-scroll h-[280px] gap-2 w-full">
@@ -134,7 +139,7 @@ function ReceiveOrderDetail({ onNext, onPrev }: Props) {
                       ))}
                     </div>
                   </Draggable>
-                </div>
+                </Card>
                 {/* <div className="bg-white shadow-xl grid grid-cols-2 p-12 rounded-3xl gap-y-3 gap-x-1 basis-3/5 justify-center">
                   <div className="font-semibold col-span-2 mb-4 text-4xl">
                     Chi tiết hóa đơn:

@@ -19,7 +19,9 @@ function ProcessSuccess({ onNext }: Props) {
   };
   return (
     <>
-      <Title>Vui lòng nhận đồ cần xử lý ở ô tủ số</Title>
+      <Title subtitle="Xử lý đơn hàng">
+        Vui lòng nhận đồ cần xử lý ở ô tủ số
+      </Title>
       <div className="mt-52 flex w-full items-center flex-col justify-between h-full">
         <div className="text-center">
           Vui lòng nhận đồ và ấn "Xác nhận" trên màn hình để hoàn tất.

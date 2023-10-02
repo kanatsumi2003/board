@@ -1,3 +1,4 @@
+import { Card } from "@/components/core/Card";
 import { Draggable } from "@/components/core/Draggable";
 import { IDetailItem } from "@/interfaces/order";
 import { useOrderQuery } from "@/services/orderService";
@@ -30,7 +31,7 @@ function OrderContainer({ id }: Props) {
   return (
     <>
       <div className="flex md:flex-col xl:flex-row gap-12 w-full px-12 justify-center">
-        <div className="bg-white shadow-xl grid grid-cols-2 p-8 rounded-3xl gap-y-4 gap-x-1 basis-3/5 justify-center">
+        <Card className="grid grid-cols-2 gap-y-4 gap-x-1 basis-3/5 justify-center">
           <div className="font-semibold col-span-2 mb-4">
             Thông tin đơn hàng:
           </div>
@@ -54,11 +55,11 @@ function OrderContainer({ id }: Props) {
               <div className="font-bold">{formatDate(order.createdAt)}</div>
             </>
           )}
-        </div>
+        </Card>
         <div className="flex flex-col gap-2 basis-2/5">
-          <div className="bg-white shadow-xl p-8 rounded-3xl gap-2 h-full">
+          <Card className="h-full">
             <div className="font-semibold col-span-2 mb-8">
-              Chi tiết đơn hàng:
+              {`Chi tiết đơn hàng (${order.details.length} dịch vụ):`}
             </div>
             <Draggable>
               <div className="flex flex-col h-full gap-2 w-full max-h-[600px] overflow-scroll">
@@ -99,7 +100,7 @@ function OrderContainer({ id }: Props) {
                 ))}
               </div>
             </Draggable>
-          </div>
+          </Card>
         </div>
       </div>
     </>

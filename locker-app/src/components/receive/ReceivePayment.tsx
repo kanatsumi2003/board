@@ -6,6 +6,7 @@ import { formatCurrency } from "@/utils/formatter";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Title from "../Title";
+import { Card } from "../core/Card";
 
 interface Props {
   onNext: () => void;
@@ -45,13 +46,13 @@ function ReceivePayment({ onNext }: Props) {
               {formatCurrency(order.price + (order.extraFee ?? 0))}
             </div>
           </div>
-          <div className="bg-white shadow-xl rounded-3xl gap-4 p-10 flex flex-col items-center mt-12">
+          <Card className="gap-4 flex flex-col items-center mt-12">
             <img src={QRImage} alt="qr_Image" className="max-h-80" />
             <div className="text-center">
               <div className="font-light mt-4">Nội dung chuyển khoản</div>
               <div className="font-bold mt-4">{bill?.content}</div>
             </div>
-          </div>
+          </Card>
         </div>
       </div>
     </>

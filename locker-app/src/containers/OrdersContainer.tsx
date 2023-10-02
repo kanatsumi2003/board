@@ -24,18 +24,18 @@ function OrderItem({ loading, url, ...order }: OrderItemProps) {
   return (
     <div
       onClick={() => url && navigate(url)}
-      className="flex flex-col gap-2 border-2 w-full p-8 border-locker-blue rounded-3xl hover:bg-locker-blue cursor-pointer hover:text-white transition-colors max-h-[400px]"
+      className="group flex flex-col gap-2 border-2 w-full p-8 border-locker-blue rounded-3xl hover:bg-locker-blue cursor-pointer hover:text-white transition-colors max-h-[400px]"
     >
       {!loading && order ? (
         <div className="flex gap-8 flex-col">
           <div className="flex w-full justify-between">
             <div className="flex gap-6">
-              <div className="p-6 rounded-full bg-locker-blue text-white flex justify-around items-center w-min">
+              <div className="p-6 rounded-full bg-locker-blue group-hover:bg-white group-hover:text-locker-blue text-white flex justify-around items-center w-min">
                 <MdOutlineLocalLaundryService className="text-6xl" />
               </div>
               <div className="h-full flex flex-col justify-center">
                 <div className="font-bold text-4xl">#{order.id}</div>
-                <div className="text-2xl text-gray-500">
+                <div className="text-2xl text-gray-500 group-hover:text-white">
                   {formatDate(order.createdAt)}
                 </div>
               </div>
