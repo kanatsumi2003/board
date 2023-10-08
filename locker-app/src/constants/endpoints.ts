@@ -14,6 +14,7 @@ const BASE_URL_FILE = BASE_URL + "/file";
 const BASE_URL_SERVICE = BASE_URL + "/services";
 const BASE_URL_STAFF = BASE_URL + "/staffs";
 const BASE_URL_STORE = BASE_URL + "/stores";
+const BASE_URL_PAYMENT = BASE_URL + "/payments";
 
 const getBoardEndpoints = () => {
   return {
@@ -82,9 +83,13 @@ const getOrderEndpoints = (id?: number, pinCode?: string) => {
     orderProcess: `${BASE_URL_ORDER}/${id}/process`,
     collectOrder: `${BASE_URL_ORDER}/${id}/collect`,
     orderReturn: `${BASE_URL_ORDER}/${id}/return`,
-    orderReservation: `${BASE_URL_DASHBOARD}/${id}/reservation`,
+    orderReservation: `${BASE_URL_ORDER}/${id}/reservation`,
     orderByPinCode: `${BASE_URL_ORDER}/pin-code/${pinCode}`,
-    orderBill: `${BASE_URL_ORDER}/${id}/bill`,
+  };
+};
+const getPaymentEndpoints = (id?: number) => {
+  return {
+    paymentById: `${BASE_URL_PAYMENT}/${id}`,
   };
 };
 
@@ -131,6 +136,7 @@ const endpoints = {
   getStaffEndpoints,
   getDashboardEndPoints,
   getSettingEndpoints,
+  getPaymentEndpoints,
 };
 
 export default endpoints;

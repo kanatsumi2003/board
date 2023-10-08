@@ -1,17 +1,10 @@
 import store, { AppState } from "@/stores";
 import {
-  clearInput,
+  KeyboardConfig,
   setGlobalState,
   updateInputs,
 } from "@/stores/global.store";
 import { useSelector } from "react-redux";
-
-interface KeyboardConfig {
-  inputName?: string;
-  maxLength?: number;
-  onlyNumber?: boolean;
-  uppercase?: boolean;
-}
 
 function useKeyboard() {
   const { inputs, keyboard } = useSelector((state: AppState) => state.global);

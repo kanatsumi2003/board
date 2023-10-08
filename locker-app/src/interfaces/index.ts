@@ -29,6 +29,10 @@ export interface IAuditable {
   updatedBy?: number;
   deletedAt?: string;
   deletedBy?: number;
+  createdByUsername?: string;
+  updatedByUsername?: string;
+  deletedByUsername?: string;
+  deleted?: boolean;
 }
 
 export interface ITime {

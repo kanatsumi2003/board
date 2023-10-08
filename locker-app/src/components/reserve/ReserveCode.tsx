@@ -38,7 +38,6 @@ function ReserveCode({ onNext }: Props) {
   ] = useReserveMutation();
 
   const modal = useModal();
-  const { open } = useKeyboard();
 
   const handleReserveOrder = (otp: string) => {
     if (otp.length === 6) {
@@ -48,15 +47,6 @@ function ReserveCode({ onNext }: Props) {
       });
     }
   };
-
-  useEffect(() => {
-    open({
-      maxLength: 6,
-      onlyNumber: false,
-      inputName: "otp",
-      uppercase: true,
-    });
-  }, []);
 
   useEffect(() => {
     if (isSuccessOrder && dataOrder) {

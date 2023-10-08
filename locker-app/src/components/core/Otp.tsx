@@ -13,6 +13,10 @@ function Otp({ otp, setOtp }: Props) {
   const [showPassword, setShowPassword] = useState(false);
   const ref = useRef<(HTMLInputElement | null)[]>([]);
 
+  // useEffect(() => {
+  //   console.log(inputs?.["otp"]);
+  // }, [inputs]);
+
   useEffect(() => {
     clear(["otp"]);
     setOtp("");
@@ -48,19 +52,18 @@ function Otp({ otp, setOtp }: Props) {
             {...props}
             ref={(input) => (ref.current[index] = input)}
             onClick={() => {
-              ref.current[index]?.focus();
-              open({
-                maxLength: 6,
-                onlyNumber: false,
-                uppercase: true,
-                inputName: "otp",
-              });
+              // ref.current[index]?.focus();
+              // open({
+              //   maxLength: 6,
+              //   onlyNumber: false,
+              //   uppercase: true,
+              //   inputName: "otp",
+              // });
             }}
             className={`p-4 rounded-lg border-solid border-2 focus-visible:outline-locker-blue`}
           />
         )}
         inputType={showPassword ? "text" : "password"}
-        shouldAutoFocus
       />
       <div
         className="text-4xl absolute -right-8 bg-locker-blue rounded-md flex items-center w-20 justify-center top-0 bottom-0 translate-x-full text-white cursor-pointer hover:bg-opacity-90"

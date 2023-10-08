@@ -1,8 +1,7 @@
 import useKeyboard from "@/hooks/useKeyboard";
-import store, { AppState } from "@/stores";
+import store from "@/stores";
 import { setGlobalState } from "@/stores/global.store";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
 import Keyboard, { KeyboardReactInterface } from "react-simple-keyboard";
 import "simple-keyboard/build/css/index.css";
 
@@ -20,6 +19,7 @@ interface Props {
   onChangeAll: (values: { [key: string]: string }) => void;
   onlyNumber?: boolean;
   uppercase?: boolean;
+  disablePositioning?: boolean;
 }
 
 function VirtualKeyboard({
@@ -29,6 +29,7 @@ function VirtualKeyboard({
   onChangeAll,
   onlyNumber,
   uppercase,
+  disablePositioning,
 }: Props) {
   const [layout, setLayout] = useState<KEYBOARD_LAYOUT>(
     KEYBOARD_LAYOUT.DEFAULT
@@ -164,6 +165,8 @@ function VirtualKeyboard({
           e?.preventDefault();
           onChangeAll(value);
         }}
+        useTouchEvents
+        disableCaretPositioning={disablePositioning}
         mergeDisplay
         display={{
           "{alt}": ".?123",

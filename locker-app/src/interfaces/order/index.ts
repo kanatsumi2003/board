@@ -22,6 +22,13 @@ export enum ORDER_PAYMENT_METHOD {
   MOMO = "Momo",
 }
 
+export enum ORDER_PAYMENT_STATUS {
+  CREATED = "Created",
+  PROCESSING = "Processing",
+  FAILED = "Failed",
+  COMPLETED = "Completed",
+}
+
 export interface ITimeLineItem {
   id: number;
   status: ORDER_STATUS;

@@ -1,5 +1,5 @@
-import { IBillItem } from "@/interfaces/bill";
 import { ICreateOrderRequest, IOrderDetailItem } from "@/interfaces/order";
+import { IPaymentItem } from "@/interfaces/payment";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 import { createSlice } from "@reduxjs/toolkit";
@@ -7,7 +7,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export interface OrderState {
   orderRequest?: Partial<ICreateOrderRequest>;
   order?: IOrderDetailItem;
-  bill?: IBillItem;
+  payment?: IPaymentItem;
 }
 
 const initialState: OrderState = {};
@@ -31,10 +31,10 @@ const orderSlice = createSlice({
         },
       };
     },
-    setBill(state, action: PayloadAction<IBillItem>) {
+    setPayment(state, action: PayloadAction<IPaymentItem>) {
       return {
         ...state,
-        bill: action.payload,
+        payment: action.payload,
       };
     },
     clearOrder(state, action: PayloadAction<void>) {
@@ -43,7 +43,7 @@ const orderSlice = createSlice({
   },
 });
 
-export const { setOrderState, setOrderRequest, setBill, clearOrder } =
+export const { setOrderState, setOrderRequest, setPayment, clearOrder } =
   orderSlice.actions;
 
 export default orderSlice.reducer;

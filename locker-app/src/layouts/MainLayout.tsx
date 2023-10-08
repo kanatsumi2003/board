@@ -141,6 +141,7 @@ function MainLayout({ children }: Props) {
         show={!!keyboard}
         onlyNumber={keyboard?.onlyNumber}
         uppercase={keyboard?.uppercase}
+        disablePositioning={keyboard?.disablePositioning}
       />
       <Message />
     </div>

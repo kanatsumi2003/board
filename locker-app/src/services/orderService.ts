@@ -11,7 +11,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 
 import axiosBaseQuery from "@/configs/axiosBaseQuery";
 import endpoints from "@/constants/endpoints";
-import { IBillItem } from "@/interfaces/bill";
+import { IPaymentItem } from "@/interfaces/payment";
 
 export const orderApi = createApi({
   reducerPath: "orderApi",
@@ -76,7 +76,7 @@ export const orderApi = createApi({
     }),
 
     checkOutOrder: build.mutation<
-      IBillItem,
+      IPaymentItem,
       { id: number } & ICheckOutOrderRequest
     >({
       query: ({ id, ...data }) => ({
@@ -111,9 +111,9 @@ export const orderApi = createApi({
       invalidatesTags: [{ type: "Order" }, { type: "Box" }],
     }),
 
-    bill: build.query<IBillItem, { orderId: number }>({
-      query: ({ orderId }) => ({
-        url: endpoints.getOrderEndpoints(orderId).orderBill,
+    payment: build.query<IPaymentItem, { paymentId: number }>({
+      query: ({ paymentId }) => ({
+        url: endpoints.getPaymentEndpoints(paymentId).paymentById,
         method: "GET",
       }),
       providesTags: [{ type: "Order" }],
@@ -134,7 +134,7 @@ export const {
   useLazyOrderPinCodeQuery,
   useOrderQuery,
   useOrdersQuery,
-  useBillQuery,
+  usePaymentQuery,
   useConfirmOrderMutation,
   useCheckOutOrderMutation,
   useProcessOrderMutation,

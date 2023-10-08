@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Button from "./Button";
 import Otp from "./Otp";
+import useKeyboard from "@/hooks/useKeyboard";
 
 interface Props {
   onSubmit: (otp: string) => void;
@@ -9,9 +10,17 @@ interface Props {
 function OtpForm({ onSubmit }: Props) {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState<string>();
+  const { open } = useKeyboard();
 
   useEffect(() => {
     setOtp("");
+    open({
+      maxLength: 6,
+      onlyNumber: false,
+      uppercase: true,
+      inputName: "otp",
+      disablePositioning: true,
+    });
   }, []);
 
   useEffect(() => {

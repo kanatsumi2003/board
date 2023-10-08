@@ -5,7 +5,7 @@ import useModal from "@/hooks/useModal";
 import { ORDER_PAYMENT_METHOD } from "@/interfaces/order";
 import { useCheckOutOrderMutation } from "@/services/orderService";
 import store, { AppState } from "@/stores";
-import { setBill } from "@/stores/order.store";
+import { setPayment } from "@/stores/order.store";
 import { formatCurrency } from "@/utils/formatter";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -33,7 +33,7 @@ function ReceiveChooseMethod({ onNext, onPrev }: Props) {
 
   useEffect(() => {
     if (isSuccess && data) {
-      store.dispatch(setBill(data));
+      store.dispatch(setPayment(data));
       onNext();
     }
     if (isError) {
