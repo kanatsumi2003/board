@@ -12,4 +12,7 @@ export interface IPaymentItem extends IAuditable {
   orderId: number;
   customerId: number;
   status: ORDER_PAYMENT_STATUS;
+  referenceId: string;
+  deeplink: null;
+  description: string;
 }

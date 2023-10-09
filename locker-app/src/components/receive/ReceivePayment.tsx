@@ -1,14 +1,14 @@
-import QRImage from "@/assets/qr.jpg";
 import { PAYMENT_POLLING_INTERVAL } from "@/constants/common";
 import useModal from "@/hooks/useModal";
+import { ORDER_PAYMENT_STATUS } from "@/interfaces/order";
 import { usePaymentQuery } from "@/services/orderService";
 import { AppState } from "@/stores";
 import { formatCurrency } from "@/utils/formatter";
 import { useEffect } from "react";
+import QRCode from "react-qr-code";
 import { useSelector } from "react-redux";
 import Title from "../Title";
 import { Card } from "../core/Card";
-import { ORDER_PAYMENT_STATUS } from "@/interfaces/order";
 
 interface Props {
   onNext: () => void;
@@ -45,14 +45,14 @@ function ReceivePayment({ onNext }: Props) {
           <div className="text-center w-full">
             <div className="font-light mt-2">Số tiền cần thanh toán</div>
             <div className="text-7xl font-bold mt-4">
-              {formatCurrency(order.price + (order.extraFee ?? 0))}
+              {formatCurrency(order.totalPrice)}
             </div>
           </div>
           <Card className="gap-4 flex flex-col items-center mt-12">
-            <img src={QRImage} alt="qr_Image" className="max-h-80" />
+            {payment?.qr && <QRCode value={payment?.qr} size={440} />}
             <div className="text-center">
               <div className="font-light mt-4">Nội dung chuyển khoản</div>
-              <div className="font-bold mt-4">{payment?.content}</div>
+              <div className="font-bold mt-4 text-4xl">{payment?.content}</div>
             </div>
           </Card>
         </div>

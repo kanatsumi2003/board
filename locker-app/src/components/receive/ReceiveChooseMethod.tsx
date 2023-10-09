@@ -53,7 +53,7 @@ function ReceiveChooseMethod({ onNext, onPrev }: Props) {
           <div className="text-center w-full">
             <div className="font-light mt-2">Số tiền cần thanh toán</div>
             <div className="text-7xl font-bold mt-4">
-              {formatCurrency(order.price + (order.extraFee ?? 0))}
+              {formatCurrency(order.totalPrice)}
             </div>
           </div>
           <Card className="flex flex-col w-full justify-center mt-12">
