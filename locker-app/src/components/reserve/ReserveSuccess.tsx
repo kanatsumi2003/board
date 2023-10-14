@@ -25,6 +25,9 @@ function ReserveSuccess({ onNext }: Props) {
   useEffect(() => {
     if (isSuccess) {
       onNext();
+      modal.success({
+        message: "Cảm ơn bạn đã sử dụng dịch vụ.",
+      });
     }
     if (isError && error) {
       modal.error({ message: error?.message?.message });

@@ -1,6 +1,7 @@
 import MomoLogo from "@/assets/momo_logo.png";
 import VNPayLogo from "@/assets/vnpay_logo.jpg";
 import Button from "@/components/core/Button";
+import { VN_PAY_MINIMUM_PAYMENT_ACCEPTANCE } from "@/constants/common";
 import useModal from "@/hooks/useModal";
 import { ORDER_PAYMENT_METHOD } from "@/interfaces/order";
 import { useCheckOutOrderMutation } from "@/services/orderService";
@@ -61,32 +62,34 @@ function ReceiveChooseMethod({ onNext, onPrev }: Props) {
               Vui lòng chọn phương thức thanh toán
             </div>
             <ul className="font-medium flex flex-col gap-8 w-full mt-8">
-              <li
-                className="rounded-lg border-2 border-locker-blue"
-                onClick={() => setMethod(ORDER_PAYMENT_METHOD.VN_PAY)}
-              >
-                <div className="flex items-center pl-3">
-                  <input
-                    id={ORDER_PAYMENT_METHOD.VN_PAY}
-                    type="radio"
-                    value=""
-                    checked={method === ORDER_PAYMENT_METHOD.VN_PAY}
-                    name="list-radio"
-                    className="w-8 h-8 checked:bg-locker-blue"
-                  />
-                  <label
-                    htmlFor={ORDER_PAYMENT_METHOD.VN_PAY}
-                    className="py-3 font-medium text-gray-900 flex ml-4 items-center gap-6"
-                  >
-                    <img
-                      src={VNPayLogo}
-                      alt="VNPayLogo"
-                      className="w-28 h-28"
+              {order.totalPrice >= VN_PAY_MINIMUM_PAYMENT_ACCEPTANCE && (
+                <li
+                  className="rounded-lg border-2 border-locker-blue"
+                  onClick={() => setMethod(ORDER_PAYMENT_METHOD.VN_PAY)}
+                >
+                  <div className="flex items-center pl-3">
+                    <input
+                      id={ORDER_PAYMENT_METHOD.VN_PAY}
+                      type="radio"
+                      value=""
+                      checked={method === ORDER_PAYMENT_METHOD.VN_PAY}
+                      name="list-radio"
+                      className="w-8 h-8 checked:bg-locker-blue"
                     />
-                    <div>Ví điện tử VN Pay</div>
-                  </label>
-                </div>
-              </li>
+                    <label
+                      htmlFor={ORDER_PAYMENT_METHOD.VN_PAY}
+                      className="py-3 font-medium text-gray-900 flex ml-4 items-center gap-6"
+                    >
+                      <img
+                        src={VNPayLogo}
+                        alt="VNPayLogo"
+                        className="w-28 h-28"
+                      />
+                      <div>Ví điện tử VN Pay</div>
+                    </label>
+                  </div>
+                </li>
+              )}
               <li
                 className="w-full rounded-lg border-2 border-locker-blue"
                 onClick={() => setMethod(ORDER_PAYMENT_METHOD.MOMO)}

@@ -180,7 +180,7 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
                 onFocus={() => showKeyboard("receiverPhone")}
                 name={"receiverPhone"}
                 onChange={(value) => {
-                  store.dispatch(setOrderRequest({ receiverPhone: undefined }));
+                  store.dispatch(setOrderRequest({ receiverPhone: value }));
                   validateReceiverPhone(value ?? "");
                 }}
                 submitError={error?.receiverPhone}

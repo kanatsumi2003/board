@@ -6,6 +6,7 @@ import useKeyboard from "@/hooks/useKeyboard";
 import useModal from "@/hooks/useModal";
 import { LOCKER_STATUS } from "@/interfaces/locker";
 import { useLockerInfoQuery } from "@/services/boardService";
+import { useLockerQuery } from "@/services/lockerService";
 import { useSettingQuery } from "@/services/settingService";
 import TokenService from "@/services/tokenService";
 import store, { AppState } from "@/stores";
@@ -21,7 +22,7 @@ interface Props {
 }
 
 function MainLayout({ children }: Props) {
-  const { locker } = useSelector((state: AppState) => state.locker);
+  const { lockerInfo } = useSelector((state: AppState) => state.locker);
   const { keyboard, close } = useKeyboard();
   const location = useLocation();
   const navigate = useNavigate();
@@ -33,10 +34,40 @@ function MainLayout({ children }: Props) {
     data: setting,
     isSuccess: settingIsSuccess,
     refetch: settingRefetch,
+    isFetching: settingIsFetching,
   } = useSettingQuery(undefined, {
-    skip: !locker?.apiKey || !locker.apiHost,
+    skip: !lockerInfo?.apiKey || !lockerInfo.apiHost,
   });
+
+  const {
+    data: lockerData,
+    isSuccess: lockerIsSuccess,
+    refetch: lockerRefetch,
+    isFetching: lockerIsFetching,
+  } = useLockerQuery(
+    { id: Number(lockerInfo?.id) },
+    {
+      skip: !lockerInfo?.apiKey || !lockerInfo.apiHost,
+    }
+  );
+
   const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (settingIsSuccess && !settingIsFetching) {
+      store.dispatch(setSettingState(setting));
+    }
+  }, [settingIsSuccess, settingIsFetching]);
+
+  useEffect(() => {
+    if (lockerIsSuccess && !lockerIsFetching) {
+      store.dispatch(
+        setLockerState({
+          locker: lockerData,
+        })
+      );
+    }
+  }, [lockerIsSuccess, lockerIsFetching]);
 
   useEffect(() => {
     if (settingIsSuccess) {
@@ -52,7 +83,7 @@ function MainLayout({ children }: Props) {
 
       store.dispatch(
         setLockerState({
-          locker: {
+          lockerInfo: {
             id: Number(data.locker_id),
             code: data.locker_code,
             name: data.locker_name,
@@ -92,7 +123,10 @@ function MainLayout({ children }: Props) {
 
     if (location.pathname === PATH.HOME) {
       refetch();
-      isSuccess && settingRefetch();
+      if (isSuccess) {
+        lockerRefetch();
+        settingRefetch();
+      }
     }
   }, [location.pathname]);
 
@@ -129,7 +163,7 @@ function MainLayout({ children }: Props) {
   return (
     <div className="bg-white relative overflow-hidden h-screen w-screen items-center text-3xl leading-tight">
       <div className="flex flex-col h-full">
-        <Header name={locker?.name} online={isOnline} />
+        <Header name={lockerInfo?.name} online={isOnline} />
         <div className="relative h-full z-0 max-h-[calc(100%-101px)]">
           {children}
         </div>

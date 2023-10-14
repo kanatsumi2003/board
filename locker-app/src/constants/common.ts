@@ -1,4 +1,5 @@
 export const PAYMENT_POLLING_INTERVAL = 2_000;
+export const VN_PAY_MINIMUM_PAYMENT_ACCEPTANCE = 10_000;
 
 export const LOCAL_STORAGE_ITEMS = Object.freeze({
   ACCESS_TOKEN: "accessToken",

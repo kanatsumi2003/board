@@ -1,10 +1,11 @@
-import { ILockerInfoItem } from "@/interfaces/locker";
+import { ILockerInfoItem, ILockerItem } from "@/interfaces/locker";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface LockerState {
-  locker?: ILockerInfoItem;
+  lockerInfo?: ILockerInfoItem;
+  locker?: ILockerItem;
 }
 const initialState: LockerState = {};
 

@@ -1,5 +1,6 @@
 import { IAuditable, IPaging } from "..";
 import type { IHardwareItem } from "../hardware";
+import { ORDER_TYPE } from "../order";
 import type { IServiceItem } from "../service";
 import { IStoreItem } from "../store";
 
@@ -30,6 +31,7 @@ export interface ILockerItem extends IAuditable {
   store: IStoreItem;
   macAddress: string;
   ipAddress: string;
+  orderTypes: ORDER_TYPE[];
 }
 
 export interface ILocker extends Response {
