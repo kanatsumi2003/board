@@ -5,12 +5,12 @@ import time
 import platform
 
 board_addresses = [];
-SWITCH_PIN = 0
+SWITCH_PIN_INDEX = 0
 SERIAL_BAURATE = 19200
 
 SERIAL_PORT = ''
 if platform.system().lower()=="windows":
-    SERIAL_PORT = "COM6"
+    SERIAL_PORT = "COM12"
 elif platform.system().lower()=="linux":
     SERIAL_PORT = "/dev/ttyUSB0"
 else:
@@ -19,8 +19,10 @@ else:
 def open_board_box(board_no: int, pin: int) -> bool:
     instrument = minimalmodbus.Instrument(SERIAL_PORT, board_no)  
     instrument.serial.baudrate = SERIAL_BAURATE; 
+    instrument.close_port_after_each_call= True 
+    
     instrument.write_register(int(pin), int(1), 0)
-    time.sleep(0.01)
+    time.sleep(1)
     instrument.write_register(int(pin), int(0), 0)
     return True
     
@@ -41,8 +43,9 @@ def check_boxes_closed() -> bool:
     for board in board_addresses:
         instrument = minimalmodbus.Instrument(SERIAL_PORT, board)
         instrument.serial.baudrate = SERIAL_BAURATE; 
+        instrument.close_port_after_each_call= True 
         
-        closed = instrument.read_register(SWITCH_PIN, 0)
+        closed = instrument.read_register(SWITCH_PIN_INDEX, 0)
         if closed == 1:
             return False
     return True
@@ -52,9 +55,11 @@ def scan_slave_addresses(start_address=1, end_address=8, baudrate=SERIAL_BAURATE
     board_addresses = []
     for address in range(start_address, end_address + 1):
         try:
-            instruement = minimalmodbus.Instrument(port, address)        
-            instruement.serial.baudrate = baudrate
-            response = instruement.read_register(0, functioncode=3)
+            instrument = minimalmodbus.Instrument(port, address)        
+            instrument.serial.baudrate = baudrate
+            instrument.close_port_after_each_call= True 
+            
+            response = instrument.read_register(0, functioncode=3)
             
             board_addresses.append(address)
             
@@ -69,3 +74,4 @@ def scan_slave_addresses(start_address=1, end_address=8, baudrate=SERIAL_BAURATE
             raise ex;
             
     return board_addresses
+
