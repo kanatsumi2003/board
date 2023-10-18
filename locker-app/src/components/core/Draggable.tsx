@@ -1,12 +1,11 @@
 import { useRef } from "react";
 
-export const Draggable = ({
-  rootClass = "",
-  children,
-}: {
+interface Props {
   rootClass?: string;
   children: React.ReactNode;
-}) => {
+}
+
+export const Draggable = ({ rootClass = "", children }: Props) => {
   const ourRef = useRef<HTMLDivElement | null>(null);
   const isMouseDown = useRef(false);
   const mouseCoords = useRef({
@@ -53,7 +52,7 @@ export const Draggable = ({
       onMouseDown={handleDragStart}
       onMouseUp={handleDragEnd}
       onMouseMove={handleDrag}
-      className={rootClass + "flex overflow-x-scroll"}
+      className={rootClass + "flex"}
     >
       {children}
     </div>

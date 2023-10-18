@@ -1,13 +1,14 @@
-import type { Response } from "..";
+import type { IPaging, Response } from "..";
 import { IAccountItem } from "../account";
 import { IBoxItem } from "../box";
-import type { IAddress, ILockerItem } from "../locker";
+import type { ILockerItem } from "../locker";
 import { IServiceItem } from "../service";
 
 export enum ORDER_STATUS {
   INITIALIZED = "Initialized",
   WAITING = "Waiting",
   PROCESSING = "Processing",
+  PROCESSED = "Processed",
   RETURNED = "Returned",
   COMPLETED = "Completed",
   CANCELED = "Canceled",
@@ -19,6 +20,13 @@ export enum ORDER_TYPE {
 export enum ORDER_PAYMENT_METHOD {
   VN_PAY = "VnPay",
   MOMO = "Momo",
+}
+
+export enum ORDER_PAYMENT_STATUS {
+  CREATED = "Created",
+  PROCESSING = "Processing",
+  FAILED = "Failed",
+  COMPLETED = "Completed",
 }
 
 export interface ITimeLineItem {
@@ -43,6 +51,9 @@ export interface IOrderDetailItem {
   extraFee: number;
   discount: number;
   description: string;
+  reservationFee: number;
+  totalExtraFee: number;
+  totalPrice: number;
   createdAt: string;
   updatedAt: string;
   sender: IAccountItem;
@@ -75,6 +86,7 @@ export interface ICreateOrderRequest {
   lockerId: number;
   serviceIds?: number[];
   senderPhone?: string;
+  intendedReceiveAt?: string;
   receiverPhone?: string;
   type?: ORDER_TYPE;
   deliveryAddress?: {
@@ -94,4 +106,9 @@ export interface ICheckOutOrderRequest {
 export interface IUpdateOrderRequest {
   amount: number;
   fee: number;
+}
+
+export interface IOrdersParams extends Partial<IPaging> {
+  type?: ORDER_TYPE;
+  status?: ORDER_STATUS;
 }

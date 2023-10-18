@@ -1,7 +1,7 @@
-import store, { AppState } from "@/stores";
+import useKeyboard from "@/hooks/useKeyboard";
+import store from "@/stores";
 import { setGlobalState } from "@/stores/global.store";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
 import Keyboard, { KeyboardReactInterface } from "react-simple-keyboard";
 import "simple-keyboard/build/css/index.css";
 
@@ -12,26 +12,31 @@ enum KEYBOARD_LAYOUT {
   ALT = "alt",
 }
 
+interface Props {
+  show?: boolean;
+  maxLength: number;
+  inputName?: string;
+  onChangeAll: (values: { [key: string]: string }) => void;
+  onlyNumber?: boolean;
+  uppercase?: boolean;
+  disablePositioning?: boolean;
+}
+
 function VirtualKeyboard({
   maxLength,
   inputName,
   show,
   onChangeAll,
   onlyNumber,
-}: {
-  show?: boolean;
-  maxLength: number;
-  inputName?: string;
-  onChangeAll: (values: { [key: string]: string }) => void;
-  onlyNumber?: boolean;
-}) {
+  uppercase,
+  disablePositioning,
+}: Props) {
   const [layout, setLayout] = useState<KEYBOARD_LAYOUT>(
     KEYBOARD_LAYOUT.DEFAULT
   );
-  const { keyboard } = useSelector((state: AppState) => state.global);
+  const { keyboard, inputs } = useKeyboard();
   const keyboardRef = useRef<KeyboardReactInterface | null>(null);
   const ref = useRef<HTMLDivElement>(null);
-  const { inputs } = useSelector((state: AppState) => state.global);
 
   const onKeyPress = (button: string) => {
     if (button.includes("{") && button.includes("}")) {
@@ -51,21 +56,23 @@ function VirtualKeyboard({
     if (keyboard) {
       if (onlyNumber) {
         setLayout(KEYBOARD_LAYOUT.NUMBERS);
+      } else if (uppercase) {
+        setLayout(KEYBOARD_LAYOUT.SHIFT);
       } else {
         setLayout(KEYBOARD_LAYOUT.DEFAULT);
       }
     }
-  }, [keyboard, onlyNumber]);
+  }, [keyboard, onlyNumber, uppercase]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        store.dispatch(
-          setGlobalState({
-            keyboard: undefined,
-          })
-        );
-      }
+      // if (ref.current && !ref.current.contains(event.target as Node)) {
+      //   store.dispatch(
+      //     setGlobalState({
+      //       keyboard: undefined,
+      //     })
+      //   );
+      // }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -158,6 +165,8 @@ function VirtualKeyboard({
           e?.preventDefault();
           onChangeAll(value);
         }}
+        useTouchEvents
+        disableCaretPositioning={disablePositioning}
         mergeDisplay
         display={{
           "{alt}": ".?123",

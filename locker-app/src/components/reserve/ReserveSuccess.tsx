@@ -4,8 +4,14 @@ import { AppState } from "@/stores";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Button from "../core/Button";
+import Title from "../Title";
+import BoxNumber from "../core/BoxNumber";
 
-function ReserveSuccess({ onNext }: { onNext: () => void }) {
+interface Props {
+  onNext: () => void;
+}
+
+function ReserveSuccess({ onNext }: Props) {
   const { order } = useSelector((state: AppState) => state.order);
   const [confirmOrder, { isSuccess, isError, error }] =
     useConfirmOrderMutation();
@@ -19,6 +25,9 @@ function ReserveSuccess({ onNext }: { onNext: () => void }) {
   useEffect(() => {
     if (isSuccess) {
       onNext();
+      modal.success({
+        message: "Cảm ơn bạn đã sử dụng dịch vụ.",
+      });
     }
     if (isError && error) {
       modal.error({ message: error?.message?.message });
@@ -26,24 +35,18 @@ function ReserveSuccess({ onNext }: { onNext: () => void }) {
   }, [isSuccess, isError]);
 
   return (
-    <div className="mt-8 flex w-full items-center flex-col justify-between h-full">
-      <div
-        className={`absolute top-0 left-0 right-0 bg-locker-blue h-48 rounded-b-[120px] -z-10`}
-      ></div>
-
-      <div className="text-center text-white">
-        <div className="text-3xl font-bold">Vui lòng để đồ vào ô tủ số</div>
-        <div className="mt-4">
+    <>
+      <Title subtitle="Đặt trước">Vui lòng để đồ vào ô tủ số</Title>
+      <div className="flex w-full items-center flex-col justify-between h-full mt-52">
+        <div className="text-center">
           Vui lòng để đồ vào tủ và ấn "Xác nhận" trên màn hình để hoàn tất.
         </div>
+        <BoxNumber>{order?.sendBox?.number}</BoxNumber>
+        <Button type="primary" small onClick={handleConfirmOrder}>
+          Xác nhận
+        </Button>
       </div>
-      <div className="text-[160px] font-bold text-locker-blue p-4 rounded-full">
-        {order?.sendBox?.number}
-      </div>
-      <Button type="primary" small onClick={handleConfirmOrder}>
-        Xác nhận
-      </Button>
-    </div>
+    </>
   );
 }
 

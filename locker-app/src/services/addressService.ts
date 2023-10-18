@@ -10,17 +10,16 @@ export const addressApi = createApi({
   refetchOnMountOrArgChange: true,
   tagTypes: ["Addresses"],
   endpoints: (build) => ({
-    addresses: build.query<
-      Array<IAddressItem>,
-      Partial<IAddressParams> | void
-    >({
-      query: (params) => ({
-        url: endpoints.getAddressEndpoints().addresses,
-        method: "GET",
-        params,
-      }),
-      providesTags: [{ type: "Addresses", id: "LIST" }],
-    }),
+    addresses: build.query<Array<IAddressItem>, Partial<IAddressParams> | void>(
+      {
+        query: (params) => ({
+          url: endpoints.getAddressEndpoints().addresses,
+          method: "GET",
+          params,
+        }),
+        providesTags: [{ type: "Addresses", id: "LIST" }],
+      }
+    ),
   }),
 });
 

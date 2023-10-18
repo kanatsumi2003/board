@@ -1,85 +1,64 @@
+import useKeyboard from "@/hooks/useKeyboard";
 import useModal from "@/hooks/useModal";
 import { useLoginStaffMutation } from "@/services/authService";
 import TokenService from "@/services/tokenService";
-import store, { AppState } from "@/stores";
-import { setGlobalState, updateInputs } from "@/stores/global.store";
-import { isValidPhone } from "@/utils/validator";
 import { useEffect, useState } from "react";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FaAngleRight } from "react-icons/fa6";
-import { useSelector } from "react-redux";
+import Title from "../Title";
 import BackButton from "../core/BackButton";
 import Button from "../core/Button";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 interface LoginForm {
-  phoneNumber?: string;
+  username?: string;
   password?: string;
 }
-function Login({ onNext }: { onNext: () => void }) {
-  const [otp, setOtp] = useState("");
-  const { inputs } = useSelector((state: AppState) => state.global);
+
+interface Props {
+  onNext: () => void;
+}
+
+function Login({ onNext }: Props) {
+  const { inputs } = useKeyboard();
   const [form, setForm] = useState<LoginForm>();
   const [error, setError] = useState<LoginForm>();
   const [loginStaff, { isSuccess, data, isError, error: loginError }] =
     useLoginStaffMutation();
   const [showPassword, setShowPassword] = useState(false);
   const modal = useModal();
+  const { open, clear } = useKeyboard();
 
-  const showKeyboard = (inputName: string, onlyNumber: boolean) => {
-    store.dispatch(
-      setGlobalState({
-        keyboard: {
-          maxLength: 100,
-          inputName: inputName,
-          onlyNumber: onlyNumber,
-        },
-      })
-    );
+  const showKeyboard = (inputName: string) => {
+    open({
+      maxLength: 100,
+      inputName: inputName,
+      onlyNumber: false,
+    });
   };
 
   useEffect(() => {
-    store.dispatch(
-      updateInputs({
-        phoneNumber: "",
-        password: "",
-      })
-    );
+    clear(["username", "password"]);
+    showKeyboard("username");
   }, []);
 
   useEffect(() => {
     if (inputs) {
       setForm({
-        phoneNumber: inputs["phoneNumber"],
+        username: inputs["username"],
         password: inputs["password"],
       });
-    }
-    if (inputs && inputs["default"]) {
-      setOtp(inputs["default"]);
     }
   }, [inputs]);
 
   useEffect(() => {
-    validate();
-  }, [form]);
-
-  const validate = () => {
-    if (form?.phoneNumber && !isValidPhone(form.phoneNumber)) {
-      setError((prev) => ({
-        ...prev,
-        phoneNumber: "Số điện thoại không hợp lệ.",
-      }));
-    } else {
-      setError((prev) => ({ ...prev, phoneNumber: undefined }));
-    }
-
-    setError((prev) => ({ ...prev, password: undefined }));
-  };
+    setError({ username: undefined, password: undefined });
+  }, [form?.username, form?.password]);
 
   const handleLogin = () => {
-    if (!form?.phoneNumber) {
+    if (!form?.username) {
       setError((prev) => ({
         ...prev,
-        phoneNumber: "Vui lòng nhập Số điện thoại.",
+        username: "Vui lòng nhập Username.",
       }));
     }
     if (!form?.password) {
@@ -90,12 +69,12 @@ function Login({ onNext }: { onNext: () => void }) {
     }
     if (
       !error?.password &&
-      !error?.phoneNumber &&
+      !error?.username &&
       form?.password &&
-      form.phoneNumber
+      form.username
     ) {
       loginStaff({
-        phoneNumber: form?.phoneNumber,
+        username: form?.username,
         password: form?.password,
       });
     }
@@ -112,55 +91,38 @@ function Login({ onNext }: { onNext: () => void }) {
     }
   }, [isSuccess, isError]);
 
-  useEffect(() => {
-    store.dispatch(
-      setGlobalState({
-        keyboard: {
-          maxLength: 10,
-          onlyNumber: true,
-          inputName: "phoneNumber",
-        },
-      })
-    );
-  }, []);
-
   return (
     <>
-      <div
-        className={`absolute top-0 left-0 right-0 bg-locker-blue h-40 rounded-b-[120px] -z-10`}
-      ></div>
-      <div className="text-4xl font-bold mt-8 text-white">
-        Đăng nhập tài khoản nhân viên
-      </div>
-      <div className="text-2xl font-semibold flex flex-col gap-4 mt-16">
+      <Title>Đăng nhập tài khoản nhân viên</Title>
+      <div className="font-semibold flex flex-col gap-4 mt-52">
         <div>
           <input
             type="text"
             autoFocus
             autoComplete="off"
-            placeholder="Số điện thoại"
-            className={`focus:outline-locker-blue col-span-3 rounded-lg border border-black w-96 p-2 text-2xl text-center ${
-              error?.phoneNumber ? "border-locker-red" : ""
+            placeholder="Username"
+            className={`focus:outline-locker-blue col-span-3 text-4xl rounded-lg border border-black w-[600px] p-4 text-center ${
+              error?.username ? "border-locker-red" : ""
             }`}
-            name="phoneNumber"
+            name="username"
             required
             onClick={() => {
-              showKeyboard("phoneNumber", true);
+              showKeyboard("username");
             }}
             onFocus={() => {
-              showKeyboard("phoneNumber", true);
+              showKeyboard("username");
             }}
-            value={form?.phoneNumber}
+            value={form?.username}
           />
-          <div className="col-span-2 text-base text-locker-red mt-1 h-4">
-            {error?.phoneNumber ?? ""}
+          <div className="col-span-2 text-locker-red mt-4">
+            {error?.username ?? ""}
           </div>
         </div>
         <div>
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
-              className={`focus:outline-locker-blue col-span-3 rounded-lg border border-black w-96 p-2 text-2xl text-center ${
+              className={`focus:outline-locker-blue col-span-3 text-4xl rounded-lg border border-black w-[600px] p-4 text-center ${
                 error?.password ? "border-locker-red" : ""
               }`}
               name="password"
@@ -168,10 +130,10 @@ function Login({ onNext }: { onNext: () => void }) {
               autoComplete="off"
               required
               onClick={() => {
-                showKeyboard("password", false);
+                showKeyboard("password");
               }}
               onFocus={() => {
-                showKeyboard("password", false);
+                showKeyboard("password");
               }}
               value={form?.password}
             />
@@ -182,7 +144,7 @@ function Login({ onNext }: { onNext: () => void }) {
               {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
             </div>
           </div>
-          <div className="col-span-2 text-base text-locker-red mt-1 h-4">
+          <div className="col-span-2 text-locker-red mt-4">
             {error?.password ?? ""}
           </div>
         </div>

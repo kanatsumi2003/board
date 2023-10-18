@@ -1,7 +1,5 @@
-import store, { AppState } from "@/stores";
-import { setGlobalState, updateInputs } from "@/stores/global.store";
+import useKeyboard from "@/hooks/useKeyboard";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import ReactSelect, { createFilter } from "react-select";
 
 const filterConfig = {
@@ -11,8 +9,22 @@ const filterConfig = {
 };
 
 interface IOptionType {
-  key: string;
+  key: string | number;
   value: string;
+  label: string;
+}
+
+interface Props {
+  data: IOptionType[];
+  name: string;
+  value?: string;
+  placeholder: string;
+  onChange: (option?: string) => void;
+  onClear: () => void;
+  menuPlacement?: "top" | "bottom";
+  className?: string;
+  searchable?: boolean;
+  disable?: boolean;
   label: string;
 }
 
@@ -23,71 +35,77 @@ function Select({
   placeholder,
   onClear,
   value,
-}: {
-  data: IOptionType[];
-  name: string;
-  value?: string;
-  placeholder: string;
-  onChange: (option?: string) => void;
-  onClear: () => void;
-}) {
-  const { inputs, keyboard } = useSelector((state: AppState) => state.global);
+  menuPlacement = "bottom",
+  className,
+  searchable = true,
+  disable,
+  label,
+}: Props) {
+  const { inputs, keyboard, close, clear, open } = useKeyboard();
+
   const handleChange = (selectedOption: IOptionType | null) => {
     onChange(selectedOption?.value);
     if (selectedOption) {
-      store.dispatch(
-        setGlobalState({
-          keyboard: undefined,
-        })
-      );
+      close();
     } else {
       onClear();
     }
   };
+
   useEffect(() => {
-    store.dispatch(
-      updateInputs({
-        [name]: "",
-      })
-    );
+    clear([name]);
   }, []);
 
   return (
-    <ReactSelect
-      classNames={{
-        control: ({ isFocused }) =>
-          `!rounded-lg !border-1 !shadow-locker-blue ${
-            isFocused ? "!border-locker-blue !shadow-none" : "!border-black"
-          }`,
-        input: () => "input-container",
-      }}
-      onFocus={() =>
-        store.dispatch(
-          setGlobalState({
-            keyboard: {
+    <div>
+      <label className="font-medium">{label}</label>
+      <ReactSelect
+        className={className}
+        classNames={{
+          control: ({ isFocused }) =>
+            `!rounded-lg !border-1 !shadow-locker-blue !p-4 mt-4 ${
+              isFocused ? "!border-locker-blue !shadow-none" : "!border-black"
+            }`,
+          input: () => "input-container",
+          valueContainer: () => "!p-0",
+          menu: () => "!z-50",
+          option: () => "!p-4",
+        }}
+        onFocus={() => {
+          if (searchable) {
+            open({
               maxLength: 100,
               inputName: name,
               onlyNumber: false,
-            },
-          })
-        )
-      }
-      isClearable
-      isDisabled={!data.length}
-      placeholder={<div className="line-clamp-1">{placeholder}</div>}
-      value={data.find((d) => d.key === value) ?? null}
-      isSearchable
-      inputValue={data.find((d) => d.key === value)?.label ?? inputs?.[name]}
-      onChange={handleChange}
-      menuIsOpen={keyboard?.inputName === name}
-      options={data}
-      menuPlacement="top"
-      maxMenuHeight={180}
-      openMenuOnFocus={true}
-      blurInputOnSelect
-      menuShouldScrollIntoView
-      filterOption={createFilter(filterConfig)}
-    />
+            });
+          }
+        }}
+        isClearable
+        isDisabled={!data.length || disable}
+        placeholder={<div className="line-clamp-1">{placeholder}</div>}
+        isSearchable={searchable}
+        inputValue={
+          searchable
+            ? data.find((d) => d.key === value)?.label ?? inputs?.[name]
+            : undefined
+        }
+        onChange={handleChange}
+        options={data}
+        value={
+          value
+            ? data.find((d) => {
+                return d.key === value;
+              })
+            : null
+        }
+        menuPlacement={menuPlacement}
+        openMenuOnClick={true}
+        openMenuOnFocus={true}
+        blurInputOnSelect
+        menuShouldScrollIntoView
+        filterOption={createFilter(filterConfig)}
+      />
+    </div>
   );
 }
 

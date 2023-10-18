@@ -3,16 +3,17 @@ import { IDetailItem, ORDER_TYPE } from "@/interfaces/order";
 import { AppState } from "@/stores";
 import { formatCurrency, formatDate } from "@/utils/formatter";
 import { useSelector } from "react-redux";
-import BackButton from "../core/BackButton";
+import Title from "../Title";
+import BackStepButton from "../core/BackStepButton";
 import { Draggable } from "../core/Draggable";
+import { Card } from "../core/Card";
 
-function ReceiveOrderDetail({
-  onNext,
-  onPrev,
-}: {
+interface Props {
   onNext: () => void;
   onPrev: () => void;
-}) {
+}
+
+function ReceiveOrderDetail({ onNext, onPrev }: Props) {
   const { order } = useSelector((state: AppState) => state.order);
 
   if (!order) {
@@ -21,104 +22,155 @@ function ReceiveOrderDetail({
 
   return (
     <>
-      <div className="flex flex-col items-center gap-2">
-        <div
-          className={`absolute top-0 left-0 right-0 bg-locker-blue h-60 rounded-b-[80px] -z-10`}
-        ></div>
-        <div className="text-3xl font-bold mt-4 text-white">
-          Xác nhận thông tin đơn hàng
-        </div>
-        <div className="font-light mt-2 text-white">Số tiền thanh toán</div>
-        <div className="text-5xl font-bold text-white">
-          {formatCurrency(order.price + (order.extraFee ?? 0))}
-        </div>
-      </div>
-      <div className="flex gap-4 w-full px-12 justify-center">
-        <div className="bg-white shadow-2xl grid grid-cols-2 p-8 rounded-3xl gap-y-3 gap-x-1 basis-3/5 justify-center">
-          <div className="font-semibold col-span-2">Thông tin đơn hàng:</div>
-          <div>Mã đơn hàng:</div>
-          <div className="font-bold">{order.id}</div>
-          <div>Mã PIN đơn hàng:</div>
-          <div className="font-bold">{order.pinCode}</div>
-          <div>Loại dịch vụ:</div>
-          <div className="font-bold">{order.type}</div>
-          <div>SĐT người gửi:</div>
-          <div className="font-bold">{order.sender.phoneNumber}</div>
-          {order.receiver?.phoneNumber && (
-            <>
-              <div>SĐT người nhận:</div>
-              <div className="font-bold">{order.receiver?.phoneNumber}</div>
-            </>
-          )}
-          {order.createdAt && (
-            <>
-              <div>Thời gian:</div>
-              <div className="font-bold">{formatDate(order.createdAt)}</div>
-            </>
-          )}
-        </div>
-        {order.type === ORDER_TYPE.LAUNDRY && (
-          <div className="flex flex-col gap-2 basis-2/5">
-            <div className="bg-white shadow-2xl p-5 rounded-3xl gap-2">
-              <div className="font-semibold mb-2">Chi tiết đơn hàng:</div>
-              <Draggable>
-                <div className="flex flex-col overflow-y-scroll h-[140px] gap-2 w-full">
-                  {order.details.map((detail: IDetailItem) => (
-                    <div
-                      className={`flex p-2 bg-gray-100 rounded-lg w-full items-center`}
-                      key={detail.id}
-                    >
-                      <img
-                        src={detail.service.image}
-                        alt=""
-                        className="w-32 h-14 object-cover rounded-lg"
-                      />
-                      <div className="flex flex-col justify-center gap-1 ml-2 text-ellipsis w-full">
-                        <div className="font-bold text-base overflow-hidden text-ellipsis whitespace-nowrap">
-                          {detail.service.name}
-                        </div>
-                        <div>
-                          <div className="text-xs">
-                            Đơn giá:{" "}
-                            <span className="font-semibold">
-                              {formatCurrency(detail.price ?? 0)}
-                            </span>{" "}
-                          </div>
-                          <div className="text-xs">
-                            Số lượng:{" "}
-                            <span className="font-semibold">
-                              {`${detail.quantity} ${detail.service.unit}`}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </Draggable>
-            </div>
-            <div className="bg-white shadow-2xl p-5 rounded-3xl gap-2 grid grid-cols-2 justify-items-end">
-              <div>Thành tiền:</div>
-              <div className="font-bold">
-                {formatCurrency(order.price ?? 0)}
-              </div>
-              <div>Phụ thu:</div>
-              <div className="font-bold">
-                {`${formatCurrency(order.extraFee ?? 0)}`}{" "}
-                {order.extraFee ? (
-                  <span className="text-sm font-normal">{`(${order.extraFee} giờ)`}</span>
-                ) : (
-                  ""
-                )}
-              </div>
+      <Title subtitle="Nhận hàng">Xác nhận thông tin đơn hàng</Title>
+      <div className="mt-52 flex w-full items-center flex-col h-full justify-between px-12">
+        <div className="w-full">
+          <div className="text-center">
+            <div className="font-light">Số tiền cần thanh toán</div>
+            <div className="text-7xl font-bold mt-4">
+              {formatCurrency(order.totalPrice ?? 0)}
             </div>
           </div>
-        )}
+          <div className="flex flex-col gap-12 w-full justify-center mt-12">
+            <Card className="grid grid-cols-2 gap-y-3 gap-x-1 basis-3/5 justify-center">
+              <div className="font-semibold col-span-2 mb-4 text-4xl">
+                Thông tin đơn hàng:
+              </div>
+              <div>Mã đơn hàng:</div>
+              <div className="font-bold text-end">{order.id}</div>
+              <div>Mã PIN đơn hàng:</div>
+              <div className="font-bold text-end">{order.pinCode}</div>
+              <div>Loại dịch vụ:</div>
+              <div className="font-bold text-end">{order.type}</div>
+              <div>SĐT người gửi:</div>
+              <div className="font-bold text-end">
+                {order.sender.phoneNumber}
+              </div>
+              {order.receiver?.phoneNumber && (
+                <>
+                  <div>SĐT người nhận:</div>
+                  <div className="font-bold text-end">
+                    {order.receiver?.phoneNumber}
+                  </div>
+                </>
+              )}
+              {order.createdAt && (
+                <>
+                  <div>Thời gian:</div>
+                  <div className="font-bold text-end">
+                    {formatDate(order.createdAt)}
+                  </div>
+                </>
+              )}
+              {/* <div className="w-full border-b border-solid col-span-2 border-black"></div> */}
+              {order.type === ORDER_TYPE.LAUNDRY && (
+                <>
+                  <div className="font-semibold col-span-2 my-4 text-4xl">
+                    Chi tiết hóa đơn:
+                  </div>
+                  <div>Phí dịch vụ:</div>
+                  <div className="font-bold text-end">
+                    {formatCurrency(order.price ?? 0)}
+                  </div>
+                  <div>Giảm giá:</div>
+                  <div className="font-bold text-end">
+                    - {formatCurrency(order.discount ?? 0)}
+                  </div>
+                  <div>Trả trước:</div>
+                  <div className="font-bold text-end">
+                    - {formatCurrency(order.reservationFee ?? 0)}
+                  </div>
+                  <div>Phụ thu:</div>
+                  <div className="font-bold text-end">
+                    {`${formatCurrency(order.totalExtraFee ?? 0)}`}{" "}
+                    {order.totalExtraFee > 0 ? (
+                      <span className="font-normal">{`(${formatCurrency(
+                        order.extraCount ?? 0
+                      )} giờ)`}</span>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </>
+              )}
+            </Card>
+            {order.type === ORDER_TYPE.LAUNDRY && (
+              <>
+                <Card>
+                  <div className="font-semibold mb-8 text-4xl">
+                    {`Chi tiết đơn hàng (${order.details.length} dịch vụ):`}
+                  </div>
+                  <Draggable>
+                    <div className="flex flex-col overflow-y-scroll h-[280px] gap-2 w-full">
+                      {order.details.map((detail: IDetailItem) => (
+                        <div
+                          className={`flex p-2 bg-gray-100 rounded-lg w-full items-center md:h-52 gap-8`}
+                          key={detail.id}
+                        >
+                          <div className="h-full md:w-60 md:h-40 xl:w-32 xl:h-20">
+                            <img
+                              src={detail.service.image}
+                              alt=""
+                              className="h-full w-full object-cover rounded-lg"
+                            />
+                          </div>
+                          <div className="flex flex-col justify-center gap-1 text-ellipsis xl:w-full">
+                            <div className="font-bold text-4xl overflow-hidden text-ellipsis whitespace-nowrap">
+                              {detail.service.name}
+                            </div>
+                            <div className="mt-2">
+                              <div>
+                                Đơn giá:{" "}
+                                <span className="font-semibold">
+                                  {formatCurrency(detail.price ?? 0)}
+                                </span>{" "}
+                              </div>
+                              {detail.quantity && (
+                                <div>
+                                  Số lượng:{" "}
+                                  <span className="font-semibold">
+                                    {`${detail.quantity} ${detail.service.unit}`}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </Draggable>
+                </Card>
+                {/* <div className="bg-white shadow-xl grid grid-cols-2 p-12 rounded-3xl gap-y-3 gap-x-1 basis-3/5 justify-center">
+                  <div className="font-semibold col-span-2 mb-4 text-4xl">
+                    Chi tiết hóa đơn:
+                  </div>
+                  <div>Thành tiền:</div>
+                  <div className="font-bold text-end">
+                    {formatCurrency(order.price ?? 0)}
+                  </div>
+                  <div>Phụ thu:</div>
+                  <div className="font-bold text-end">
+                    {`${formatCurrency(order.extraFee ?? 0)}`}{" "}
+                    {order.extraFee ? (
+                      <span className="font-normal">{`(${formatCurrency(
+                        order.extraCount ?? 0
+                      )} giờ)`}</span>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </div> */}
+              </>
+            )}
+          </div>
+        </div>
+        <div className="flex flex-col gap-4">
+          <Button type="primary" small onClick={onNext}>
+            Xác nhận thanh toán
+          </Button>
+          <BackStepButton onClick={onPrev} />
+        </div>
       </div>
-      <Button type="primary" small onClick={onNext}>
-        Xác nhận thanh toán
-      </Button>
-      <BackButton onClick={onPrev} />
     </>
   );
 }

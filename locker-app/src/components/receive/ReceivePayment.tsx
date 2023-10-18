@@ -1,24 +1,32 @@
-import QRImage from "@/assets/qr.jpg";
+import { PAYMENT_POLLING_INTERVAL } from "@/constants/common";
 import useModal from "@/hooks/useModal";
-import { useBillQuery } from "@/services/orderService";
+import { ORDER_PAYMENT_STATUS } from "@/interfaces/order";
+import { usePaymentQuery } from "@/services/orderService";
 import { AppState } from "@/stores";
 import { formatCurrency } from "@/utils/formatter";
 import { useEffect } from "react";
+import QRCode from "react-qr-code";
 import { useSelector } from "react-redux";
+import Title from "../Title";
+import { Card } from "../core/Card";
 
-function ReceivePayment({ onNext }: { onNext: () => void }) {
-  const { bill, order } = useSelector((state: AppState) => state.order);
-  const { data } = useBillQuery(
-    { orderId: Number(order?.id) },
+interface Props {
+  onNext: () => void;
+}
+
+function ReceivePayment({ onNext }: Props) {
+  const { payment, order } = useSelector((state: AppState) => state.order);
+  const { data } = usePaymentQuery(
+    { paymentId: Number(payment?.id) },
     {
-      pollingInterval: 2000,
-      skip: !order?.id,
+      pollingInterval: PAYMENT_POLLING_INTERVAL,
+      skip: !order?.id || !payment?.id,
     }
   );
   const modal = useModal();
 
   useEffect(() => {
-    if (data) {
+    if (data && data.status === ORDER_PAYMENT_STATUS.COMPLETED) {
       modal.success({
         message: "Thanh toán thành công",
         onClose: onNext,
@@ -31,23 +39,22 @@ function ReceivePayment({ onNext }: { onNext: () => void }) {
   }
   return (
     <>
-      <div className="flex flex-col items-center gap-2">
-        <div
-          className={`absolute top-0 left-0 right-0 bg-locker-blue h-60 rounded-b-[80px] -z-10`}
-        ></div>
-        <div className="text-3xl font-bold mt-4 text-white">
-          Vui lòng quét mã QR sau để thanh toán
-        </div>
-        <div className="font-light mt-2 text-white">Số tiền thanh toán</div>
-        <div className="text-5xl font-bold text-white">
-          {formatCurrency(order.price + (order.extraFee ?? 0))}
-        </div>
-      </div>
-      <div className="bg-white shadow-2xl rounded-3xl gap-4 p-10 flex flex-col items-center">
-        <img src={QRImage} alt="qr_Image" className="max-h-60" />
-        <div className="text-center">
-          <div className="font-light mt-2">Nội dung chuyển khoản</div>
-          <div className="font-bold text-xl">{bill?.content}</div>
+      <Title subtitle="Nhận hàng">Vui lòng quét mã QR sau để thanh toán</Title>
+      <div className="mt-52 flex w-full items-center flex-col gap-24 h-full px-12 justify-between">
+        <div className="w-full">
+          <div className="text-center w-full">
+            <div className="font-light mt-2">Số tiền cần thanh toán</div>
+            <div className="text-7xl font-bold mt-4">
+              {formatCurrency(order.totalPrice)}
+            </div>
+          </div>
+          <Card className="gap-4 flex flex-col items-center mt-12">
+            {payment?.qr && <QRCode value={payment?.qr} size={440} />}
+            <div className="text-center">
+              <div className="font-light mt-4">Nội dung chuyển khoản</div>
+              <div className="font-bold mt-4 text-4xl">{payment?.content}</div>
+            </div>
+          </Card>
         </div>
       </div>
     </>

@@ -3,7 +3,8 @@ import { PATH } from "@/constants/common";
 import useModal from "@/hooks/useModal";
 import { IBoxItem } from "@/interfaces/box";
 import { useLazyBoxesQuery } from "@/services/boxService";
-import { AppState } from "@/stores";
+import store, { AppState } from "@/stores";
+import { clearOrder, setOrderRequest } from "@/stores/order.store";
 import { useEffect } from "react";
 import { TbPackage, TbPackageExport, TbPackageImport } from "react-icons/tb";
 import { useSelector } from "react-redux";
@@ -33,6 +34,10 @@ function Home() {
     }
   }, [boxesIsFetching, boxesIsUninitialized]);
 
+  useEffect(() => {
+    store.dispatch(clearOrder());
+  }, []);
+
   const handleSend = () => {
     if (locker) {
       getBoxes({ id: locker?.id });
@@ -40,13 +45,13 @@ function Home() {
   };
 
   return (
-    <div className="h-full p-10 flex-col gap-12 justify-between grid grid-cols-5">
-      <div className="col-span-3 h-full bg-home bg-cover" />
-      <div className="col-span-2 grid-cols-2 flex flex-col justify-between h-full flex-grow">
+    <div className="h-full p-12 flex-col gap-12 justify-between grid xl:grid-cols-2 grid-cols-1">
+      <div className="col-span-1 h-full bg-home bg-cover flex-none bg-center" />
+      <div className="col-span-1 grid-cols-2 flex flex-col justify-between h-full flex-grow">
         <div className="flex flex-col w-full gap-6 justify-between h-full">
           <Button
             type="primary"
-            className="h-full text-5xl"
+            className="h-full text-6xl"
             wrapperClassName="basis-1/3"
             onClick={handleSend}
             icon={<TbPackageExport />}
@@ -56,7 +61,7 @@ function Home() {
           <Button
             type="secondary"
             to={PATH.RECEIVE}
-            className="h-full text-5xl"
+            className="h-full text-6xl"
             wrapperClassName="basis-1/3"
             icon={<TbPackageImport />}
           >
@@ -65,11 +70,11 @@ function Home() {
           <Button
             type="secondary"
             to={PATH.RESERVE}
-            className="h-full text-5xl"
+            className="h-full text-6xl"
             wrapperClassName="basis-1/3"
             icon={<TbPackage />}
           >
-            Đặt chỗ
+            Đã đặt chỗ
           </Button>
         </div>
       </div>

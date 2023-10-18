@@ -6,7 +6,11 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Button from "../core/Button";
 
-function SendSuccess({ onNext }: { onNext: () => void }) {
+interface Props {
+  onNext: () => void;
+}
+
+function SendSuccess({ onNext }: Props) {
   const modal = useModal();
   const { order } = useSelector((state: AppState) => state.order);
   const [confirmOrder, { isSuccess, data, isError, error }] =
@@ -58,17 +62,17 @@ function SendSuccess({ onNext }: { onNext: () => void }) {
   }, [isSuccess, isError]);
 
   return (
-    <div className="mt-8 flex w-full items-center flex-col justify-between h-full">
+    <div className="mt-8 flex w-full items-center flex-col justify-between h-full px-12">
       <div className="text-center">
-        <div className="text-3xl font-bold text-black">
+        <div className="font-bold text-black text-4xl">
           Vui lòng để đồ vào ô tủ số
         </div>
-        <div className="mt-4">
+        <div className="mt-8">
           Vui lòng để đồ vào tủ và ấn "Xác nhận" trên màn hình để hoàn tất quá
           trình gửi đồ
         </div>
       </div>
-      <div className="text-[160px] font-bold text-locker-blue p-4 rounded-full">
+      <div className="text-[200px] font-bold text-locker-blue p-4 rounded-full">
         {order?.sendBox?.number}
       </div>
       <Button type="primary" small onClick={handleConfirmOrder}>

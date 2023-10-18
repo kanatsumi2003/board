@@ -1,7 +1,9 @@
 import type {
   ICheckOutOrderRequest,
   ICreateOrderRequest,
+  IOrder,
   IOrderDetailItem,
+  IOrdersParams,
   IUpdateOrderRequest,
 } from "@/interfaces/order";
 
@@ -9,8 +11,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 
 import axiosBaseQuery from "@/configs/axiosBaseQuery";
 import endpoints from "@/constants/endpoints";
-import { IBillItem } from "@/interfaces/bill";
-import { lockerApi } from "./lockerService";
+import { IPaymentItem } from "@/interfaces/payment";
 
 export const orderApi = createApi({
   reducerPath: "orderApi",
@@ -22,6 +23,14 @@ export const orderApi = createApi({
       query: ({ id }) => ({
         url: endpoints.getOrderEndpoints(id).orderById,
         method: "GET",
+      }),
+    }),
+
+    orders: build.query<IOrder, IOrdersParams | void>({
+      query: (params) => ({
+        url: endpoints.getOrderEndpoints().orders,
+        method: "GET",
+        params,
       }),
     }),
 
@@ -67,7 +76,7 @@ export const orderApi = createApi({
     }),
 
     checkOutOrder: build.mutation<
-      IBillItem,
+      IPaymentItem,
       { id: number } & ICheckOutOrderRequest
     >({
       query: ({ id, ...data }) => ({
@@ -86,6 +95,14 @@ export const orderApi = createApi({
       invalidatesTags: [{ type: "Order" }, { type: "Box" }],
     }),
 
+    collectOrder: build.mutation<IOrderDetailItem, { id: number }>({
+      query: ({ id }) => ({
+        url: endpoints.getOrderEndpoints(id).collectOrder,
+        method: "PUT",
+      }),
+      invalidatesTags: [{ type: "Order" }, { type: "Box" }],
+    }),
+
     returnOrder: build.mutation<IOrderDetailItem, { id: number }>({
       query: ({ id }) => ({
         url: endpoints.getOrderEndpoints(id).orderReturn,
@@ -94,9 +111,9 @@ export const orderApi = createApi({
       invalidatesTags: [{ type: "Order" }, { type: "Box" }],
     }),
 
-    bill: build.query<IBillItem, { orderId: number }>({
-      query: ({ orderId }) => ({
-        url: endpoints.getOrderEndpoints(orderId).orderBill,
+    payment: build.query<IPaymentItem, { paymentId: number }>({
+      query: ({ paymentId }) => ({
+        url: endpoints.getPaymentEndpoints(paymentId).paymentById,
         method: "GET",
       }),
       providesTags: [{ type: "Order" }],
@@ -116,10 +133,12 @@ export const {
   useCreateOrderMutation,
   useLazyOrderPinCodeQuery,
   useOrderQuery,
-  useBillQuery,
+  useOrdersQuery,
+  usePaymentQuery,
   useConfirmOrderMutation,
   useCheckOutOrderMutation,
   useProcessOrderMutation,
   useReturnOrderMutation,
   useReserveMutation,
+  useCollectOrderMutation,
 } = orderApi;

@@ -7,7 +7,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function SetupPage() {
-  const [getLocker, { data, isSuccess, isError }] = useLazyLockerInfoQuery();
+  const [getLocker, { data, isSuccess, isError, isFetching }] =
+    useLazyLockerInfoQuery();
   const modal = useModal();
   const navigate = useNavigate();
   const handleRetry = () => {

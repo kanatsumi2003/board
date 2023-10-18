@@ -1,26 +1,21 @@
-import BackButton from "@/components/core/BackButton";
 import ReceiveChooseMethod from "@/components/receive/ReceiveChooseMethod";
 import ReceiveCode from "@/components/receive/ReceiveCode";
 import ReceiveOrderDetail from "@/components/receive/ReceiveOrderDetail";
 import ReceivePayment from "@/components/receive/ReceivePayment";
 import ReceiveSuccess from "@/components/receive/ReceiveSuccess";
 import { PATH } from "@/constants/common";
-import store from "@/stores";
-import { setGlobalState } from "@/stores/global.store";
+import useKeyboard from "@/hooks/useKeyboard";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ReceivePage() {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
+  const { close } = useKeyboard();
 
   useEffect(() => {
     if (step !== 1) {
-      store.dispatch(
-        setGlobalState({
-          keyboard: undefined,
-        })
-      );
+      close();
     }
   }, [step]);
 
@@ -41,7 +36,7 @@ function ReceivePage() {
             return (
               <ReceiveChooseMethod
                 onNext={() => setStep(4)}
-                onPrev={() => setStep(1)}
+                onPrev={() => setStep(2)}
               />
             );
           case 4:

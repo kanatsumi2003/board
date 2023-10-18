@@ -5,10 +5,17 @@ import { useLazyStaffProfileQuery } from "@/services/authService";
 import TokenService from "@/services/tokenService";
 import { useEffect } from "react";
 import { AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
-import { MdSignalCellular4Bar, MdSignalCellularOff } from "react-icons/md";
+import { BiWifi } from "react-icons/bi";
+import { MdSignalWifiOff, MdSignalWifiStatusbar4Bar } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Tooltip } from "../core/Tooltip";
-function Header({ name, online }: { name?: string; online: boolean }) {
+
+interface Props {
+  name?: string;
+  online: boolean;
+}
+
+function Header({ name, online }: Props) {
   const [trigger, { data, isSuccess, isError, isFetching }] =
     useLazyStaffProfileQuery();
   const navigate = useNavigate();
@@ -53,19 +60,24 @@ function Header({ name, online }: { name?: string; online: boolean }) {
   }, []);
 
   return (
-    <div className="px-10 py-4 bg-gray-50 justify-between shadow-sm grid grid-cols-3 items-center">
+    <div className="px-16 py-8 bg-gray-50 justify-between shadow-sm grid grid-cols-3 items-center gap-8">
       <div className="col-span-1">
         {!isFetching && isSuccess && data?.fullName ? (
-          <>
-            Xin chào:{" "}
-            <span className="text-xl font-bold ml-2">{data?.fullName}</span>
-          </>
+          <div className="flex gap-2 flex-wrap">
+            <span>Xin chào:</span>
+            <span className="font-bold line-clamp-1 overflow-hidden">
+              {data?.fullName}
+            </span>
+          </div>
         ) : (
           <>
             {name && (
-              <>
-                Tủ: <span className="text-xl font-bold ml-2">{name}</span>
-              </>
+              <div className="flex gap-2">
+                <span>Tủ:</span>
+                <span className="font-bold line-clamp-1 overflow-hidden">
+                  {name}
+                </span>
+              </div>
             )}
           </>
         )}
@@ -73,11 +85,11 @@ function Header({ name, online }: { name?: string; online: boolean }) {
       <div className="col-span-1 text-center">
         {current.format("hh:mm A, DD/MM/YYYY")}
       </div>
-      <div className="col-span-1 text-2xl flex items-center gap-4 justify-end">
+      <div className="col-span-1 flex items-center gap-4 justify-end">
         {countDown < 10 && (
           <span className="text-base text-red-800">{`(${countDown}s quay về màn hình chính)`}</span>
         )}
-        {online ? <MdSignalCellular4Bar /> : <MdSignalCellularOff />}
+        {online ? <MdSignalWifiStatusbar4Bar /> : <MdSignalWifiOff />}
         {!isFetching && isSuccess ? (
           <Tooltip content="Đăng xuất">
             <div

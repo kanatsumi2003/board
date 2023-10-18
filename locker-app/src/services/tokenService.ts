@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE_ITEMS } from '@/constants/common';
+import { LOCAL_STORAGE_ITEMS } from "@/constants/common";
 
 const getAccessToken = () => {
   return localStorage.getItem(LOCAL_STORAGE_ITEMS.ACCESS_TOKEN);
@@ -25,7 +25,8 @@ const setRefreshToken = (token: string) => {
 };
 
 const clearToken = () => {
-  return localStorage.clear();
+  localStorage.removeItem(LOCAL_STORAGE_ITEMS.REFRESH_TOKEN);
+  localStorage.removeItem(LOCAL_STORAGE_ITEMS.ACCESS_TOKEN);
 };
 
 const TokenService = {

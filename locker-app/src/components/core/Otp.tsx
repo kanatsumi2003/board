@@ -1,21 +1,24 @@
-import store, { AppState } from "@/stores";
-import { setGlobalState, updateInputs } from "@/stores/global.store";
+import useKeyboard from "@/hooks/useKeyboard";
 import { useEffect, useRef, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import OTPInput from "react-otp-input";
-import { useSelector } from "react-redux";
 
-function Otp({ otp, setOtp }: { otp: string; setOtp: (otp: string) => void }) {
-  const { inputs } = useSelector((state: AppState) => state.global);
+interface Props {
+  otp: string;
+  setOtp: (otp: string) => void;
+}
+
+function Otp({ otp, setOtp }: Props) {
+  const { inputs, clear, open } = useKeyboard();
   const [showPassword, setShowPassword] = useState(false);
   const ref = useRef<(HTMLInputElement | null)[]>([]);
 
+  // useEffect(() => {
+  //   console.log(inputs?.["otp"]);
+  // }, [inputs]);
+
   useEffect(() => {
-    store.dispatch(
-      updateInputs({
-        otp: "",
-      })
-    );
+    clear(["otp"]);
     setOtp("");
   }, []);
 
@@ -35,9 +38,9 @@ function Otp({ otp, setOtp }: { otp: string; setOtp: (otp: string) => void }) {
         value={otp}
         onChange={setOtp}
         inputStyle={{
-          width: 60,
-          fontSize: 40,
-          padding: 4,
+          width: 100,
+          fontSize: 48,
+          padding: 12,
         }}
         containerStyle={{
           gap: 4,
@@ -49,25 +52,21 @@ function Otp({ otp, setOtp }: { otp: string; setOtp: (otp: string) => void }) {
             {...props}
             ref={(input) => (ref.current[index] = input)}
             onClick={() => {
-              ref.current[index]?.focus();
-              store.dispatch(
-                setGlobalState({
-                  keyboard: {
-                    maxLength: 6,
-                    onlyNumber: true,
-                    inputName: "otp",
-                  },
-                })
-              );
+              // ref.current[index]?.focus();
+              // open({
+              //   maxLength: 6,
+              //   onlyNumber: false,
+              //   uppercase: true,
+              //   inputName: "otp",
+              // });
             }}
             className={`p-4 rounded-lg border-solid border-2 focus-visible:outline-locker-blue`}
           />
         )}
-        inputType={showPassword ? "number" : "password"}
-        shouldAutoFocus
+        inputType={showPassword ? "text" : "password"}
       />
       <div
-        className="absolute -right-8 bg-locker-blue rounded-md flex items-center w-16 justify-center top-0 bottom-0 translate-x-full text-white cursor-pointer hover:bg-opacity-90"
+        className="text-4xl absolute -right-8 bg-locker-blue rounded-md flex items-center w-20 justify-center top-0 bottom-0 translate-x-full text-white cursor-pointer hover:bg-opacity-90"
         onClick={() => setShowPassword((prev) => !prev)}
       >
         {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}

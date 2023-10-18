@@ -12,7 +12,11 @@ import { useNavigate } from "react-router-dom";
 import BackButton from "../core/BackButton";
 import OtpForm from "../core/OtpForm";
 
-function ReturnCode({ onNext }: { onNext: () => void }) {
+interface Props {
+  onNext: () => void;
+}
+
+function ReturnCode({ onNext }: Props) {
   const { locker } = useSelector((state: AppState) => state.locker);
   const navigate = useNavigate();
   const modal = useModal();
@@ -69,12 +73,12 @@ function ReturnCode({ onNext }: { onNext: () => void }) {
 
   return (
     <>
-      <div className="mt-8 flex w-full items-center flex-col gap-24 h-full">
+      <div className="mt-20 flex w-full items-center flex-col gap-24 h-full">
         <div
-          className={`absolute top-0 left-0 right-0 bg-locker-blue h-40 rounded-b-[120px] -z-10`}
+          className={`absolute top-0 left-0 right-0 bg-locker-blue h-48 rounded-b-[120px] -z-10`}
         ></div>
-        <div className="text-3xl font-bold text-white">
-          Vui lòng nhập mã đơn hàng{" "}
+        <div className="font-bold text-white text-5xl">
+          Vui lòng nhập mã đơn hàng
         </div>
         <div className="flex w-full items-center flex-col gap-8">
           <OtpForm onSubmit={handleReturnOrder} />

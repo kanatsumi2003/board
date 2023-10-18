@@ -2,13 +2,17 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 import { createSlice } from "@reduxjs/toolkit";
 
+export interface KeyboardConfig {
+  inputName?: string;
+  maxLength?: number;
+  onlyNumber?: boolean;
+  uppercase?: boolean;
+  disablePositioning?: boolean;
+}
+
 export interface State {
   loading: boolean;
-  keyboard?: {
-    maxLength?: number;
-    inputName?: string;
-    onlyNumber?: boolean;
-  };
+  keyboard?: KeyboardConfig;
   inputs?: { [key: string]: string };
   error?: string;
   success?: string;
@@ -42,7 +46,7 @@ const globalSlice = createSlice({
   },
 });
 
-export const { setGlobalState, updateInputs, clearGlobal } =
+export const { setGlobalState, updateInputs, clearGlobal, clearInput } =
   globalSlice.actions;
 
 export default globalSlice.reducer;

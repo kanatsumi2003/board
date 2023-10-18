@@ -29,6 +29,10 @@ export interface IAuditable {
   updatedBy?: number;
   deletedAt?: string;
   deletedBy?: number;
+  createdByUsername?: string;
+  updatedByUsername?: string;
+  deletedByUsername?: string;
+  deleted?: boolean;
 }
 
 export interface ITime {
@@ -53,4 +57,13 @@ export interface ILocation {
   province: string;
   district: string;
   ward: string;
+}
+
+export interface IAddress {
+  address: string;
+  wardCode: string;
+  districtCode: string;
+  provinceCode: string;
+  longitude: number;
+  latitude: number;
 }

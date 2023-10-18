@@ -26,6 +26,6 @@ export interface IAccountItem {
 export interface IStaffItem extends IAccountItem {}
 export interface ICustomerItem extends IAccountItem {}
 export interface IStaffLoginRequest {
-  phoneNumber: string;
+  username: string;
   password: string;
 }
