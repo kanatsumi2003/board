@@ -1,4 +1,4 @@
-import { PATH } from "@/constants/common";
+import { PATH, SCREEN_WAITING_TIMEOUT } from "@/constants/common";
 import useCountDown from "@/hooks/useCountdown";
 import useCurrent from "@/hooks/useCurrent";
 import { useLazyStaffProfileQuery } from "@/services/authService";
@@ -9,6 +9,8 @@ import { BiWifi } from "react-icons/bi";
 import { MdSignalWifiOff, MdSignalWifiStatusbar4Bar } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Tooltip } from "../core/Tooltip";
+import { useSelector } from "react-redux";
+import { AppState } from "@/stores";
 
 interface Props {
   name?: string;
@@ -21,7 +23,8 @@ function Header({ name, online }: Props) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const current = useCurrent();
-  const { countDown, resetCountDown } = useCountDown(100);
+  const { countDown, resetCountDown } = useCountDown(SCREEN_WAITING_TIMEOUT);
+  const { disableCountDown } = useSelector((state: AppState) => state.global);
 
   const handleLogout = () => {
     TokenService.clearToken();
@@ -29,11 +32,11 @@ function Header({ name, online }: Props) {
   };
 
   useEffect(() => {
-    if (!countDown) {
+    if (!countDown && !disableCountDown) {
       resetCountDown();
       handleLogout();
     }
-  }, [countDown]);
+  }, [countDown, disableCountDown]);
 
   useEffect(() => {
     if (pathname === PATH.HOME || pathname === PATH.DASHBOARD) {
@@ -86,8 +89,8 @@ function Header({ name, online }: Props) {
         {current.format("hh:mm A, DD/MM/YYYY")}
       </div>
       <div className="col-span-1 flex items-center gap-4 justify-end">
-        {countDown < 10 && (
-          <span className="text-base text-red-800">{`(${countDown}s quay về màn hình chính)`}</span>
+        {countDown < 10 && !disableCountDown && (
+          <span className="text-2xl text-red-800 w-48">{`(${countDown}s quay về màn hình chính)`}</span>
         )}
         {online ? <MdSignalWifiStatusbar4Bar /> : <MdSignalWifiOff />}
         {!isFetching && isSuccess ? (
