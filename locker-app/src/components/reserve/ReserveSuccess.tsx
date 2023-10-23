@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import Button from "../core/Button";
 import Title from "../Title";
 import BoxNumber from "../core/BoxNumber";
+import { useLazyCheckBoxesQuery } from "@/services/boardService";
 
 interface Props {
   onNext: () => void;
@@ -13,14 +14,42 @@ interface Props {
 
 function ReserveSuccess({ onNext }: Props) {
   const { order } = useSelector((state: AppState) => state.order);
+  const [
+    checkBoxes,
+    {
+      isSuccess: checkBoxIsSuccess,
+      isError: checkBoxesIsError,
+      isLoading: checkBoxesIsLoading,
+      isFetching: checkBoxesIsFetching,
+      data: checkBoxesData,
+      isUninitialized: checkBoxesIsUninitialized,
+    },
+  ] = useLazyCheckBoxesQuery();
+
   const [confirmOrder, { isSuccess, isError, error }] =
     useConfirmOrderMutation();
   const modal = useModal();
   const handleConfirmOrder = () => {
-    if (order) {
+    checkBoxes();
+  };
+
+  useEffect(() => {
+    if (
+      checkBoxesIsUninitialized &&
+      checkBoxesIsFetching &&
+      !checkBoxIsSuccess
+    ) {
+      return;
+    }
+    if (order && checkBoxesData?.closed) {
       confirmOrder({ id: order?.id });
     }
-  };
+    if (!checkBoxesData?.closed) {
+      modal.error({
+        message: "Vui lòng đóng chặt tủ để hoàn tất!",
+      });
+    }
+  }, [checkBoxIsSuccess, checkBoxesIsError, checkBoxesIsFetching]);
 
   useEffect(() => {
     if (isSuccess) {

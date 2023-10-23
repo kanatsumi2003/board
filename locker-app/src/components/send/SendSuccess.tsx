@@ -1,7 +1,7 @@
 import useModal from "@/hooks/useModal";
 import { useLazyCheckBoxesQuery } from "@/services/boardService";
 import { useConfirmOrderMutation } from "@/services/orderService";
-import store, { AppState } from "@/stores";
+import { AppState } from "@/stores";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Button from "../core/Button";
@@ -33,32 +33,31 @@ function SendSuccess({ onNext }: Props) {
     checkBoxes();
   };
 
-  useEffect(() => {
-    //TODO: RANDOM TRUE FALSE
+  // useEffect(() => {
+  //     // if (order && !checkBoxesIsUninitialized) {
+  //     //   if (Math.random() < 0.5) {
+  //     //     confirmOrder({ id: order?.id });
+  //     //   } else {
+  //     //     modal.error({
+  //     //       message: "Vui lòng đóng chặt tủ để hoàn tất!",
+  //     //     });
+  //     //   }
+  //     // }
+  //   }
+  // }, [checkBoxIsSuccess, checkBoxesIsError, checkBoxesIsFetching]);
 
-    if (checkBoxesIsUninitialized) {
+  useEffect(() => {
+    if (
+      checkBoxesIsUninitialized &&
+      checkBoxesIsFetching &&
+      !checkBoxIsSuccess
+    ) {
       return;
     }
-
-    if (
-      checkBoxIsSuccess &&
-      order &&
-      !checkBoxesIsFetching &&
-      checkBoxesData?.closed
-    ) {
+    if (order && checkBoxesData?.closed) {
       confirmOrder({ id: order?.id });
-
-      // if (order && !checkBoxesIsUninitialized) {
-      //   if (Math.random() < 0.5) {
-      //     confirmOrder({ id: order?.id });
-      //   } else {
-      //     modal.error({
-      //       message: "Vui lòng đóng chặt tủ để hoàn tất!",
-      //     });
-      //   }
-      // }
     }
-    if (!checkBoxesIsFetching && !checkBoxesData?.closed) {
+    if (!checkBoxesData?.closed) {
       modal.error({
         message: "Vui lòng đóng chặt tủ để hoàn tất!",
       });
