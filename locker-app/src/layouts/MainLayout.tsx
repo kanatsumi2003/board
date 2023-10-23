@@ -106,7 +106,7 @@ function MainLayout({ children }: Props) {
           locker: undefined,
         })
       );
-      navigate(PATH.HOME);
+      navigate(PATH.MAINTAINING);
     }
   }, [isSuccess, isError, isFetching]);
 
