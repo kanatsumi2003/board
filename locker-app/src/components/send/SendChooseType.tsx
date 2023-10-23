@@ -50,37 +50,44 @@ interface Props {
 
 function SendChooseType({ setType }: Props) {
   const { orderSettings } = useSelector((state: AppState) => state.setting);
+  const { locker } = useSelector((state: AppState) => state.locker);
 
   return (
     <div className="h-full p-12 flex-col gap-12 justify-between grid grid-cols-5">
       <div className="md:col-span-5 flex justify-center gap-24 items-center md:flex-col xl:flex-row">
-        <TypeItem
-          icon={
-            <MdLocalLaundryService
-              className={"text-[160px] lg:text-[140px] m-auto"}
-            />
-          }
-          name="Giặt sấy"
-          description={`Giặt sấy chất lượng cao với nhiều dịch vụ đa dạng.`}
-          note={`Chúng tôi sẽ phụ thu ${formatCurrency(
-            orderSettings?.extraFee ?? 0
-          )}/giờ nếu vượt quá ${
-            orderSettings?.maxTimeInHours ?? 0
-          } giờ không nhận lại hàng.`}
-          onClick={() => setType(ORDER_TYPE.LAUNDRY)}
-          className="bg-locker-blue"
-        />
-        <TypeItem
-          icon={
-            <FaBoxesPacking className={"text-[160px] lg:text-[140px] m-auto"} />
-          }
-          name="Gửi đồ"
-          description={`Gửi đồ tiện lợi với giá niêm yết ${formatCurrency(
-            orderSettings?.storagePrice ?? 0
-          )}/giờ.`}
-          onClick={() => setType(ORDER_TYPE.STORAGE)}
-          className="bg-locker-green"
-        />
+        {locker?.orderTypes.includes(ORDER_TYPE.LAUNDRY) && (
+          <TypeItem
+            icon={
+              <MdLocalLaundryService
+                className={"text-[160px] lg:text-[140px] m-auto"}
+              />
+            }
+            name="Giặt sấy"
+            description={`Giặt sấy chất lượng cao với nhiều dịch vụ đa dạng.`}
+            note={`Chúng tôi sẽ phụ thu ${formatCurrency(
+              orderSettings?.extraFee ?? 0
+            )}/giờ nếu vượt quá ${
+              orderSettings?.maxTimeInHours ?? 0
+            } giờ không nhận lại hàng.`}
+            onClick={() => setType(ORDER_TYPE.LAUNDRY)}
+            className="bg-locker-blue"
+          />
+        )}
+        {locker?.orderTypes.includes(ORDER_TYPE.STORAGE) && (
+          <TypeItem
+            icon={
+              <FaBoxesPacking
+                className={"text-[160px] lg:text-[140px] m-auto"}
+              />
+            }
+            name="Gửi đồ"
+            description={`Gửi đồ tiện lợi với giá niêm yết ${formatCurrency(
+              orderSettings?.storagePrice ?? 0
+            )}/giờ.`}
+            onClick={() => setType(ORDER_TYPE.STORAGE)}
+            className="bg-locker-green"
+          />
+        )}
       </div>
       <BackButton />
     </div>

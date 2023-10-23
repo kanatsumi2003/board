@@ -16,11 +16,13 @@ export interface State {
   inputs?: { [key: string]: string };
   error?: string;
   success?: string;
+  disableCountDown: boolean;
   onModalClose?: () => void;
 }
 
 const initialState: State = {
   loading: false,
+  disableCountDown: false,
 };
 
 const globalSlice = createSlice({
