@@ -49,8 +49,9 @@ function ReceivePayment({ onNext }: Props) {
         message: "Thanh toán thành công",
         onClose: onNext,
       });
+      return;
     }
-    if (data && data?.status !== ORDER_PAYMENT_STATUS.CREATED) {
+    if (data && data?.status === ORDER_PAYMENT_STATUS.FAILED) {
       modal.error({
         message: "Thanh toán thất bại",
         onClose: () => {

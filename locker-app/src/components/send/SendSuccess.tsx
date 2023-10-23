@@ -1,7 +1,7 @@
 import useModal from "@/hooks/useModal";
 import { useLazyCheckBoxesQuery } from "@/services/boardService";
 import { useConfirmOrderMutation } from "@/services/orderService";
-import { AppState } from "@/stores";
+import store, { AppState } from "@/stores";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Button from "../core/Button";
@@ -22,6 +22,7 @@ function SendSuccess({ onNext }: Props) {
       isSuccess: checkBoxIsSuccess,
       isError: checkBoxesIsError,
       isLoading: checkBoxesIsLoading,
+      isFetching: checkBoxesIsFetching,
       error: checkBoxesError,
       data: checkBoxesData,
       isUninitialized: checkBoxesIsUninitialized,
@@ -34,20 +35,35 @@ function SendSuccess({ onNext }: Props) {
 
   useEffect(() => {
     //TODO: RANDOM TRUE FALSE
-    // if (checkBoxIsSuccess && order) {
-    if (order && !checkBoxesIsUninitialized) {
-      if (Math.random() < 0.5) {
-        confirmOrder({ id: order?.id });
-      } else {
-        modal.error({
-          message: "Vui lòng đóng chặt tủ để hoàn tất!",
-        });
-      }
+
+    if (checkBoxesIsUninitialized) {
+      return;
     }
-    // if (checkBoxesIsError) {
-    //   store.dispatch(setError(checkBoxesError?.message));
-    // }
-  }, [checkBoxIsSuccess, checkBoxesIsError]);
+
+    if (
+      checkBoxIsSuccess &&
+      order &&
+      !checkBoxesIsFetching &&
+      checkBoxesData?.closed
+    ) {
+      confirmOrder({ id: order?.id });
+
+      // if (order && !checkBoxesIsUninitialized) {
+      //   if (Math.random() < 0.5) {
+      //     confirmOrder({ id: order?.id });
+      //   } else {
+      //     modal.error({
+      //       message: "Vui lòng đóng chặt tủ để hoàn tất!",
+      //     });
+      //   }
+      // }
+    }
+    if (!checkBoxesIsFetching && !checkBoxesData?.closed) {
+      modal.error({
+        message: "Vui lòng đóng chặt tủ để hoàn tất!",
+      });
+    }
+  }, [checkBoxIsSuccess, checkBoxesIsError, checkBoxesIsFetching]);
 
   useEffect(() => {
     if (isSuccess) {
