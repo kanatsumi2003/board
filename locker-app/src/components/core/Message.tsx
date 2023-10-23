@@ -73,7 +73,10 @@ function Message() {
 
   return (
     (error || success) && (
-      <MessageModal isSuccess={!!success} onClose={handleClose}>
+      <MessageModal
+        isSuccess={success !== undefined && error == undefined}
+        onClose={handleClose}
+      >
         {(error || success) ?? "Đã có lỗi xảy ra, vui lòng thử lại sau!"}
       </MessageModal>
     )
