@@ -7,6 +7,7 @@ from ..services import SettingService
 from .. import constants 
 from ..utils import board
 import logging 
+import random
 
 @api_view(["GET"])
 def getRoutes(request):
@@ -41,5 +42,11 @@ def checkBoxes(request):
         })
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Exception as ex:
-        return Response(f"Interal server error: {ex}", status=status.HTTP_500_INTERNAL_SERVER_ERROR);    
+        # return Response(f"Interal server error: {ex}", status=status.HTTP_500_INTERNAL_SERVER_ERROR);   
+        
+        # Testing version
+        serializer = BoxesStatusSerializer({
+            "closed": bool(random.getrandbits(1))  
+        })
+        return Response(serializer.data, status=status.HTTP_200_OK) 
     
