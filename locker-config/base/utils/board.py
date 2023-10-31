@@ -10,7 +10,7 @@ SERIAL_BAURATE = 19200
 
 SERIAL_PORT = ''
 if platform.system().lower()=="windows":
-    SERIAL_PORT = "COM12"
+    SERIAL_PORT = "COM6"
 elif platform.system().lower()=="linux":
     SERIAL_PORT = "/dev/ttyUSB0"
 else:
