@@ -6,7 +6,7 @@ interface Props {
   to?: string;
   small?: boolean;
   onClick?: () => void;
-  type: "primary" | "secondary" | "disabled";
+  type: "primary" | "secondary" | "disabled" | "warning";
   className?: string;
   wrapperClassName?: string;
 }
@@ -36,12 +36,16 @@ function Button({
         }}
         className={`text-4xl overflow-hidden button flex justify-center gap-4 ${(() => {
           switch (type) {
+            case "warning": {
+              return "bg-locker-yellow ring-locker-yellow border-locker-yellow";
+            }
             case "primary": {
               return "bg-locker-blue ring-locker-blue border-locker-blue";
             }
             case "secondary": {
               return "bg-locker-green ring-locker-green border-locker-green";
             }
+
             case "disabled": {
               return "bg-gray-500 ring-gray-500 border-gray-500 cursor-not-allowed";
             }

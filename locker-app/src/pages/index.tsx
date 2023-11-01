@@ -1,10 +1,11 @@
+import Logo from "@/assets/logo/logo_full.png";
 import Button from "@/components/core/Button";
 import { PATH } from "@/constants/common";
 import useModal from "@/hooks/useModal";
 import { IBoxItem } from "@/interfaces/box";
 import { useLazyBoxesQuery } from "@/services/boxService";
 import store, { AppState } from "@/stores";
-import { clearOrder, setOrderRequest } from "@/stores/order.store";
+import { clearOrder } from "@/stores/order.store";
 import { useEffect } from "react";
 import { TbPackage, TbPackageExport, TbPackageImport } from "react-icons/tb";
 import { useSelector } from "react-redux";
@@ -45,14 +46,19 @@ function Home() {
   };
 
   return (
-    <div className="h-full p-12 flex-col gap-12 justify-between grid xl:grid-cols-2 grid-cols-1">
-      <div className="col-span-1 h-full bg-home bg-cover flex-none bg-center" />
-      <div className="col-span-1 grid-cols-2 flex flex-col justify-between h-full flex-grow">
+    <div className="h-full p-12 flex-col gap-12 justify-between grid xl:grid-cols-2 grid-cols-1 grid-rows-4 xl:grid-rows-none">
+      <div className="flex flex-col col-span-1 gap-4 h-full row-span-2 xl:row-span-full">
+        <div className="h-32 flex justify-center items-center">
+          <img src={Logo} className="h-32"></img>
+        </div>
+        <div className="flex-1 bg-home bg-cover bg-center" />
+      </div>
+      <div className="col-span-1 grid-cols-2 flex flex-col justify-between h-full flex-grow row-span-2 xl:row-span-full">
         <div className="flex flex-col w-full gap-6 justify-between h-full">
           <Button
             type="primary"
             className="h-full text-6xl"
-            wrapperClassName="basis-1/3"
+            wrapperClassName="basis-1/4"
             onClick={handleSend}
             icon={<TbPackageExport />}
           >
@@ -62,16 +68,26 @@ function Home() {
             type="secondary"
             to={PATH.RECEIVE}
             className="h-full text-6xl"
-            wrapperClassName="basis-1/3"
+            wrapperClassName="basis-1/4"
             icon={<TbPackageImport />}
           >
             Lấy đồ
           </Button>
+
           <Button
-            type="secondary"
+            type="warning"
+            className="h-full text-6xl"
+            wrapperClassName="basis-1/4"
+            onClick={handleSend}
+            icon={<TbPackageExport />}
+          >
+            Gửi thêm đồ
+          </Button>
+          <Button
+            type="warning"
             to={PATH.RESERVE}
             className="h-full text-6xl"
-            wrapperClassName="basis-1/3"
+            wrapperClassName="basis-1/4"
             icon={<TbPackage />}
           >
             Đã đặt chỗ
