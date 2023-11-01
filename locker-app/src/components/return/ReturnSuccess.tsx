@@ -1,7 +1,6 @@
+import useCheckBoxes from "@/hooks/useCheckBoxes";
 import useModal from "@/hooks/useModal";
-import { useLazyCheckBoxesQuery } from "@/services/boardService";
 import { AppState } from "@/stores";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Title from "../Title";
 import BoxNumber from "../core/BoxNumber";
@@ -15,46 +14,21 @@ function ReturnSuccess({ onNext }: Props) {
   const { order } = useSelector((state: AppState) => state.order);
   const modal = useModal();
 
-  const [
-    checkBoxes,
-    {
-      isSuccess: checkBoxIsSuccess,
-      isError: checkBoxesIsError,
-      isLoading: checkBoxesIsLoading,
-      isFetching: checkBoxesIsFetching,
-      error: checkBoxesError,
-      data: checkBoxesData,
-      isUninitialized: checkBoxesIsUninitialized,
+  const { checkBoxes, isLoading: checkBoxesIsLoading } = useCheckBoxes({
+    onError: () =>
+      modal.error({
+        message: "Vui lòng đóng chặt tủ để hoàn tất!",
+      }),
+    onSuccess: () => {
+      modal.success({ message: "Hoàn trả thành công" });
+      onNext();
     },
-  ] = useLazyCheckBoxesQuery();
+  });
 
   const handleNext = () => {
     checkBoxes();
   };
 
-  useEffect(() => {
-    if (
-      checkBoxesIsUninitialized &&
-      checkBoxesIsFetching &&
-      !checkBoxIsSuccess
-    ) {
-      return;
-    }
-    if (order && checkBoxesData?.closed) {
-      modal.success({ message: "Hoàn trả thành công" });
-      onNext();
-    }
-    if (!checkBoxesData?.closed) {
-      modal.error({
-        message: "Vui lòng đóng chặt tủ để hoàn tất!",
-      });
-    }
-  }, [checkBoxIsSuccess, checkBoxesIsError, checkBoxesIsFetching]);
-
-  // const handleNext = () => {
-  //   onNext();
-  //   modal.success({ message: "Hoàn trả thành công" });
-  // };
   return (
     <>
       <Title subtitle="Hoàn trả đơn hàng">
@@ -62,10 +36,15 @@ function ReturnSuccess({ onNext }: Props) {
       </Title>
       <div className="mt-52 flex w-full items-center flex-col justify-between h-full px-12">
         <div>
-          Vui lòng hoàn trả đồ và ấn "Xác nhận" trên màn hình để hoàn tất.
+          Vui lòng hoàn trả đồ và ấn <b>"Xác nhận"</b> trên màn hình để hoàn
+          tất.
         </div>
         <BoxNumber>{order?.receiveBox?.number}</BoxNumber>
-        <Button type="primary" small onClick={handleNext}>
+        <Button
+          type={checkBoxesIsLoading ? "disabled" : "primary"}
+          small
+          onClick={handleNext}
+        >
           Xác nhận
         </Button>
       </div>

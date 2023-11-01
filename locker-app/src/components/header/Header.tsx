@@ -3,14 +3,13 @@ import useCountDown from "@/hooks/useCountdown";
 import useCurrent from "@/hooks/useCurrent";
 import { useLazyStaffProfileQuery } from "@/services/authService";
 import TokenService from "@/services/tokenService";
+import { AppState } from "@/stores";
 import { useEffect } from "react";
 import { AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
-import { BiWifi } from "react-icons/bi";
 import { MdSignalWifiOff, MdSignalWifiStatusbar4Bar } from "react-icons/md";
+import { useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Tooltip } from "../core/Tooltip";
-import { useSelector } from "react-redux";
-import { AppState } from "@/stores";
 
 interface Props {
   name?: string;
@@ -41,9 +40,11 @@ function Header({ name, online }: Props) {
   useEffect(() => {
     if (pathname === PATH.HOME || pathname === PATH.DASHBOARD) {
       trigger();
+      return;
     }
     if ((pathname === PATH.RETURN || pathname === PATH.PROCESS) && isError) {
       handleLogout();
+      return;
     }
   }, [pathname]);
 

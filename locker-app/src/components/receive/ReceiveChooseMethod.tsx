@@ -36,6 +36,7 @@ function ReceiveChooseMethod({ onNext, onPrev }: Props) {
     if (isSuccess && data) {
       store.dispatch(setPayment(data));
       onNext();
+      return;
     }
     if (isError) {
       modal.error({ message: error?.message?.message });

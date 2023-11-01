@@ -1,14 +1,11 @@
 import OrderContainer from "@/containers/OrderContainer";
 import useModal from "@/hooks/useModal";
-import {
-  useCollectOrderMutation,
-  useProcessOrderMutation,
-} from "@/services/orderService";
+import { useCollectOrderMutation } from "@/services/orderService";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import Title from "../Title";
 import BackButton from "../core/BackButton";
 import Button from "../core/Button";
-import Title from "../Title";
 
 interface Props {
   onNext: () => void;
@@ -28,6 +25,7 @@ function ProcessOrderDetail({ onNext }: Props) {
   useEffect(() => {
     if (isSuccess && data) {
       onNext();
+      return;
     }
     if (isError) {
       modal.error({ message: error?.message?.message });

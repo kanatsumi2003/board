@@ -60,6 +60,7 @@ function SendCreateOrder({ onNext, onPrev }: Props) {
         })
       );
       onNext();
+      return;
     }
     if (createOrderIsError && createOrderError) {
       modal.error({ message: createOrderError?.message?.message });

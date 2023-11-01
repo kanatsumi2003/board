@@ -57,6 +57,7 @@ function ProcessCode({ onNext }: Props) {
           order: dataOrder,
         })
       );
+      return;
     }
     if (isErrorOrder && errorOrder) {
       modal.error({
@@ -68,6 +69,7 @@ function ProcessCode({ onNext }: Props) {
   useEffect(() => {
     if (isSuccessProcessOrder && dataProcessOrder) {
       onNext();
+      return;
     }
     if (isErrorProcessOrder) {
       modal.error({ message: errorProcessOrder?.message?.message });

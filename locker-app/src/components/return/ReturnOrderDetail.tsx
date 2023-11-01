@@ -25,6 +25,7 @@ function ReturnOrderDetail({ onNext }: Props) {
   useEffect(() => {
     if (isSuccess && data) {
       onNext();
+      return;
     }
     if (isError) {
       modal.error({ message: error?.message?.message });

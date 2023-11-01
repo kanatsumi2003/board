@@ -51,6 +51,7 @@ function ReturnCode({ onNext }: Props) {
   useEffect(() => {
     if (isSuccessOrder && dataOrder) {
       returnOrder({ id: dataOrder.id });
+      return;
     }
     if (isErrorOrder && errorOrder) {
       modal.error({ message: errorOrder?.message?.message });
@@ -65,6 +66,7 @@ function ReturnCode({ onNext }: Props) {
         })
       );
       onNext();
+      return;
     }
     if (isErrorReturnOrder && errorReturnOrder) {
       modal.error({ message: errorReturnOrder?.message?.message });

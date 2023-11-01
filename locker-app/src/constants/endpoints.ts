@@ -84,6 +84,7 @@ const getOrderEndpoints = (id?: number, pinCode?: string) => {
     collectOrder: `${BASE_URL_ORDER}/${id}/collect`,
     orderReturn: `${BASE_URL_ORDER}/${id}/return`,
     orderReservation: `${BASE_URL_ORDER}/${id}/reservation`,
+    orderAddMore: `${BASE_URL_ORDER}/${id}/add-more`,
     orderByPinCode: `${BASE_URL_ORDER}/pin-code/${pinCode}`,
   };
 };

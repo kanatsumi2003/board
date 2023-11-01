@@ -78,7 +78,7 @@ function Home() {
             type="warning"
             className="h-full text-6xl"
             wrapperClassName="basis-1/4"
-            onClick={handleSend}
+            to={PATH.ADD_MORE}
             icon={<TbPackageExport />}
           >
             Gửi thêm đồ

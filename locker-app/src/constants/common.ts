@@ -18,6 +18,7 @@ export const PATH = {
   SEND: "/send",
   RECEIVE: "/receive",
   RESERVE: "/reserve",
+  ADD_MORE: "/add-more",
   PROCESS: "/process",
   RETURN: "/return",
   SETUP: "/setup",

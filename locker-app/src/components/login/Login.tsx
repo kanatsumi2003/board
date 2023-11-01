@@ -1,3 +1,4 @@
+import Logo from "@/assets/logo/logo_full.png";
 import useKeyboard from "@/hooks/useKeyboard";
 import useModal from "@/hooks/useModal";
 import { useLoginStaffMutation } from "@/services/authService";
@@ -95,7 +96,10 @@ function Login({ onNext }: Props) {
     <>
       <Title>Đăng nhập tài khoản nhân viên</Title>
       <div className="font-semibold flex flex-col gap-4 mt-52">
-        <div>
+        <div className="h-32 flex justify-center items-center">
+          <img src={Logo} className="h-32" />
+        </div>
+        <div className="mt-8">
           <input
             type="text"
             autoFocus
