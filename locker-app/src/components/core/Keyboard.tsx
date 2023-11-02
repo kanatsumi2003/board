@@ -168,7 +168,6 @@ function VirtualKeyboard({
           e?.preventDefault();
           onChangeAll(value);
         }}
-        useTouchEvents
         disableCaretPositioning={disablePositioning}
         mergeDisplay
         display={{
