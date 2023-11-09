@@ -51,6 +51,7 @@ function ReserveCode({ onNext }: Props) {
   useEffect(() => {
     if (isSuccessOrder && dataOrder) {
       reserveOrder({ id: dataOrder.id });
+      return;
     }
     if (isErrorOrder && errorOrder) {
       modal.error({ message: errorOrder?.message?.message });
@@ -65,6 +66,7 @@ function ReserveCode({ onNext }: Props) {
         })
       );
       onNext();
+      return;
     }
     if (isErrorReserveOrder && errorReserveOrder) {
       modal.error({ message: errorReserveOrder?.message?.message });

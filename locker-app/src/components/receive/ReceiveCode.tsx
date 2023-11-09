@@ -35,6 +35,7 @@ function ReceiveCode({ onNext }: Props) {
         })
       );
       onNext();
+      return;
     }
     if (isError) {
       modal.error({ message: error?.message?.message });

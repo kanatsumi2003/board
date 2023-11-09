@@ -1,5 +1,5 @@
+import useCheckBoxes from "@/hooks/useCheckBoxes";
 import useModal from "@/hooks/useModal";
-import { useLazyCheckBoxesQuery } from "@/services/boardService";
 import { useConfirmOrderMutation } from "@/services/orderService";
 import { AppState } from "@/stores";
 import { useEffect } from "react";
@@ -16,53 +16,17 @@ function SendSuccess({ onNext }: Props) {
   const [confirmOrder, { isSuccess, data, isError, error }] =
     useConfirmOrderMutation();
 
-  const [
-    checkBoxes,
-    {
-      isSuccess: checkBoxIsSuccess,
-      isError: checkBoxesIsError,
-      isLoading: checkBoxesIsLoading,
-      isFetching: checkBoxesIsFetching,
-      error: checkBoxesError,
-      data: checkBoxesData,
-      isUninitialized: checkBoxesIsUninitialized,
-    },
-  ] = useLazyCheckBoxesQuery();
+  const { checkBoxes, isLoading: checkBoxesIsLoading } = useCheckBoxes({
+    onError: () =>
+      modal.error({
+        message: "Vui lòng đóng chặt tủ để hoàn tất!",
+      }),
+    onSuccess: () => order && confirmOrder({ id: order?.id }),
+  });
 
   const handleConfirmOrder = () => {
     checkBoxes();
   };
-
-  // useEffect(() => {
-  //     // if (order && !checkBoxesIsUninitialized) {
-  //     //   if (Math.random() < 0.5) {
-  //     //     confirmOrder({ id: order?.id });
-  //     //   } else {
-  //     //     modal.error({
-  //     //       message: "Vui lòng đóng chặt tủ để hoàn tất!",
-  //     //     });
-  //     //   }
-  //     // }
-  //   }
-  // }, [checkBoxIsSuccess, checkBoxesIsError, checkBoxesIsFetching]);
-
-  useEffect(() => {
-    if (
-      checkBoxesIsUninitialized &&
-      checkBoxesIsFetching &&
-      !checkBoxIsSuccess
-    ) {
-      return;
-    }
-    if (order && checkBoxesData?.closed) {
-      confirmOrder({ id: order?.id });
-    }
-    if (!checkBoxesData?.closed) {
-      modal.error({
-        message: "Vui lòng đóng chặt tủ để hoàn tất!",
-      });
-    }
-  }, [checkBoxIsSuccess, checkBoxesIsError, checkBoxesIsFetching]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -70,6 +34,7 @@ function SendSuccess({ onNext }: Props) {
       modal.success({
         message: "Cảm ơn bạn đã sử dụng dịch vụ.",
       });
+      return;
     }
     if (isError && error) {
       modal.error({ message: error?.message?.message });
@@ -83,14 +48,18 @@ function SendSuccess({ onNext }: Props) {
           Vui lòng để đồ vào ô tủ số
         </div>
         <div className="mt-8">
-          Vui lòng để đồ vào tủ và ấn "Xác nhận" trên màn hình để hoàn tất quá
-          trình gửi đồ
+          Vui lòng để đồ vào tủ và ấn <b>"Xác nhận"</b> trên màn hình để hoàn
+          tất quá trình gửi đồ
         </div>
       </div>
       <div className="text-[200px] font-bold text-locker-blue p-4 rounded-full">
         {order?.sendBox?.number}
       </div>
-      <Button type="primary" small onClick={handleConfirmOrder}>
+      <Button
+        type={checkBoxesIsLoading ? "disabled" : "primary"}
+        small
+        onClick={handleConfirmOrder}
+      >
         Xác nhận
       </Button>
     </div>

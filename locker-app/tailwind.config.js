@@ -7,6 +7,7 @@ export default {
         "locker-blue": "#00A3E0",
         "locker-green": "#9DC63F",
         "locker-red": "#F05252",
+        "locker-yellow": "#EAB763",
       },
       backgroundImage: {
         home: "url('@/assets/locker.jpg')",

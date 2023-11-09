@@ -119,7 +119,7 @@ function OrdersContainer({ status, renderLink, onEmpty }: Props) {
           return (
             <SwiperSlide
               key={element}
-              className="w-full grid grid-cols-1 gap-6"
+              className="w-full grid grid-cols-1 gap-6 grid-rows-3"
             >
               {orders?.items.map((order) => (
                 <OrderItem {...order} url={renderLink(order.id)} />

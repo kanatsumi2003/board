@@ -1,12 +1,10 @@
 import LockerMaintaining from "@/assets/locker_maintaining.png";
-import {
-  LOCKER_INFO_POLLING_INTERVAL,
-  PATH,
-  PAYMENT_POLLING_INTERVAL,
-} from "@/constants/common";
+import Logo from "@/assets/logo/logo_full.png";
+import { LOCKER_INFO_POLLING_INTERVAL, PATH } from "@/constants/common";
 import { useLockerInfoQuery } from "@/services/boardService";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 function MaintainPage() {
   const navigate = useNavigate();
   const { data, isSuccess, isFetching } = useLockerInfoQuery(undefined, {
@@ -20,7 +18,8 @@ function MaintainPage() {
   }, [isSuccess, isFetching]);
 
   return (
-    <div className="p-10 h-full flex flex-col gap-12 justify-center items-center text-center">
+    <div className="p-10 h-full flex flex-col justify-center items-center text-center gap-24">
+      <img src={Logo} className="h-32"></img>
       <img
         src={LockerMaintaining}
         alt=""

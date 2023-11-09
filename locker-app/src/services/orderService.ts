@@ -126,6 +126,14 @@ export const orderApi = createApi({
       }),
       invalidatesTags: [{ type: "Order" }, { type: "Box" }],
     }),
+
+    addMore: build.mutation<IOrderDetailItem, { id: number }>({
+      query: ({ id }) => ({
+        url: endpoints.getOrderEndpoints(id).orderAddMore,
+        method: "PUT",
+      }),
+      invalidatesTags: [{ type: "Order" }, { type: "Box" }],
+    }),
   }),
 });
 
@@ -141,4 +149,5 @@ export const {
   useReturnOrderMutation,
   useReserveMutation,
   useCollectOrderMutation,
+  useAddMoreMutation,
 } = orderApi;

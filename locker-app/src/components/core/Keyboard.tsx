@@ -136,21 +136,24 @@ function VirtualKeyboard({
         layoutName={layout}
         layout={{
           default: [
-            "q w e r t y u i o p {bksp}",
-            "a s d f g h j k l {enter}",
-            "{shift} z x c v b n m , . {shift}",
+            "1 2 3 4 5 6 7 8 9 0 {bksp}",
+            "q w e r t y u i o p",
+            "a s d f g h j k l",
+            "{shift} z x c v b n m , .",
             "{alt} {space} {downkeyboard}",
           ],
           shift: [
-            "Q W E R T Y U I O P {bksp}",
-            "A S D F G H J K L {enter}",
-            "{shiftactivated} Z X C V B N M , . {shiftactivated}",
+            "1 2 3 4 5 6 7 8 9 0 {bksp}",
+            "Q W E R T Y U I O P",
+            "A S D F G H J K L",
+            "{shiftactivated} Z X C V B N M , .",
             "{alt} {space} {downkeyboard}",
           ],
           alt: [
             "1 2 3 4 5 6 7 8 9 0 {bksp}",
-            `@ # $ & * ( ) ' " {enter}`,
-            "{shift} % - + = / ; : ! ? {shift}",
+            "! @ # $ % ^ & * ( )",
+            "? ~ ` | \\ \" ' [ ]",
+            "{shift} % - + = / ; : { }",
             "{default} {space} {downkeyboard}",
           ],
           numbers: [
@@ -165,7 +168,6 @@ function VirtualKeyboard({
           e?.preventDefault();
           onChangeAll(value);
         }}
-        useTouchEvents
         disableCaretPositioning={disablePositioning}
         mergeDisplay
         display={{

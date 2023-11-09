@@ -24,7 +24,7 @@ function ProcessSuccess({ onNext }: Props) {
       </Title>
       <div className="mt-52 flex w-full items-center flex-col justify-between h-full">
         <div className="text-center">
-          Vui lòng nhận đồ và ấn "Xác nhận" trên màn hình để hoàn tất.
+          Vui lòng nhận đồ và ấn <b>"Xác nhận"</b> trên màn hình để hoàn tất.
         </div>
         <BoxNumber>{order?.sendBox?.number}</BoxNumber>
         <Button type="primary" small onClick={handleNext}>
