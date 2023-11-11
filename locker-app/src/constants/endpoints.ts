@@ -50,6 +50,7 @@ const getLockerEndpoints = (id?: number) => {
     lockerWithStaffs: `${BASE_URL_LOCKER}/${id}/staffs`,
     lockerByIdStatus: `${BASE_URL_LOCKER}/${id}/status`,
     lockerByIdBoxes: `${BASE_URL_LOCKER}/${id}/boxes`,
+    lockerByIdBoxToken: `${BASE_URL_LOCKER}/${id}/boxes/token`,
     lockerByIdTimelines: `${BASE_URL_LOCKER}/${id}/timelines`,
     lockerByIdStatistics: `${BASE_URL_LOCKER}/${id}/statistics`,
   };
@@ -67,10 +68,9 @@ const getHardwareEndpoints = (id: number, hardwareId?: number) => {
   };
 };
 
-const getServiceEndpoints = (storeId: number, id?: number) => {
+const getServiceEndpoints = (id?: number) => {
   return {
-    services: `${BASE_URL_STORE}/${storeId}/services`,
-    serviceById: `${BASE_URL_STORE}/${storeId}/services/${id}`,
+    services: `${BASE_URL_SERVICE}`,
   };
 };
 

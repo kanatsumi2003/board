@@ -21,7 +21,15 @@ export const PATH = {
   ADD_MORE: "/add-more",
   PROCESS: "/process",
   RETURN: "/return",
+  OPEN_BOX: "/open-box",
   SETUP: "/setup",
   MAINTAINING: "/maintaining",
   OFFLINE: "/offline",
 };
+
+export const STAFF_PATHS = [
+  PATH.DASHBOARD,
+  PATH.OPEN_BOX,
+  PATH.RETURN,
+  PATH.PROCESS,
+];

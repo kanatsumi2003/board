@@ -40,6 +40,14 @@ function Home() {
           >
             Hoàn trả đơn hàng
           </Button>
+          <Button
+            type="warning"
+            to={PATH.OPEN_BOX}
+            className="h-full text-6xl"
+            wrapperClassName="basis-1/2"
+          >
+            Mở tủ
+          </Button>
         </div>
       </div>
     </div>

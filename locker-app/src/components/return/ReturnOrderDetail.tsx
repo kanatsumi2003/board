@@ -4,7 +4,6 @@ import { useReturnOrderMutation } from "@/services/orderService";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Title from "../Title";
-import BackButton from "../core/BackButton";
 import Button from "../core/Button";
 
 interface Props {
@@ -39,7 +38,6 @@ function ReturnOrderDetail({ onNext }: Props) {
       <Button type="primary" small onClick={handleReturnOrder}>
         Xác nhận đơn hàng
       </Button>
-      <BackButton />
     </>
   );
 }

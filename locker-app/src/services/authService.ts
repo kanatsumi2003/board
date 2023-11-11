@@ -30,4 +30,8 @@ export const authApi = createApi({
   }),
 });
 
-export const { useLoginStaffMutation, useLazyStaffProfileQuery } = authApi;
+export const {
+  useLoginStaffMutation,
+  useLazyStaffProfileQuery,
+  useStaffProfileQuery,
+} = authApi;

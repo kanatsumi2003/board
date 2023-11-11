@@ -1,4 +1,3 @@
-import useKeyboard from "@/hooks/useKeyboard";
 import useModal from "@/hooks/useModal";
 import {
   useLazyOrderPinCodeQuery,
@@ -9,7 +8,6 @@ import { setOrderState } from "@/stores/order.store";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Title from "../Title";
-import BackButton from "../core/BackButton";
 import OtpForm from "../core/OtpForm";
 
 interface Props {
@@ -81,7 +79,6 @@ function ReserveCode({ onNext }: Props) {
           <OtpForm onSubmit={handleReserveOrder} />
         </div>
       </div>
-      <BackButton />
     </>
   );
 }

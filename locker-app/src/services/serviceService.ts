@@ -12,14 +12,15 @@ export const serviceApi = createApi({
   refetchOnMountOrArgChange: true,
   tagTypes: ["Service"],
   endpoints: (build) => ({
-    services: build.query<IService, Partial<IPaging> & { storeId: number }>({
-      query: ({ storeId, ...params }) => ({
-        url: endpoints.getServiceEndpoints(storeId).services,
+    services: build.query<IService, Partial<IPaging> & { lockerId: number }>({
+      query: ({ lockerId, ...params }) => ({
+        url: endpoints.getServiceEndpoints().services,
         method: "GET",
         params: {
           status: SERVICE_STATUS.ACTIVE,
           pageSize: 6,
           pageNumber: params?.pageNumber,
+          lockerId: lockerId,
         },
       }),
       providesTags: [{ type: "Service", id: "LIST" }],

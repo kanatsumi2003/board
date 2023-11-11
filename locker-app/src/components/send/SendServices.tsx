@@ -3,7 +3,6 @@ import store, { AppState } from "@/stores";
 import { setOrderRequest } from "@/stores/order.store";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import BackButton from "../core/BackButton";
 import Button from "../core/Button";
 
 interface Props {
@@ -44,8 +43,6 @@ function SendServices({ onNext, clearType, onBack }: Props) {
         setServiceIds={setServiceIds}
         onBack={onBack}
       />
-
-      <BackButton onClick={clearType} />
     </>
   );
 }

@@ -1,4 +1,3 @@
-import { PATH } from "@/constants/common";
 import useModal from "@/hooks/useModal";
 import {
   useLazyOrderPinCodeQuery,
@@ -9,7 +8,6 @@ import { setOrderState } from "@/stores/order.store";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import BackButton from "../core/BackButton";
 import OtpForm from "../core/OtpForm";
 
 interface Props {
@@ -87,7 +85,6 @@ function ProcessCode({ onNext }: Props) {
           <OtpForm onSubmit={handleProcessOrder} />
         </div>
       </div>
-      <BackButton onClick={() => navigate(PATH.DASHBOARD)} />
     </>
   );
 }
