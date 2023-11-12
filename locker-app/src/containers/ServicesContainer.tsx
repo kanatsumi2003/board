@@ -85,18 +85,15 @@ function ServiceContainer({ serviceIds, setServiceIds, onBack }: Props) {
   const { locker } = useSelector((state: AppState) => state.locker);
   const [pagination, setPagination] = useState<Partial<IPaging>>();
   const modal = useModal();
-  const { data: lockerQuery } = useLockerQuery(
-    { id: Number(locker?.id) },
-    { skip: !locker?.id }
-  );
+
   const {
     data: services,
     isFetching: servicesIsFetching,
     isSuccess: serviceIsSuccess,
   } = useServicesQuery(
-    { storeId: Number(lockerQuery?.store.id), ...pagination },
+    { lockerId: Number(locker?.id), ...pagination },
     {
-      skip: !lockerQuery?.store.id,
+      skip: !locker,
     }
   );
 

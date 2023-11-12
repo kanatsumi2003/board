@@ -1,6 +1,7 @@
 import LockerMaintaining from "@/assets/locker_maintaining.png";
 import Logo from "@/assets/logo/logo_full.png";
 import { LOCKER_INFO_POLLING_INTERVAL, PATH } from "@/constants/common";
+import useModal from "@/hooks/useModal";
 import { useLockerInfoQuery } from "@/services/boardService";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,10 +11,14 @@ function MaintainPage() {
   const { data, isSuccess, isFetching } = useLockerInfoQuery(undefined, {
     pollingInterval: LOCKER_INFO_POLLING_INTERVAL,
   });
+  const modal = useModal();
 
   useEffect(() => {
     if (isSuccess && !isFetching && data) {
-      navigate(PATH.HOME);
+      modal.success({
+        message: `Kết nối thành công đến locker ${data.locker_code}`,
+        onClose: () => navigate(PATH.HOME),
+      });
     }
   }, [isSuccess, isFetching]);
 
