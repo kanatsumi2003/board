@@ -8,7 +8,6 @@ import { setOrderState } from "@/stores/order.store";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Title from "../Title";
-import BackButton from "../core/BackButton";
 import OtpForm from "../core/OtpForm";
 
 interface Props {
@@ -80,7 +79,6 @@ export default function AddMoreCode({ onNext }: Props) {
           <OtpForm onSubmit={handleAddMore} />
         </div>
       </div>
-      <BackButton />
     </>
   );
 }

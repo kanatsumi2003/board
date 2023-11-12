@@ -1,10 +1,9 @@
 import { PATH } from "@/constants/common";
+import useModal from "@/hooks/useModal";
+import { ORDER_STATUS } from "@/interfaces/order";
 import { useNavigate } from "react-router-dom";
 import OrdersContainer from "../../containers/OrdersContainer";
-import BackButton from "../core/BackButton";
-import { ORDER_STATUS } from "@/interfaces/order";
 import Title from "../Title";
-import useModal from "@/hooks/useModal";
 
 function ReturnOrders() {
   const navigate = useNavigate();
@@ -26,7 +25,6 @@ function ReturnOrders() {
         />
         <div className="flex w-full items-center flex-col gap-8"></div>
       </div>
-      <BackButton onClick={() => navigate(PATH.DASHBOARD)} />
     </>
   );
 }

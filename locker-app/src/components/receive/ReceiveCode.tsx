@@ -5,7 +5,6 @@ import { setOrderState } from "@/stores/order.store";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Title from "../Title";
-import BackButton from "../core/BackButton";
 import OtpForm from "../core/OtpForm";
 
 interface Props {
@@ -50,7 +49,6 @@ function ReceiveCode({ onNext }: Props) {
           <OtpForm onSubmit={handleGetOrderDetail} />
         </div>
       </div>
-      <BackButton />
     </>
   );
 }

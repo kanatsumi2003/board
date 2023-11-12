@@ -1,13 +1,14 @@
 import useModal from "@/hooks/useModal";
+import { ORDER_TYPE } from "@/interfaces/order";
 import { useCreateOrderMutation } from "@/services/orderService";
 import store, { AppState } from "@/stores";
 import { setOrderState } from "@/stores/order.store";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import SendAddress from "./SendAddress";
+import SendNote from "./SendNote";
 import SendPhoneNumber from "./SendPhoneNumber";
 import SendReceiveTime from "./SendReceiveTime";
-import { ORDER_TYPE } from "@/interfaces/order";
 
 interface CreateOrderFormError {
   senderPhone?: string;
@@ -41,6 +42,7 @@ function SendCreateOrder({ onNext, onPrev }: Props) {
       receiverPhone: orderRequest?.receiverPhone,
       type: orderRequest?.type,
       serviceIds: orderRequest?.serviceIds,
+      customerNote: orderRequest?.customerNote,
       deliveryAddress:
         orderRequest?.deliveryAddress?.address &&
         orderRequest?.deliveryAddress?.wardCode &&
@@ -94,8 +96,16 @@ function SendCreateOrder({ onNext, onPrev }: Props) {
           case 3: {
             return (
               <SendAddress
-                onNext={onSubmitCreateOrder}
+                onNext={() => setStep(4)}
                 onPrev={() => setStep(2)}
+              />
+            );
+          }
+          case 4: {
+            return (
+              <SendNote
+                onNext={onSubmitCreateOrder}
+                onPrev={() => setStep(3)}
               />
             );
           }

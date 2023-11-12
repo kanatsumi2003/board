@@ -87,6 +87,7 @@ export interface ICreateOrderRequest {
   serviceIds?: number[];
   senderPhone?: string;
   intendedReceiveAt?: string;
+  customerNote?: string;
   receiverPhone?: string;
   type?: ORDER_TYPE;
   deliveryAddress?: {

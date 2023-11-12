@@ -4,7 +4,6 @@ import { formatCurrency } from "@/utils/formatter";
 import { FaBoxesPacking } from "react-icons/fa6";
 import { MdLocalLaundryService } from "react-icons/md";
 import { useSelector } from "react-redux";
-import BackButton from "../core/BackButton";
 
 interface TypeItemProps {
   icon: React.ReactNode;
@@ -89,7 +88,6 @@ function SendChooseType({ setType }: Props) {
           />
         )}
       </div>
-      <BackButton />
     </div>
   );
 }

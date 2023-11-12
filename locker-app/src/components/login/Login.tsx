@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FaAngleRight } from "react-icons/fa6";
 import Title from "../Title";
-import BackButton from "../core/BackButton";
 import Button from "../core/Button";
 
 interface LoginForm {
@@ -161,7 +160,6 @@ function Login({ onNext }: Props) {
           Đăng nhập
         </Button>
       </div>
-      <BackButton />
     </>
   );
 }

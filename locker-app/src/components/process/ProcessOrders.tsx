@@ -4,7 +4,6 @@ import { ORDER_STATUS } from "@/interfaces/order";
 import { useNavigate } from "react-router-dom";
 import OrdersContainer from "../../containers/OrdersContainer";
 import Title from "../Title";
-import BackButton from "../core/BackButton";
 
 function ProcessOrders() {
   const navigate = useNavigate();
@@ -26,7 +25,6 @@ function ProcessOrders() {
         />
         <div className="flex w-full items-center flex-col gap-8"></div>
       </div>
-      <BackButton onClick={() => navigate(PATH.DASHBOARD)} />
     </>
   );
 }
