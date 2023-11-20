@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import Title from "../Title";
 import { Card } from "../core/Card";
 import { useNavigate } from "react-router-dom";
+import { formatTime } from "@/utils/utils";
 
 interface Props {}
 
@@ -52,7 +53,7 @@ function OpenBoxQr({}: Props) {
             <div className="text-center">
               <div className="font-light mt-4">
                 {countDown
-                  ? `Mã sẽ hết hiệu lực sau: ${countDown} giây`
+                  ? `Mã sẽ hết hiệu lực sau: ${formatTime(countDown)}`
                   : "Mã đã hết hiệu lực"}
               </div>
 
