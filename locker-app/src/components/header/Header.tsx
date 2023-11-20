@@ -72,6 +72,10 @@ function Header({ name, online, code }: Props) {
   useEffect(() => {
     if (pathname === PATH.DASHBOARD && !isFetching && isError) {
       handleLogout();
+      return;
+    }
+    if (!STAFF_PATHS.includes(pathname) && !!account) {
+      navigate(PATH.DASHBOARD);
     }
   }, [pathname]);
 
