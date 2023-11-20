@@ -1,10 +1,9 @@
 import type { BaseQueryFn } from "@reduxjs/toolkit/query";
 import type { AxiosError, AxiosRequestConfig } from "axios";
 
-import { AppState } from "@/stores";
-import { useSelector } from "react-redux";
-import axiosClient from "./axiosClient";
 import { LOCAL_STORAGE_ITEMS } from "@/constants/common";
+import endpoints from "@/constants/endpoints";
+import axiosClient from "./axiosClient";
 
 export type BaseQueryError = { code?: number; message: any };
 
@@ -23,7 +22,7 @@ const axiosBaseQuery =
   async ({ url, method, data, params, headers }) => {
     try {
       const result = await axiosClient({
-        url,
+        url: endpoints.getBaseUrl() + url,
         method,
         data,
         params,

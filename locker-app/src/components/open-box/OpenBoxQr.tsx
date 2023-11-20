@@ -28,7 +28,7 @@ function OpenBoxQr({}: Props) {
   useEffect(() => {
     if (isSuccess && data) {
       setCountDown(
-        (dayjs(data?.expiredAt).valueOf() - dayjs().valueOf()) / 60 / 60
+        (dayjs(data?.expiredAt).valueOf() - dayjs().valueOf()) / 1000
       );
     }
   }, [isSuccess]);

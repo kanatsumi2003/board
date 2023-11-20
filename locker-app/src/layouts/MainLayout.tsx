@@ -77,8 +77,8 @@ function MainLayout({ children }: Props) {
 
   useEffect(() => {
     if (isSuccess && data && data.locker_status === LOCKER_STATUS.ACTIVE) {
-      localStorage.setItem(LOCAL_STORAGE_ITEMS.API_KEY, data.api_key);
       localStorage.setItem(LOCAL_STORAGE_ITEMS.BASE_URL, data.api_host);
+      localStorage.setItem(LOCAL_STORAGE_ITEMS.API_KEY, data.api_key);
       localStorage.setItem(LOCAL_STORAGE_ITEMS.LOCKER_ID, data.locker_id);
 
       store.dispatch(
