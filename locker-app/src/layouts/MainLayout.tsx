@@ -1,7 +1,11 @@
 import VirtualKeyboard from "@/components/core/Keyboard";
 import Message from "@/components/core/Message";
 import Header from "@/components/header/Header";
-import { LOCAL_STORAGE_ITEMS, PATH } from "@/constants/common";
+import {
+  LOCAL_STORAGE_ITEMS,
+  LOCKER_INFO_POLLING_INTERVAL,
+  PATH,
+} from "@/constants/common";
 import useKeyboard from "@/hooks/useKeyboard";
 import useModal from "@/hooks/useModal";
 import { LOCKER_STATUS } from "@/interfaces/locker";
@@ -28,8 +32,12 @@ function MainLayout({ children }: Props) {
   const navigate = useNavigate();
   const modal = useModal();
   const [isOnline, setIsOnline] = useState(navigator.onLine);
-  const { data, isSuccess, isError, refetch, isFetching } =
-    useLockerInfoQuery();
+  const { data, isSuccess, isError, refetch, isFetching } = useLockerInfoQuery(
+    undefined,
+    {
+      pollingInterval: LOCKER_INFO_POLLING_INTERVAL,
+    }
+  );
   const {
     data: setting,
     isSuccess: settingIsSuccess,

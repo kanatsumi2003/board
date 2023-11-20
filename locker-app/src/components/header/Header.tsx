@@ -127,7 +127,7 @@ function Header({ name, online, code }: Props) {
         <div>{current.format("DD/MM/YYYY")}</div>
       </div>
 
-      <div className="col-span-1 flex items-center gap-4 justify-end">
+      <div className="col-span-1 flex items-center gap-4 justify-end  ">
         {countDown < 10 && !disableCountDown && (
           <span className="text-2xl text-red-800 w-48">{`(${countDown}s quay về màn hình chính)`}</span>
         )}
