@@ -96,11 +96,15 @@ function Header({ name, online, code }: Props) {
         className="col-span-1 flex items-center gap-2 cursor-pointer group hover:text-locker-blue"
         onClick={handleBack}
       >
-        {pathname !== PATH.HOME && pathname !== PATH.DASHBOARD && (
-          <div className="z-30 text-6xl transition-all group-hover:-translate-x-2 -ml-2">
-            <MdOutlineArrowBackIosNew />
-          </div>
-        )}
+        {pathname !== PATH.HOME &&
+          pathname !== PATH.DASHBOARD &&
+          pathname !== PATH.OFFLINE &&
+          pathname !== PATH.SETUP &&
+          pathname !== PATH.MAINTAINING && (
+            <div className="z-30 text-6xl transition-all group-hover:-translate-x-2 -ml-2">
+              <MdOutlineArrowBackIosNew />
+            </div>
+          )}
         {!isError && account?.fullName ? (
           <div className="flex gap-2 flex-wrap">
             <span className="font-bold line-clamp-1 overflow-hidden">
