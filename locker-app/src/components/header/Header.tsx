@@ -19,9 +19,10 @@ import { Tooltip } from "../core/Tooltip";
 interface Props {
   name?: string;
   online: boolean;
+  code?: string;
 }
 
-function Header({ name, online }: Props) {
+function Header({ name, online, code }: Props) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const current = useCurrent();
@@ -109,10 +110,9 @@ function Header({ name, online }: Props) {
         ) : (
           <>
             {name && (
-              <div className="flex gap-2 flex-wrap">
-                <span className="font-bold line-clamp-1 overflow-hidden">
-                  {name}
-                </span>
+              <div className="flex flex-col font-bold overflow-hidden">
+                <div>{name}</div>
+                <div>{code}</div>
               </div>
             )}
           </>

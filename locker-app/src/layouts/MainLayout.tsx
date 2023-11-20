@@ -163,7 +163,11 @@ function MainLayout({ children }: Props) {
   return (
     <div className="bg-white relative overflow-hidden h-screen w-screen items-center text-3xl leading-tight">
       <div className="flex flex-col h-full">
-        <Header name={lockerInfo?.name} online={isOnline} />
+        <Header
+          name={lockerInfo?.name}
+          code={lockerInfo?.code}
+          online={isOnline}
+        />
         <div className="relative h-full z-0 max-h-[calc(100%-101px)]">
           {children}
         </div>
