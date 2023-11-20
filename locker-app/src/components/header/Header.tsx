@@ -115,8 +115,8 @@ function Header({ name, online, code }: Props) {
           <>
             {name && (
               <div className="flex flex-col font-bold overflow-hidden">
-                <div>{name}</div>
-                <div>{code}</div>
+                <div className="text-ellipsis line-clamp-1">{name}</div>
+                <div className="text-ellipsis line-clamp-1">{code}</div>
               </div>
             )}
           </>
