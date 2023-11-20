@@ -74,7 +74,7 @@ function Header({ name, online, code }: Props) {
       handleLogout();
       return;
     }
-    if (!STAFF_PATHS.includes(pathname) && !!account) {
+    if (!STAFF_PATHS.some((path) => pathname.includes(path)) && !!account) {
       navigate(PATH.DASHBOARD);
     }
   }, [pathname]);
