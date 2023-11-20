@@ -112,4 +112,5 @@ export interface IUpdateOrderRequest {
 export interface IOrdersParams extends Partial<IPaging> {
   type?: ORDER_TYPE;
   status?: ORDER_STATUS;
+  deliverySupported?: boolean;
 }

@@ -3,7 +3,7 @@ import { IOrderDetailItem, ORDER_STATUS, ORDER_TYPE } from "@/interfaces/order";
 import { useOrdersQuery } from "@/services/orderService";
 import { formatDate } from "@/utils/formatter";
 import { renderOrderStatusTag } from "@/utils/orderStatusRender";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { MdOutlineLocalLaundryService } from "react-icons/md";
 import Skeleton from "react-loading-skeleton";
 import { useNavigate } from "react-router-dom";
@@ -78,9 +78,15 @@ interface Props {
   renderLink: (id: number) => string;
   onEmpty?: () => void;
   status: ORDER_STATUS;
+  deliverySupported?: boolean;
 }
 
-function OrdersContainer({ status, renderLink, onEmpty }: Props) {
+function OrdersContainer({
+  status,
+  renderLink,
+  onEmpty,
+  deliverySupported,
+}: Props) {
   const [pagination, setPagination] = useState<Partial<IPaging>>();
   const {
     data: orders,
@@ -90,6 +96,7 @@ function OrdersContainer({ status, renderLink, onEmpty }: Props) {
     type: ORDER_TYPE.LAUNDRY,
     pageSize: 3,
     status: status,
+    deliverySupported: deliverySupported,
     ...pagination,
   });
 

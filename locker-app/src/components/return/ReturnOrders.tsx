@@ -15,6 +15,7 @@ function ReturnOrders() {
       <div className="mt-52 flex w-full items-center flex-col gap-24 h-full">
         <OrdersContainer
           status={ORDER_STATUS.PROCESSED}
+          deliverySupported={true}
           renderLink={(id) => `${PATH.RETURN}/${id}`}
           onEmpty={() => {
             modal.error({
