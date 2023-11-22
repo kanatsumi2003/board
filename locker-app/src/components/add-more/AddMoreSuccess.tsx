@@ -16,10 +16,14 @@ export default function AddMoreSuccess({ onNext }: Props) {
   const { order } = useSelector((state: AppState) => state.order);
 
   const { checkBoxes, isLoading: checkBoxesIsLoading } = useCheckBoxes({
-    onError: () =>
-      modal.error({
-        message: "Vui lòng đóng chặt tủ để hoàn tất!",
-      }),
+    onError: (reCheck) => {
+      modal.confirm({
+        message: "Có ô tủ chưa được đóng chặc, bạn có chắc sẽ bỏ qua chứ?",
+        onOk: () => order && confirmOrder({ id: order?.id }),
+        onClose: reCheck,
+      });
+    },
+
     onSuccess: () => order && confirmOrder({ id: order?.id }),
   });
 

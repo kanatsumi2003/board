@@ -3,14 +3,14 @@ import useModal from "@/hooks/useModal";
 import { ORDER_PAYMENT_STATUS } from "@/interfaces/order";
 import { usePaymentQuery } from "@/services/orderService";
 import store, { AppState } from "@/stores";
+import { setGlobalState } from "@/stores/global.store";
 import { formatCurrency } from "@/utils/formatter";
 import { useEffect } from "react";
 import QRCode from "react-qr-code";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Title from "../Title";
 import { Card } from "../core/Card";
-import { useLocation, useNavigate } from "react-router-dom";
-import { setGlobalState } from "@/stores/global.store";
 
 interface Props {
   onNext: () => void;

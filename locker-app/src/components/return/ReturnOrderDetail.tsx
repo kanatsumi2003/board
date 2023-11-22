@@ -1,6 +1,8 @@
 import OrderContainer from "@/containers/OrderContainer";
 import useModal from "@/hooks/useModal";
 import { useReturnOrderMutation } from "@/services/orderService";
+import store from "@/stores";
+import { setOrderState } from "@/stores/order.store";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Title from "../Title";
@@ -23,6 +25,7 @@ function ReturnOrderDetail({ onNext }: Props) {
 
   useEffect(() => {
     if (isSuccess && data) {
+      store.dispatch(setOrderState({ order: data }));
       onNext();
       return;
     }

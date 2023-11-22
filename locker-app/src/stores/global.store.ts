@@ -10,14 +10,19 @@ export interface KeyboardConfig {
   disablePositioning?: boolean;
 }
 
+export interface ModalMessage {
+  type: "error" | "success" | "confirm";
+  message?: string;
+  onModalClose?: () => void;
+  onModalOk?: () => void;
+}
+
 export interface State {
   loading: boolean;
   keyboard?: KeyboardConfig;
   inputs?: { [key: string]: string };
-  error?: string;
-  success?: string;
+  modal?: ModalMessage;
   disableCountDown: boolean;
-  onModalClose?: () => void;
 }
 
 const initialState: State = {

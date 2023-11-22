@@ -6,7 +6,9 @@ import rootReducer from "./rootReducer";
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(middleware),
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(middleware),
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
