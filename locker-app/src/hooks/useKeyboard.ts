@@ -1,6 +1,7 @@
 import store, { AppState } from "@/stores";
 import {
   KeyboardConfig,
+  clearInput,
   setGlobalState,
   updateInputs,
 } from "@/stores/global.store";
@@ -11,6 +12,7 @@ function useKeyboard() {
 
   const isOpen = !!keyboard;
 
+  // OPEN THE KEYBOARD
   const open = (config?: KeyboardConfig) =>
     store.dispatch(
       setGlobalState({
@@ -18,6 +20,7 @@ function useKeyboard() {
       })
     );
 
+  // CLOSE THE KEYBOARD
   const close = () => {
     store.dispatch(
       setGlobalState({
@@ -26,6 +29,7 @@ function useKeyboard() {
     );
   };
 
+  // UPDATE THE KEYBOARD
   const update = (inputName: string, content: string) => {
     store.dispatch(
       updateInputs({
@@ -33,21 +37,13 @@ function useKeyboard() {
       })
     );
   };
+
+  // CLEAR THE KEYBOARD (EMPTY PARAM FOR CLEAR ALL)
   const clear = (inputNames?: string[]) => {
     if (inputNames) {
-      inputNames.forEach((inputName) =>
-        store.dispatch(
-          updateInputs({
-            [inputName]: "",
-          })
-        )
-      );
+      inputNames.forEach((inputName) => store.dispatch(clearInput(inputName)));
     } else {
-      store.dispatch(
-        setGlobalState({
-          inputs: undefined,
-        })
-      );
+      store.dispatch(clearInput());
     }
   };
   return { inputs, keyboard, isOpen, open, close, clear, update };

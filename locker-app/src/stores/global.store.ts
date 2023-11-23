@@ -43,9 +43,13 @@ const globalSlice = createSlice({
       state.inputs = { ...currentInp, ...action.payload };
       return state;
     },
-    clearInput(state, action: PayloadAction<string>) {
-      delete state.inputs?.[action.payload];
-      return state;
+    clearInput(state, action: PayloadAction<string | undefined>) {
+      if (action.payload) {
+        delete state.inputs?.[action.payload];
+        return state;
+      } else {
+        return { ...state, inputs: undefined };
+      }
     },
     clearGlobal(state, action: PayloadAction<void>) {
       return initialState;

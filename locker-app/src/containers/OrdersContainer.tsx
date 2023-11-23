@@ -1,11 +1,14 @@
+import { PAGE_SIZE_ORDERS } from "@/constants/common";
 import { IPaging } from "@/interfaces";
 import { IOrderDetailItem, ORDER_STATUS, ORDER_TYPE } from "@/interfaces/order";
 import { useOrdersQuery } from "@/services/orderService";
+import { AppState } from "@/stores";
 import { formatDate } from "@/utils/formatter";
 import { renderOrderStatusTag } from "@/utils/orderStatusRender";
 import { useEffect, useState } from "react";
 import { MdOutlineLocalLaundryService } from "react-icons/md";
 import Skeleton from "react-loading-skeleton";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -87,6 +90,7 @@ function OrdersContainer({
   onEmpty,
   deliverySupported,
 }: Props) {
+  const { locker } = useSelector((app: AppState) => app.locker);
   const [pagination, setPagination] = useState<Partial<IPaging>>();
   const {
     data: orders,
@@ -94,9 +98,10 @@ function OrdersContainer({
     isSuccess,
   } = useOrdersQuery({
     type: ORDER_TYPE.LAUNDRY,
-    pageSize: 3,
+    pageSize: PAGE_SIZE_ORDERS,
     status: status,
     deliverySupported: deliverySupported,
+    lockerId: Number(locker?.id),
     ...pagination,
   });
 
@@ -139,7 +144,7 @@ function OrdersContainer({
               key={element}
               className="grid grid-cols-1 gap-4 w-full overflow-y-scroll"
             >
-              {[...Array(3).keys()].map(() => (
+              {[...Array(PAGE_SIZE_ORDERS).keys()].map(() => (
                 <OrderItem loading />
               ))}{" "}
             </SwiperSlide>

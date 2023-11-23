@@ -2,7 +2,10 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 
 import axiosBaseQuery from "@/configs/axiosBaseQuery";
 import endpoints from "@/constants/endpoints";
-import { IAddressItem, IAddressParams } from "@/interfaces/address";
+import {
+  IAddressItem,
+  IAddressParams
+} from "@/interfaces/address";
 
 export const addressApi = createApi({
   reducerPath: "addressApi",

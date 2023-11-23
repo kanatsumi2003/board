@@ -2,6 +2,7 @@ import { LOCAL_STORAGE_ITEMS } from "./common";
 
 // const BASE_URL = import.meta.env.VITE_API_LOCKER || "";
 const BOARD_URL = import.meta.env.VITE_API_BOARD || "";
+const BASE_URL_GEOLOCATION = import.meta.env.VITE_API_GEOLOCATION || "";
 
 const BASE_URL_LOCKER = "/lockers";
 const BASE_URL_CUSTOMER = "/customers";
@@ -98,11 +99,13 @@ const getPaymentEndpoints = (id?: number) => {
   };
 };
 
-const getAddressEndpoints = () => {
+const getAddressEndpoints = (q?: string) => {
   return {
     addresses: BASE_URL_ADDRESS,
+    geolocation: BASE_URL_GEOLOCATION + (q ? `&q=${q}` : ""),
   };
 };
+
 const getSettingEndpoints = () => {
   return {
     setting: BASE_URL_SETTING,

@@ -1,4 +1,5 @@
 import useKeyboard from "@/hooks/useKeyboard";
+import { ILocation } from "@/interfaces";
 import store, { AppState } from "@/stores";
 import { setOrderRequest } from "@/stores/order.store";
 import { useEffect } from "react";
@@ -34,6 +35,27 @@ function SendAddress({ onNext, onPrev }: Props) {
     showKeyboard("address");
   }, []);
 
+  const handleChangeLocation = ({
+    province,
+    district,
+    ward,
+    latitude,
+    longitude,
+  }: ILocation) => {
+    store.dispatch(
+      setOrderRequest({
+        deliveryAddress: {
+          ...orderRequest?.deliveryAddress,
+          provinceCode: province,
+          districtCode: district,
+          wardCode: ward,
+          latitude,
+          longitude,
+        },
+      })
+    );
+  };
+
   return (
     <>
       <div className={`mt-8 flex flex-col px-12 gap-8`}>
@@ -67,18 +89,7 @@ function SendAddress({ onNext, onPrev }: Props) {
               })
             );
           }}
-          onChange={({ province, district, ward }) => {
-            store.dispatch(
-              setOrderRequest({
-                deliveryAddress: {
-                  ...orderRequest?.deliveryAddress,
-                  provinceCode: province,
-                  districtCode: district,
-                  wardCode: ward,
-                },
-              })
-            );
-          }}
+          onChange={handleChangeLocation}
         />
         <div>
           <span className="text-red-600 text-4xl font-bold">*</span> Nếu bỏ qua

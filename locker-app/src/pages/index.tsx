@@ -1,6 +1,7 @@
 import Logo from "@/assets/logo/logo_full.png";
 import Button from "@/components/core/Button";
 import { PATH } from "@/constants/common";
+import useKeyboard from "@/hooks/useKeyboard";
 import useModal from "@/hooks/useModal";
 import { IBoxItem } from "@/interfaces/box";
 import { useLazyBoxesQuery } from "@/services/boxService";
@@ -24,6 +25,7 @@ function Home() {
   const { locker } = useSelector((state: AppState) => state.locker);
   const navigate = useNavigate();
   const modal = useModal();
+  const { clear, inputs } = useKeyboard();
 
   useEffect(() => {
     if (boxesIsSuccess && boxes && !boxesIsUninitialized) {
@@ -44,6 +46,10 @@ function Home() {
       getBoxes({ id: locker?.id });
     }
   };
+
+  useEffect(() => {
+    clear();
+  }, []);
 
   return (
     <div className="h-full p-12 flex-col gap-12 justify-between grid xl:grid-cols-2 grid-cols-1 grid-rows-4 xl:grid-rows-none">

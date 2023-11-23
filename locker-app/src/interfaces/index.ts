@@ -57,6 +57,8 @@ export interface ILocation {
   province: string;
   district: string;
   ward: string;
+  longitude?: number;
+  latitude?: number;
 }
 
 export interface IAddress {
