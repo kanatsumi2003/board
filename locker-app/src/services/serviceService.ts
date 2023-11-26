@@ -3,6 +3,7 @@ import { SERVICE_STATUS, type IService } from "@/interfaces/service";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import axiosBaseQuery from "@/configs/axiosBaseQuery";
+import { PAGE_SIZE_SERVICES } from "@/constants/common";
 import endpoints from "@/constants/endpoints";
 import { IPaging } from "@/interfaces";
 
@@ -18,7 +19,7 @@ export const serviceApi = createApi({
         method: "GET",
         params: {
           status: SERVICE_STATUS.ACTIVE,
-          pageSize: 6,
+          pageSize: PAGE_SIZE_SERVICES,
           pageNumber: params?.pageNumber,
           lockerId: lockerId,
         },

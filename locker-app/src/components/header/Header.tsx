@@ -19,9 +19,10 @@ import { Tooltip } from "../core/Tooltip";
 interface Props {
   name?: string;
   online: boolean;
+  code?: string;
 }
 
-function Header({ name, online }: Props) {
+function Header({ name, online, code }: Props) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const current = useCurrent();
@@ -71,6 +72,10 @@ function Header({ name, online }: Props) {
   useEffect(() => {
     if (pathname === PATH.DASHBOARD && !isFetching && isError) {
       handleLogout();
+      return;
+    }
+    if (!STAFF_PATHS.some((path) => pathname.includes(path)) && !!account) {
+      navigate(PATH.DASHBOARD);
     }
   }, [pathname]);
 
@@ -95,11 +100,15 @@ function Header({ name, online }: Props) {
         className="col-span-1 flex items-center gap-2 cursor-pointer group hover:text-locker-blue"
         onClick={handleBack}
       >
-        {pathname !== PATH.HOME && pathname !== PATH.DASHBOARD && (
-          <div className="z-30 text-6xl transition-all group-hover:-translate-x-2 -ml-2">
-            <MdOutlineArrowBackIosNew />
-          </div>
-        )}
+        {pathname !== PATH.HOME &&
+          pathname !== PATH.DASHBOARD &&
+          pathname !== PATH.OFFLINE &&
+          pathname !== PATH.SETUP &&
+          pathname !== PATH.MAINTAINING && (
+            <div className="z-30 text-6xl transition-all group-hover:-translate-x-2 -ml-2">
+              <MdOutlineArrowBackIosNew />
+            </div>
+          )}
         {!isError && account?.fullName ? (
           <div className="flex gap-2 flex-wrap">
             <span className="font-bold line-clamp-1 overflow-hidden">
@@ -109,10 +118,9 @@ function Header({ name, online }: Props) {
         ) : (
           <>
             {name && (
-              <div className="flex gap-2 flex-wrap">
-                <span className="font-bold line-clamp-1 overflow-hidden">
-                  {name}
-                </span>
+              <div className="flex flex-col font-bold overflow-hidden">
+                <div className="text-ellipsis line-clamp-1">{name}</div>
+                <div className="text-ellipsis line-clamp-1">{code}</div>
               </div>
             )}
           </>
@@ -123,7 +131,7 @@ function Header({ name, online }: Props) {
         <div>{current.format("DD/MM/YYYY")}</div>
       </div>
 
-      <div className="col-span-1 flex items-center gap-4 justify-end">
+      <div className="col-span-1 flex items-center gap-4 justify-end  ">
         {countDown < 10 && !disableCountDown && (
           <span className="text-2xl text-red-800 w-48">{`(${countDown}s quay về màn hình chính)`}</span>
         )}

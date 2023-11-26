@@ -44,12 +44,9 @@ function VirtualKeyboard({
     }
   };
 
+  //SYNC STORE INPUTS WITH KEYBOARD REFS
   useEffect(() => {
-    if (inputs) {
-      Object.keys(inputs).forEach((key) => {
-        keyboardRef.current?.setInput(inputs[key], key);
-      });
-    }
+    keyboardRef.current?.replaceInput({ ...inputs });
   }, [inputs]);
 
   useEffect(() => {

@@ -1,8 +1,10 @@
 import { ILocation } from "@/interfaces";
 import { useAddressesQuery } from "@/services/addressService";
-import store from "@/stores";
+import { useLazyGeolocationQuery } from "@/services/geolocationService";
+import store, { AppState } from "@/stores";
 import { updateInputs } from "@/stores/global.store";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Select from "../core/Select";
 
 interface Props {
@@ -12,8 +14,13 @@ interface Props {
 }
 
 function LocationPicker({ onChange, defaultValue, onClear }: Props) {
+  const { orderRequest } = useSelector((state: AppState) => state.order);
   const [location, setLocation] = useState<Partial<ILocation>>(
-    defaultValue ?? {}
+    {
+      district: orderRequest?.deliveryAddress?.districtCode,
+      ward: orderRequest?.deliveryAddress?.wardCode,
+      province: orderRequest?.deliveryAddress?.provinceCode,
+    } ?? {}
   );
   const { data: provinces } = useAddressesQuery();
   const { data: districts } = useAddressesQuery(
@@ -32,6 +39,8 @@ function LocationPicker({ onChange, defaultValue, onClear }: Props) {
       skip: !location.district,
     }
   );
+  const [getGeolocation, { data, isSuccess, isFetching }] =
+    useLazyGeolocationQuery();
 
   useEffect(() => {
     if (location.district && location.province && location.ward) {
@@ -40,10 +49,45 @@ function LocationPicker({ onChange, defaultValue, onClear }: Props) {
         province: location.province,
         ward: location.ward,
       });
+
+      //QUERY LAT LONG
+      const provinceName = provinces?.find(
+        (p) => p.code === location.province
+      )?.name;
+      const districtName = districts?.find(
+        (d) => d.code === location.district
+      )?.name;
+      const wardName = wards?.find((w) => w.code === location.ward)?.name;
+
+      const queryLocation = [provinceName, districtName, wardName]
+        .filter((item) => item)
+        .join(", ");
+
+      getGeolocation({ q: queryLocation });
     } else {
       onClear();
     }
   }, [location]);
+
+  useEffect(() => {
+    if (
+      data &&
+      isSuccess &&
+      !isFetching &&
+      data.features?.[0]?.geometry &&
+      location.district &&
+      location.province &&
+      location.ward
+    ) {
+      onChange({
+        district: location.district,
+        province: location.province,
+        ward: location.ward,
+        latitude: data.features?.[0]?.geometry?.coordinates[1] || undefined,
+        longitude: data.features?.[0]?.geometry?.coordinates[0] || undefined,
+      });
+    }
+  }, [isSuccess, data, isFetching]);
 
   return (
     <>

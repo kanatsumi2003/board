@@ -10,14 +10,19 @@ export interface KeyboardConfig {
   disablePositioning?: boolean;
 }
 
+export interface ModalMessage {
+  type: "error" | "success" | "confirm";
+  message?: string;
+  onModalClose?: () => void;
+  onModalOk?: () => void;
+}
+
 export interface State {
   loading: boolean;
   keyboard?: KeyboardConfig;
   inputs?: { [key: string]: string };
-  error?: string;
-  success?: string;
+  modal?: ModalMessage;
   disableCountDown: boolean;
-  onModalClose?: () => void;
 }
 
 const initialState: State = {
@@ -38,9 +43,13 @@ const globalSlice = createSlice({
       state.inputs = { ...currentInp, ...action.payload };
       return state;
     },
-    clearInput(state, action: PayloadAction<string>) {
-      delete state.inputs?.[action.payload];
-      return state;
+    clearInput(state, action: PayloadAction<string | undefined>) {
+      if (action.payload) {
+        delete state.inputs?.[action.payload];
+        return state;
+      } else {
+        return { ...state, inputs: undefined };
+      }
     },
     clearGlobal(state, action: PayloadAction<void>) {
       return initialState;

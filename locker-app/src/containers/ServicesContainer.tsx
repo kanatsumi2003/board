@@ -2,9 +2,9 @@ import { useServicesQuery } from "@/services/serviceService";
 import { formatCurrency } from "@/utils/formatter";
 import { Navigation, Pagination } from "swiper/modules";
 
+import { PAGE_SIZE_SERVICES } from "@/constants/common";
 import useModal from "@/hooks/useModal";
 import { IPaging } from "@/interfaces";
-import { useLockerQuery } from "@/services/lockerService";
 import { AppState } from "@/stores";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
@@ -153,7 +153,7 @@ function ServiceContainer({ serviceIds, setServiceIds, onBack }: Props) {
             </>
           ) : (
             <>
-              {[...Array(6).keys()].map((data) => (
+              {[...Array(PAGE_SIZE_SERVICES).keys()].map((data) => (
                 <ServiceItem isLoading key={data} />
               ))}
             </>

@@ -7,6 +7,7 @@ import { lockerApi } from "@/services/lockerService";
 import { orderApi } from "@/services/orderService";
 import { serviceApi } from "@/services/serviceService";
 import { settingApi } from "@/services/settingService";
+import { geolocationApi } from "@/services/geolocationService";
 
 export const middleware = [
   boxApi.middleware,
@@ -18,4 +19,5 @@ export const middleware = [
   boardApi.middleware,
   settingApi.middleware,
   addressApi.middleware,
+  geolocationApi.middleware,
 ];

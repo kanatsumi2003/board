@@ -4,24 +4,42 @@ import { setGlobalState } from "@/stores/global.store";
 interface IMessage {
   message: string;
   onClose?: () => void;
+  onOk?: () => void;
 }
 
 function useModal() {
   const success = (message: IMessage) =>
     store.dispatch(
       setGlobalState({
-        success: message.message,
-        onModalClose: message.onClose,
+        modal: {
+          type: "success",
+          message: message.message,
+          onModalClose: message.onClose,
+        },
       })
     );
   const error = (message: IMessage) =>
     store.dispatch(
       setGlobalState({
-        error: message.message,
-        onModalClose: message.onClose,
+        modal: {
+          type: "error",
+          message: message.message,
+          onModalClose: message.onClose,
+        },
       })
     );
-  return { success, error };
+  const confirm = (message: IMessage) =>
+    store.dispatch(
+      setGlobalState({
+        modal: {
+          type: "confirm",
+          message: message.message,
+          onModalClose: message.onClose,
+          onModalOk: message.onOk,
+        },
+      })
+    );
+  return { success, error, confirm };
 }
 
 export default useModal;

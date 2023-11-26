@@ -2,19 +2,24 @@ import { LOCAL_STORAGE_ITEMS } from "./common";
 
 // const BASE_URL = import.meta.env.VITE_API_LOCKER || "";
 const BOARD_URL = import.meta.env.VITE_API_BOARD || "";
-const BASE_URL = `${localStorage.getItem(LOCAL_STORAGE_ITEMS.BASE_URL)}/api/v1`;
-const BASE_URL_LOCKER = BASE_URL + "/lockers";
-const BASE_URL_CUSTOMER = BASE_URL + "/customers";
-const BASE_URL_ORDER = BASE_URL + "/orders";
-const BASE_URL_DASHBOARD = BASE_URL + "/dashboard";
-const BASE_URL_ADDRESS = BASE_URL + "/addresses";
-const BASE_URL_SETTING = BASE_URL + "/settings";
-const BASE_URL_AUTH = BASE_URL + "/auth";
-const BASE_URL_FILE = BASE_URL + "/file";
-const BASE_URL_SERVICE = BASE_URL + "/services";
-const BASE_URL_STAFF = BASE_URL + "/staffs";
-const BASE_URL_STORE = BASE_URL + "/stores";
-const BASE_URL_PAYMENT = BASE_URL + "/payments";
+const BASE_URL_GEOLOCATION = import.meta.env.VITE_API_GEOLOCATION || "";
+
+const BASE_URL_LOCKER = "/lockers";
+const BASE_URL_CUSTOMER = "/customers";
+const BASE_URL_ORDER = "/orders";
+const BASE_URL_DASHBOARD = "/dashboard";
+const BASE_URL_ADDRESS = "/addresses";
+const BASE_URL_SETTING = "/settings";
+const BASE_URL_AUTH = "/auth";
+const BASE_URL_FILE = "/file";
+const BASE_URL_SERVICE = "/services";
+const BASE_URL_STAFF = "/staffs";
+const BASE_URL_STORE = "/stores";
+const BASE_URL_PAYMENT = "/payments";
+
+const getBaseUrl = () => {
+  return `${localStorage.getItem(LOCAL_STORAGE_ITEMS.BASE_URL)}/api/v1`;
+};
 
 const getBoardEndpoints = () => {
   return {
@@ -94,11 +99,13 @@ const getPaymentEndpoints = (id?: number) => {
   };
 };
 
-const getAddressEndpoints = () => {
+const getAddressEndpoints = (q?: string) => {
   return {
     addresses: BASE_URL_ADDRESS,
+    geolocation: BASE_URL_GEOLOCATION + (q ? `&q=${q}` : ""),
   };
 };
+
 const getSettingEndpoints = () => {
   return {
     setting: BASE_URL_SETTING,
@@ -138,6 +145,7 @@ const endpoints = {
   getDashboardEndPoints,
   getSettingEndpoints,
   getPaymentEndpoints,
+  getBaseUrl,
 };
 
 export default endpoints;

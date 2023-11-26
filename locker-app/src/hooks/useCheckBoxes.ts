@@ -3,7 +3,7 @@ import { useEffect } from "react";
 
 interface Props {
   onSuccess?: () => void;
-  onError?: () => void;
+  onError?: (reCheck: () => void) => void;
 }
 
 function useCheckBoxes({ onSuccess, onError }: Props) {
@@ -19,7 +19,7 @@ function useCheckBoxes({ onSuccess, onError }: Props) {
       return;
     }
     if (!data || !data?.closed) {
-      onError && onError();
+      onError && onError(() => checkBoxes());
       return;
     }
     if (data && data?.closed) {
