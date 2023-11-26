@@ -119,7 +119,7 @@ def mqttConnect(request):
                 mqtt_client.start(mqtt_config)
 
                 # check connection
-                timeout = time.time() + 5  # 10s
+                timeout = time.time() + 10  # 10s
                 mqtt_connected = False
                 locker_info = None
 
