@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 import BackStepButton from "../core/BackStepButton";
 import Button from "../core/Button";
 import Select from "../core/Select";
-import Switch from "../core/Switch";
 
 interface Props {
   onNext: () => void;
@@ -56,21 +55,20 @@ function SendReceiveTime({ onNext, onPrev }: Props) {
 
   useEffect(() => {
     if (selectedDate) {
-      setTimes(
-        [...Array(24).keys()]
-          .filter((data) =>
-            selectedDate?.startOf("date").isSame(minDateTime.startOf("date"))
-              ? data > minDateTime.hour()
-              : true
-          )
-          .filter((data) => {
-            return (
-              data >= getTime(informationSettings?.openedAt) &&
-              data <= getTime(informationSettings?.closedAt)
-            );
-          })
-      );
-      setSelectedTime(undefined);
+      const times = [...Array(24).keys()]
+        .filter((data) =>
+          selectedDate?.startOf("date").isSame(minDateTime.startOf("date"))
+            ? data > minDateTime.hour()
+            : true
+        )
+        .filter((data) => {
+          return (
+            data >= getTime(informationSettings?.openedAt) &&
+            data <= getTime(informationSettings?.closedAt)
+          );
+        });
+      setTimes(times);
+      setSelectedTime(times?.[0] ?? undefined);
     } else {
       setSelectedTime(undefined);
       setTimes(undefined);
