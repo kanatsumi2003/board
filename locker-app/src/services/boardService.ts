@@ -16,7 +16,6 @@ export const boardApi = createApi({
         url: endpoints.getBoardEndpoints().boardInfo,
         method: "GET",
       }),
-      providesTags: [{ type: "Board" }],
     }),
 
     checkBoxes: build.query<ICheckBoxesResponse, void>({
