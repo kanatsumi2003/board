@@ -92,7 +92,7 @@ function MessageModal({ children, type, onClose, onOk }: Props) {
                         className="bg-whitehover:bg-locker-red focus:outline-none hover:text-white hover:bg-locker-yellow text-3xl rounded-lg border border-locker-yellow font-medium px-8 py-4 transition-all"
                         onClick={onClose}
                       >
-                        Thử lại
+                        Đóng
                       </button>
                       <button
                         type="button"

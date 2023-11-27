@@ -15,14 +15,15 @@ function ReturnSuccess({ onNext }: Props) {
   const modal = useModal();
 
   const { checkBoxes, isLoading: checkBoxesIsLoading } = useCheckBoxes({
-    onError: (reCheck) => {
+    onError: () => {
       modal.confirm({
-        message: "Có ô tủ chưa được đóng chặc, bạn có chắc sẽ bỏ qua chứ?",
+        message:
+          "Hiện tại có ô tủ chưa được đóng chặt, bạn có muốn tiếp tục không?",
         onOk: () => {
           modal.success({ message: "Hoàn trả thành công" });
           onNext();
         },
-        onClose: reCheck,
+        onClose: () => {},
       });
     },
 

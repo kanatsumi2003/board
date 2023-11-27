@@ -135,6 +135,12 @@ function Header({ name, online, code }: Props) {
         {countDown < 10 && !disableCountDown && (
           <span className="text-2xl text-red-800 w-48">{`(${countDown}s quay về màn hình chính)`}</span>
         )}
+        <div
+          className="hover:text-locker-blue"
+          onClick={() => navigate(PATH.CONTACT)}
+        >
+          Liên hệ
+        </div>
         {online ? <MdSignalWifiStatusbar4Bar /> : <MdSignalWifiOff />}
         {!isFetching && isSuccess ? (
           <Tooltip content="Đăng xuất">

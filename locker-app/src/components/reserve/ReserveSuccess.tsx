@@ -15,11 +15,12 @@ interface Props {
 function ReserveSuccess({ onNext }: Props) {
   const { order } = useSelector((state: AppState) => state.order);
   const { checkBoxes, isLoading: checkBoxesIsLoading } = useCheckBoxes({
-    onError: (reCheck) => {
+    onError: () => {
       modal.confirm({
-        message: "Có ô tủ chưa được đóng chặc, bạn có chắc sẽ bỏ qua chứ?",
+        message:
+          "Hiện tại có ô tủ chưa được đóng chặt, bạn có muốn tiếp tục không?",
         onOk: () => order && confirmOrder({ id: order?.id }),
-        onClose: reCheck,
+        onClose: () => {},
       });
     },
 

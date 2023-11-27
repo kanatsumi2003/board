@@ -27,6 +27,7 @@ export const PATH = {
   SETUP: "/setup",
   MAINTAINING: "/maintaining",
   OFFLINE: "/offline",
+  CONTACT: "/contact",
 };
 
 export const STAFF_PATHS = [
