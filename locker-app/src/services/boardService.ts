@@ -8,7 +8,7 @@ import { ICheckBoxesResponse, ILockerInfoResponse } from "@/interfaces/locker";
 export const boardApi = createApi({
   reducerPath: "boardApi",
   baseQuery: axiosBaseQueryBoard(),
-  refetchOnMountOrArgChange: true,
+  refetchOnMountOrArgChange: false,
   tagTypes: ["Board"],
   endpoints: (build) => ({
     lockerInfo: build.query<ILockerInfoResponse, void>({
@@ -16,6 +16,7 @@ export const boardApi = createApi({
         url: endpoints.getBoardEndpoints().boardInfo,
         method: "GET",
       }),
+      providesTags: [{ type: "Board" }],
     }),
 
     checkBoxes: build.query<ICheckBoxesResponse, void>({
