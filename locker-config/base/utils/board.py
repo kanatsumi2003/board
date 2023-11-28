@@ -8,8 +8,6 @@ board_addresses = [];
 SWITCH_PIN_INDEX = 0
 SERIAL_BAURATE = 19200
 OPEN_BOX_TIMEOUT = 500  #second
-OPENING = True
-
 SERIAL_PORT = ''
 if platform.system().lower()=="windows":
     SERIAL_PORT = "COM6"
@@ -19,29 +17,17 @@ else:
     raise Exception('Platform is not supported') 
 
 def open_board_box(board_no: int, pin: int) -> bool:
-    if (OPENING == True):
-        return False
+    instrument = minimalmodbus.Instrument(SERIAL_PORT, board_no)  
+    instrument.serial.baudrate = SERIAL_BAURATE; 
+    instrument.close_port_after_each_call= True 
     
-    try:
-        instrument = minimalmodbus.Instrument(SERIAL_PORT, board_no)  
-        instrument.serial.baudrate = SERIAL_BAURATE; 
-        instrument.close_port_after_each_call= True 
-        
-        # Write value 1 to trigger pin
-        instrument.write_register(int(pin), int(1), 0)
-        global OPENING
-        OPENING = True
-        
-        time.sleep(0.5)
-        instrument.write_register(int(pin), int(0), 0)
-        global OPENING
-        OPENING = False
-        
-        return True
+    # Write value 1 to trigger pin
+    instrument.write_register(int(pin), int(1), 0)
     
-    finally:
-        global OPENING
-        OPENING = False
+    time.sleep(0.5)
+    instrument.write_register(int(pin), int(0), 0)
+    
+    return True
     
 def open_box(box_number: int) -> bool:
     # get box
