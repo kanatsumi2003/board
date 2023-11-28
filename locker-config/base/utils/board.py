@@ -19,7 +19,6 @@ else:
     raise Exception('Platform is not supported') 
 
 def open_board_box(board_no: int, pin: int) -> bool:
-    global OPENING
     if (OPENING == True):
         return False
     
@@ -41,8 +40,8 @@ def open_board_box(board_no: int, pin: int) -> bool:
         return True
     
     finally:
-        global x
-        OPENING = False;
+        global OPENING
+        OPENING = False
     
 def open_box(box_number: int) -> bool:
     # get box
