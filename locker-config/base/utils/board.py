@@ -21,10 +21,12 @@ def open_board_box(board_no: int, pin: int) -> bool:
     instrument.serial.baudrate = SERIAL_BAURATE; 
     instrument.close_port_after_each_call= True 
     
-    # Write value 1 to trigger pin
+    # Write value 1 to write HIGH pin
     instrument.write_register(int(pin), int(1), 0)
     
     time.sleep(0.5)
+    
+    # Write value 0 to write LOW to pin
     instrument.write_register(int(pin), int(0), 0)
     
     return True
