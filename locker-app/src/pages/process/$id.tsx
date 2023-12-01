@@ -21,7 +21,7 @@ function ProcessDetailPage() {
           case 1:
             return <ProcessOrderDetail onNext={() => setStep(2)} />;
           case 2:
-            return <ProcessSuccess onNext={() => navigate(PATH.DASHBOARD)} />;
+            return <ProcessSuccess onNext={() => navigate(PATH.BOXES)} />;
         }
       })()}
     </div>

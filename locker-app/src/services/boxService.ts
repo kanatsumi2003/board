@@ -29,4 +29,4 @@ export const boxApi = createApi({
   }),
 });
 
-export const { useLazyBoxesQuery, useBoxTokenMutation } = boxApi;
+export const { useLazyBoxesQuery, useBoxTokenMutation, useBoxesQuery } = boxApi;

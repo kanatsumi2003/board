@@ -50,10 +50,10 @@ function OrderItem({ loading, url, ...order }: OrderItemProps) {
               <b>Mã pin: </b>
               {order.pinCode}
             </div>
-            <div>
+            {/* <div>
               <b>Ô tủ: </b>
               {order.sendBox?.number}
-            </div>
+            </div> */}
             <div>
               <b>Người gửi: </b>
               {order.sender?.fullName

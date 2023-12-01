@@ -36,7 +36,7 @@ function ProcessOrderDetail({ onNext }: Props) {
       <Title subtitle="Xử lý đơn hàng">Thông tin chi tiết đơn hàng</Title>
       <OrderContainer id={Number(id)} />
       <Button type="primary" small onClick={handleProcessOrder}>
-        Xác nhận đơn hàng
+        Nhận đơn hàng về kho
       </Button>
     </>
   );

@@ -9,6 +9,7 @@ import SendAddress from "./SendAddress";
 import SendNote from "./SendNote";
 import SendPhoneNumber from "./SendPhoneNumber";
 import SendReceiveTime from "./SendReceiveTime";
+import SendOrderDetail from "./SendOrderDetail";
 
 interface CreateOrderFormError {
   senderPhone?: string;
@@ -37,12 +38,8 @@ function SendCreateOrder({ onNext, onPrev }: Props) {
 
   const onSubmitCreateOrder = () => {
     createOrder({
+      ...orderRequest,
       lockerId: Number(locker?.id),
-      senderPhone: orderRequest?.senderPhone,
-      receiverPhone: orderRequest?.receiverPhone,
-      type: orderRequest?.type,
-      serviceIds: orderRequest?.serviceIds,
-      customerNote: orderRequest?.customerNote,
       deliveryAddress:
         orderRequest?.deliveryAddress?.address &&
         orderRequest?.deliveryAddress?.wardCode &&
@@ -50,7 +47,6 @@ function SendCreateOrder({ onNext, onPrev }: Props) {
         orderRequest?.deliveryAddress?.provinceCode
           ? orderRequest.deliveryAddress
           : undefined,
-      intendedReceiveAt: orderRequest?.intendedReceiveAt,
     });
   };
 
@@ -104,8 +100,18 @@ function SendCreateOrder({ onNext, onPrev }: Props) {
           case 4: {
             return (
               <SendNote
-                onNext={onSubmitCreateOrder}
+                onNext={() => {
+                  setStep(5);
+                }}
                 onPrev={() => setStep(3)}
+              />
+            );
+          }
+          case 5: {
+            return (
+              <SendOrderDetail
+                onNext={onSubmitCreateOrder}
+                onPrev={() => setStep(4)}
               />
             );
           }

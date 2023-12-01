@@ -5,6 +5,7 @@ import { useOrderQuery } from "@/services/orderService";
 import store from "@/stores";
 import { setOrderState } from "@/stores/order.store";
 import { formatCurrency, formatDate } from "@/utils/formatter";
+import { renderOrderTypeText } from "@/utils/orderTypeRender";
 import { useEffect } from "react";
 
 interface Props {
@@ -40,7 +41,7 @@ function OrderContainer({ id }: Props) {
           <div>Mã PIN đơn hàng:</div>
           <div className="font-bold">{order.pinCode}</div>
           <div>Loại dịch vụ:</div>
-          <div className="font-bold">{order.type}</div>
+          <div className="font-bold">{renderOrderTypeText(order.type)}</div>
           <div>SĐT người gửi:</div>
           <div className="font-bold">{order.sender.phoneNumber}</div>
           {order.receiver?.phoneNumber && (
@@ -51,15 +52,15 @@ function OrderContainer({ id }: Props) {
           )}
           {order.createdAt && (
             <>
-              <div>Thời gian:</div>
+              <div>Thời gian gửi:</div>
               <div className="font-bold">{formatDate(order.createdAt)}</div>
             </>
           )}
         </Card>
-        <div className="flex flex-col gap-2 basis-2/5">
+        {/* <div className="flex flex-col gap-2 basis-2/5">
           <Card className="h-full">
             <div className="font-semibold col-span-2 mb-8">
-              {`Chi tiết đơn hàng (${order.details.length} dịch vụ):`}
+              {`Dịch vụ (${order.details.length} dịch vụ):`}
             </div>
             <Draggable>
               <div className="flex flex-col h-full gap-2 w-full max-h-[600px] overflow-scroll">
@@ -101,7 +102,7 @@ function OrderContainer({ id }: Props) {
               </div>
             </Draggable>
           </Card>
-        </div>
+        </div> */}
       </div>
     </>
   );

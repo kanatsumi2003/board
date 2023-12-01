@@ -1,11 +1,28 @@
 import Logo from "@/assets/logo/logo_full.png";
 import Button from "@/components/core/Button";
 import { PATH } from "@/constants/common";
+import { ORDER_STATUS, ORDER_TYPE } from "@/interfaces/order";
+import { useBoxesQuery } from "@/services/boxService";
+import { useOrdersQuery } from "@/services/orderService";
 import TokenService from "@/services/tokenService";
+import { AppState } from "@/stores";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const { locker } = useSelector((app: AppState) => app.locker);
+  const { data: boxes } = useBoxesQuery({
+    id: Number(locker?.id),
+  });
+
+  const { data: orders } = useOrdersQuery({
+    type: ORDER_TYPE.LAUNDRY,
+    status: ORDER_STATUS.PROCESSED,
+    deliverySupported: false,
+    lockerId: Number(locker?.id),
+  });
+
   useEffect(() => {
     if (!TokenService.getAccessToken() && !TokenService.getRefreshToken()) {
       navigate(PATH.HOME);
@@ -26,11 +43,22 @@ function Home() {
         <div className="flex flex-col w-full gap-6 justify-between h-full">
           <Button
             type="primary"
-            to={PATH.PROCESS}
+            to={PATH.BOXES}
             wrapperClassName="basis-1/2"
             className="h-full text-6xl"
           >
-            Xử lý đơn hàng
+            Xử lý đơn hàng{" "}
+            <span className="italic">
+              (
+              {boxes?.filter(
+                (box) =>
+                  !box.isAvailable &&
+                  (box.lastOrder.status === ORDER_STATUS.WAITING ||
+                    box.lastOrder.status === ORDER_STATUS.OVERTIME) &&
+                  box.lastOrder.type === ORDER_TYPE.LAUNDRY
+              ).length ?? 0}
+              )
+            </span>
           </Button>
           <Button
             type="secondary"
@@ -39,6 +67,7 @@ function Home() {
             wrapperClassName="basis-1/2"
           >
             Hoàn trả đơn hàng
+            <span className="italic">({orders?.totalCount ?? 0})</span>{" "}
           </Button>
           <Button
             type="warning"

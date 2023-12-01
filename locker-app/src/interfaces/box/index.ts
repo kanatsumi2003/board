@@ -1,3 +1,5 @@
+import { IOrderDetailItem } from "../order";
+
 export enum BOX_STATUS {
   ACTIVE = "Active",
   INACTIVE = "Inactive",
@@ -10,6 +12,6 @@ export interface IBoxItem {
   pinNo: number;
   isActive: boolean;
   lockerId: number;
-  lastOrder: boolean;
+  lastOrder: IOrderDetailItem;
   isAvailable: true;
 }

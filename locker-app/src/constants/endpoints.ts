@@ -87,6 +87,7 @@ const getOrderEndpoints = (id?: number, pinCode?: string) => {
     orderCheckout: `${BASE_URL_ORDER}/${id}/checkout`,
     orderProcess: `${BASE_URL_ORDER}/${id}/process`,
     collectOrder: `${BASE_URL_ORDER}/${id}/collect`,
+    processOvertimeOrder: `${BASE_URL_ORDER}/${id}/process-overtime`,
     orderReturn: `${BASE_URL_ORDER}/${id}/return`,
     orderReservation: `${BASE_URL_ORDER}/${id}/reservation`,
     orderAddMore: `${BASE_URL_ORDER}/${id}/add-more`,

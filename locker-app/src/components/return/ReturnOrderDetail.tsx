@@ -39,7 +39,7 @@ function ReturnOrderDetail({ onNext }: Props) {
       <Title subtitle="Hoàn trả đơn hàng">Thông tin chi tiết đơn hàng</Title>
       <OrderContainer id={Number(id)} />
       <Button type="primary" small onClick={handleReturnOrder}>
-        Xác nhận đơn hàng
+        Xác nhận hoàn trả
       </Button>
     </>
   );

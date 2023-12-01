@@ -12,6 +12,8 @@ export enum ORDER_STATUS {
   RETURNED = "Returned",
   COMPLETED = "Completed",
   CANCELED = "Canceled",
+  OVERTIME = "Overtime",
+  RESERVED = "Reserved",
 }
 export enum ORDER_TYPE {
   STORAGE = "Storage",
@@ -84,7 +86,6 @@ export interface IOrder extends Response {
 
 export interface ICreateOrderRequest {
   lockerId: number;
-  serviceIds?: number[];
   senderPhone?: string;
   intendedReceiveAt?: string;
   customerNote?: string;
@@ -98,6 +99,12 @@ export interface ICreateOrderRequest {
     longitude?: number;
     latitude?: number;
   };
+  details?: IOrderServiceItem[];
+}
+
+export interface IOrderServiceItem extends IServiceItem {
+  serviceId: number;
+  quantity: number;
 }
 
 export interface ICheckOutOrderRequest {
