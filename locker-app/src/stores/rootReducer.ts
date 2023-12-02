@@ -15,6 +15,7 @@ import settingReducer from "./setting.store";
 import { settingApi } from "@/services/settingService";
 import { addressApi } from "@/services/addressService";
 import { geolocationApi } from "@/services/geolocationService";
+import { walletApi } from "@/services/walletService";
 
 const rootReducer = combineReducers({
   global: globalReducer,
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   [settingApi.reducerPath]: settingApi.reducer,
   [addressApi.reducerPath]: addressApi.reducer,
   [geolocationApi.reducerPath]: geolocationApi.reducer,
+  [walletApi.reducerPath]: walletApi.reducer,
 });
 
 export default rootReducer;

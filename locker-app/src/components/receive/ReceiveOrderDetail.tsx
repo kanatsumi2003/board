@@ -1,12 +1,15 @@
 import Button from "@/components/core/Button";
+import useModal from "@/hooks/useModal";
 import { IDetailItem, ORDER_TYPE } from "@/interfaces/order";
+import { useCheckOutOrderMutation } from "@/services/orderService";
 import { AppState } from "@/stores";
 import { formatCurrency, formatDate } from "@/utils/formatter";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Title from "../Title";
 import BackStepButton from "../core/BackStepButton";
-import { Draggable } from "../core/Draggable";
 import { Card } from "../core/Card";
+import { Draggable } from "../core/Draggable";
 
 interface Props {
   onNext: () => void;
@@ -15,10 +18,35 @@ interface Props {
 
 function ReceiveOrderDetail({ onNext, onPrev }: Props) {
   const { order } = useSelector((state: AppState) => state.order);
+  const [checkOut, { isSuccess, data, isError, error }] =
+    useCheckOutOrderMutation();
+
+  const modal = useModal();
 
   if (!order) {
     return <></>;
   }
+
+  const handleCheckOut = () => {
+    modal.confirm({
+      message:
+        "Hệ thống sẽ tự động trừ tiền hoặc hoàn tiền vào số dư của bạn. Bạn có chắc chắn chứ",
+      onOk: () => {
+        checkOut({ id: order?.id });
+      },
+      onClose: () => {},
+    });
+  };
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      onNext();
+      return;
+    }
+    if (isError) {
+      modal.error({ message: error?.message?.message });
+    }
+  }, [isSuccess, isError]);
 
   return (
     <>
@@ -62,6 +90,8 @@ function ReceiveOrderDetail({ onNext, onPrev }: Props) {
                   </div>
                 </>
               )}
+              <div>SĐT người gửi:</div>
+
               {/* <div className="w-full border-b border-solid col-span-2 border-black"></div> */}
               {order.type === ORDER_TYPE.LAUNDRY && (
                 <>
@@ -72,10 +102,10 @@ function ReceiveOrderDetail({ onNext, onPrev }: Props) {
                   <div className="font-bold text-end">
                     {formatCurrency(order.price ?? 0)}
                   </div>
-                  <div>Giảm giá:</div>
+                  {/* <div>Giảm giá:</div>
                   <div className="font-bold text-end">
                     - {formatCurrency(order.discount ?? 0)}
-                  </div>
+                  </div> */}
                   <div>Trả trước:</div>
                   <div className="font-bold text-end">
                     - {formatCurrency(order.reservationFee ?? 0)}
@@ -90,6 +120,17 @@ function ReceiveOrderDetail({ onNext, onPrev }: Props) {
                     ) : (
                       ""
                     )}
+                  </div>
+                </>
+              )}
+              {order.type === ORDER_TYPE.STORAGE && (
+                <>
+                  <div className="font-semibold col-span-2 my-4 text-4xl">
+                    Chi tiết hóa đơn:
+                  </div>
+                  <div>Trả trước:</div>
+                  <div className="font-bold text-end">
+                    - {formatCurrency(order.reservationFee ?? 0)}
                   </div>
                 </>
               )}
@@ -165,7 +206,7 @@ function ReceiveOrderDetail({ onNext, onPrev }: Props) {
           </div>
         </div>
         <div className="flex flex-col gap-4">
-          <Button type="primary" small onClick={onNext}>
+          <Button type="primary" small onClick={handleCheckOut}>
             Xác nhận thanh toán
           </Button>
           <BackStepButton onClick={onPrev} />

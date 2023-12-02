@@ -32,16 +32,16 @@ function ReceivePage() {
                 onPrev={() => setStep(1)}
               />
             );
+          // case 3:
+          //   return (
+          //     <ReceiveChooseMethod
+          //       onNext={() => setStep(4)}
+          //       onPrev={() => setStep(2)}
+          //     />
+          //   );
+          // case 4:
+          //   return <ReceivePayment onNext={() => setStep(5)} />;
           case 3:
-            return (
-              <ReceiveChooseMethod
-                onNext={() => setStep(4)}
-                onPrev={() => setStep(2)}
-              />
-            );
-          case 4:
-            return <ReceivePayment onNext={() => setStep(5)} />;
-          case 5:
             return <ReceiveSuccess onNext={() => navigate(PATH.HOME)} />;
         }
       })()}

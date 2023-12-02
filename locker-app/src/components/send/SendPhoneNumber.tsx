@@ -10,6 +10,7 @@ import BackStepButton from "../core/BackStepButton";
 import Button from "../core/Button";
 import Input from "../core/Input";
 import Switch from "../core/Switch";
+import { formatCurrency } from "@/utils/formatter";
 
 interface CreateOrderFormError {
   senderPhone?: string;
@@ -106,11 +107,29 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
   };
 
   useEffect(() => {
+    if (
+      !senderIsFetching &&
+      (!senderIsSuccess || !senderData?.wallet?.balance)
+    ) {
+      if (senderData?.fullName) {
+        setSenderName(senderData.fullName);
+      }
+      setError((prev) => ({
+        ...prev,
+        senderPhone: `Số dư tài khoản của bạn (${formatCurrency(
+          senderData?.wallet?.balance ?? 0
+        )}) không đủ để thực hiện giao dịch.`,
+      }));
+      return;
+    }
     if (!senderIsFetching && senderIsSuccess && senderData?.fullName) {
       setSenderName(senderData.fullName);
+      return;
     }
+
     if (!receiverIsFetching && receiverIsSuccess && receiverData?.fullName) {
       setReceiverName(receiverData.fullName);
+      return;
     }
   }, [
     senderIsSuccess,
@@ -152,7 +171,9 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
               type="text"
               className="rounded-lg border mt-8 border-gray-500 w-full p-4 disabled:bg-gray-100 text-gray-500"
               disabled
-              value={senderName}
+              value={`${senderName} - (Số dư: ${formatCurrency(
+                senderData?.wallet?.balance ?? 0
+              )})`}
             />
           </div>
         )}

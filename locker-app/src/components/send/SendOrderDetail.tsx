@@ -2,7 +2,7 @@ import Button from "@/components/core/Button";
 import useKeyboard from "@/hooks/useKeyboard";
 import { IOrderServiceItem, ORDER_TYPE } from "@/interfaces/order";
 import { AppState } from "@/stores";
-import { formatCurrency } from "@/utils/formatter";
+import { formatCurrency, formatDate } from "@/utils/formatter";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import BackStepButton from "../core/BackStepButton";
@@ -54,6 +54,22 @@ function SendOrderDetail({ onNext, onPrev }: Props) {
                   <div>SĐT người nhận:</div>
                   <div className="font-bold text-end">
                     {orderRequest.receiverPhone}
+                  </div>
+                </>
+              )}
+              {orderRequest.intendedReceiveAt && (
+                <>
+                  <div>Thời gian nhận dự kiến:</div>
+                  <div className="font-bold text-end">
+                    {formatDate(orderRequest.intendedReceiveAt)}
+                  </div>
+                </>
+              )}
+              {orderRequest.customerNote && (
+                <>
+                  <div>Ghi chú đơn hàng:</div>
+                  <div className="font-bold text-end">
+                    {orderRequest.customerNote}
                   </div>
                 </>
               )}

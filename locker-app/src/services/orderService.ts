@@ -75,14 +75,10 @@ export const orderApi = createApi({
       invalidatesTags: [{ type: "Order" }, { type: "Box" }],
     }),
 
-    checkOutOrder: build.mutation<
-      IPaymentItem,
-      { id: number } & ICheckOutOrderRequest
-    >({
-      query: ({ id, ...data }) => ({
+    checkOutOrder: build.mutation<IPaymentItem, { id: number }>({
+      query: ({ id }) => ({
         url: endpoints.getOrderEndpoints(id).orderCheckout,
         method: "PUT",
-        data: data,
       }),
       invalidatesTags: [{ type: "Order" }, { type: "Box" }],
     }),

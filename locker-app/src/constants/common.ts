@@ -19,6 +19,7 @@ export const PATH = {
   LOGIN: "/login",
   DASHBOARD: "/dashboard",
   SEND: "/send",
+  LOOK_UP: "/look-up",
   RECEIVE: "/receive",
   RESERVE: "/reserve",
   ADD_MORE: "/add-more",

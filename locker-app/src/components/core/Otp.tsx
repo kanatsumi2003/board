@@ -29,7 +29,7 @@ function Otp({ otp, setOtp }: Props) {
   }, [inputs]);
 
   useEffect(() => {
-    ref.current[otp.length ?? 0]?.focus();
+    ref.current[otp?.length ?? 0]?.focus();
   }, [otp]);
 
   return (

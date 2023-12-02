@@ -8,6 +8,7 @@ import { useLazyBoxesQuery } from "@/services/boxService";
 import store, { AppState } from "@/stores";
 import { clearOrder } from "@/stores/order.store";
 import { useEffect } from "react";
+import { MdAccountBalanceWallet } from "react-icons/md";
 import { TbPackage, TbPackageExport, TbPackageImport } from "react-icons/tb";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -82,22 +83,34 @@ function Home() {
 
           <Button
             type="warning"
+            to={`${PATH.LOOK_UP}?a=1231`}
             className="h-full text-6xl"
             wrapperClassName="basis-1/4"
-            to={PATH.ADD_MORE}
-            icon={<TbPackageExport />}
+            icon={<MdAccountBalanceWallet />}
           >
-            Gửi thêm đồ
+            Tra cứu
           </Button>
-          <Button
-            type="warning"
-            to={PATH.RESERVE}
-            className="h-full text-6xl"
-            wrapperClassName="basis-1/4"
-            icon={<TbPackage />}
-          >
-            Đã đặt chỗ
-          </Button>
+
+          <div className="flex w-full gap-6 justify-between">
+            <Button
+              type="warning"
+              className="h-full text-5xl"
+              wrapperClassName="basis-1/2"
+              to={PATH.ADD_MORE}
+              icon={<TbPackageExport />}
+            >
+              Gửi thêm đồ
+            </Button>
+            <Button
+              type="warning"
+              to={PATH.RESERVE}
+              className="h-full text-5xl"
+              wrapperClassName="basis-1/2"
+              icon={<TbPackage />}
+            >
+              Đã đặt chỗ
+            </Button>
+          </div>
         </div>
       </div>
     </div>

@@ -16,6 +16,7 @@ const BASE_URL_SERVICE = "/services";
 const BASE_URL_STAFF = "/staffs";
 const BASE_URL_STORE = "/stores";
 const BASE_URL_PAYMENT = "/payments";
+const BASE_URL_WALLET = "/wallets";
 
 const getBaseUrl = () => {
   return `${localStorage.getItem(LOCAL_STORAGE_ITEMS.BASE_URL)}/api/v1`;
@@ -39,7 +40,11 @@ const getAuthEndPoints = () => {
     refreshToken: `${BASE_URL_AUTH}/refresh`,
   };
 };
-
+const getWalletEndpoints = () => {
+  return {
+    deposit: `${BASE_URL_WALLET}/deposit`,
+  };
+};
 const getStoreEndpoints = (id?: number) => {
   return {
     stores: `${BASE_URL_STORE}`,
@@ -147,6 +152,7 @@ const endpoints = {
   getSettingEndpoints,
   getPaymentEndpoints,
   getBaseUrl,
+  getWalletEndpoints,
 };
 
 export default endpoints;

@@ -62,8 +62,11 @@ function SendServices({ onNext, clearType, onBack }: Props) {
         <div className="col-span-4 mt-4">
           <span className="text-red-600 text-4xl font-bold">*</span> Tổng phí
           dịch vụ trên chỉ là
-          <span className="font-bold"> ước tính</span>, giá trị thực tế{" "}
-          <span className="font-bold">có thể sẽ thay đổi </span>bởi nhân viên.
+          <span className="font-bold"> ước tính</span> và
+          <span className="font-bold"> chưa bao gồm phí vận chuyển</span> (nếu
+          có), giá trị thực tế{" "}
+          <span className="font-bold">có thể sẽ thay đổi </span>
+          bởi nhân viên.
         </div>
       </div>
       <ServiceContainer
