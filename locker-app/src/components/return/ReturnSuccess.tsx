@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import Title from "../Title";
 import BoxNumber from "../core/BoxNumber";
 import Button from "../core/Button";
+import TextBold from "../core/TextBold";
 
 interface Props {
   onNext: () => void;
@@ -44,8 +45,8 @@ function ReturnSuccess({ onNext }: Props) {
       </Title>
       <div className="mt-52 flex w-full items-center flex-col justify-between h-full px-12">
         <div>
-          Vui lòng hoàn trả đồ và ấn <b>"Xác nhận"</b> trên màn hình để hoàn
-          tất.
+          Vui lòng hoàn trả đồ và ấn <TextBold>"Xác nhận"</TextBold> trên màn
+          hình để hoàn tất.
         </div>
         <BoxNumber>{order?.receiveBox?.number}</BoxNumber>
         <Button
