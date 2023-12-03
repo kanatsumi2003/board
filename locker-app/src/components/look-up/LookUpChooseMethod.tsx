@@ -1,12 +1,14 @@
 import MomoLogo from "@/assets/momo_logo.png";
 import VNPayLogo from "@/assets/vnpay_logo.jpg";
+import { VN_PAY_MINIMUM_PAYMENT_ACCEPTANCE } from "@/constants/common";
 import useKeyboard from "@/hooks/useKeyboard";
 import { ORDER_PAYMENT_METHOD } from "@/interfaces/order";
 import { useDepositMutation } from "@/services/walletService";
-import store from "@/stores";
+import store, { AppState } from "@/stores";
 import { setOrderState } from "@/stores/order.store";
 import { formatThousandNumber } from "@/utils/formatter";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Title from "../Title";
 import Button from "../core/Button";
 import { Card } from "../core/Card";
@@ -20,13 +22,14 @@ export default function LookUpChooseMethod({ onNext, phoneNumber }: Props) {
   const [method, setMethod] = useState<ORDER_PAYMENT_METHOD>();
   const [amount, setAmount] = useState<number>();
   const [amountError, setAmountError] = useState<string>();
+  const { paymentSettings } = useSelector((state: AppState) => state.setting);
   const { inputs } = useKeyboard();
   const { open } = useKeyboard();
   const [deposit, { isSuccess, data }] = useDepositMutation();
 
   const showKeyboard = () => {
     open({
-      maxLength: 10,
+      maxLength: 100,
       inputName: "amount",
       onlyNumber: true,
     });
@@ -65,12 +68,16 @@ export default function LookUpChooseMethod({ onNext, phoneNumber }: Props) {
   };
 
   const validateAmount = (amount: number) => {
-    if (!amount || amount >= 10000) {
+    if (!amount || amount >= (paymentSettings?.minDeposit ?? 0)) {
       setAmountError(undefined);
 
       return;
     }
-    setAmountError("Vui lòng nhập số tiền lớn hơn hoặc bằng 10.000.");
+    setAmountError(
+      `Vui lòng nhập số tiền lớn hơn hoặc bằng ${formatThousandNumber(
+        paymentSettings?.minDeposit
+      )}.`
+    );
   };
 
   return (
@@ -106,28 +113,34 @@ export default function LookUpChooseMethod({ onNext, phoneNumber }: Props) {
             Vui lòng chọn phương thức thanh toán
           </div>
           <ul className="font-medium flex flex-col gap-8 w-full mt-8">
-            <li
-              className="rounded-lg border-2 border-locker-blue"
-              onClick={() => setMethod(ORDER_PAYMENT_METHOD.VN_PAY)}
-            >
-              <div className="flex items-center pl-3">
-                <input
-                  id={ORDER_PAYMENT_METHOD.VN_PAY}
-                  type="radio"
-                  value=""
-                  checked={method === ORDER_PAYMENT_METHOD.VN_PAY}
-                  name="list-radio"
-                  className="w-8 h-8 checked:bg-locker-blue"
-                />
-                <label
-                  htmlFor={ORDER_PAYMENT_METHOD.VN_PAY}
-                  className="py-3 font-medium text-gray-900 flex ml-4 items-center gap-6"
-                >
-                  <img src={VNPayLogo} alt="VNPayLogo" className="w-28 h-28" />
-                  <div>Ví điện tử VN Pay</div>
-                </label>
-              </div>
-            </li>
+            {amount && amount >= VN_PAY_MINIMUM_PAYMENT_ACCEPTANCE && (
+              <li
+                className="rounded-lg border-2 border-locker-blue"
+                onClick={() => setMethod(ORDER_PAYMENT_METHOD.VN_PAY)}
+              >
+                <div className="flex items-center pl-3">
+                  <input
+                    id={ORDER_PAYMENT_METHOD.VN_PAY}
+                    type="radio"
+                    value=""
+                    checked={method === ORDER_PAYMENT_METHOD.VN_PAY}
+                    name="list-radio"
+                    className="w-8 h-8 checked:bg-locker-blue"
+                  />
+                  <label
+                    htmlFor={ORDER_PAYMENT_METHOD.VN_PAY}
+                    className="py-3 font-medium text-gray-900 flex ml-4 items-center gap-6"
+                  >
+                    <img
+                      src={VNPayLogo}
+                      alt="VNPayLogo"
+                      className="w-28 h-28"
+                    />
+                    <div>Ví điện tử VN Pay</div>
+                  </label>
+                </div>
+              </li>
+            )}
             <li
               className="w-full rounded-lg border-2 border-locker-blue"
               onClick={() => setMethod(ORDER_PAYMENT_METHOD.MOMO)}

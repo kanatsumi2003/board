@@ -1,15 +1,18 @@
 import { PATH, PAYMENT_POLLING_INTERVAL } from "@/constants/common";
+import useCountDown from "@/hooks/useCountdown";
 import useModal from "@/hooks/useModal";
 import { ORDER_PAYMENT_STATUS } from "@/interfaces/order";
 import { usePaymentQuery } from "@/services/orderService";
 import store, { AppState } from "@/stores";
 import { setGlobalState } from "@/stores/global.store";
 import { formatCurrency } from "@/utils/formatter";
+import { formatTime } from "@/utils/utils";
 import { useEffect } from "react";
 import QRCode from "react-qr-code";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Title from "../Title";
+import Button from "../core/Button";
 import { Card } from "../core/Card";
 
 interface Props {
@@ -19,6 +22,7 @@ interface Props {
 
 function LookUpPayment({ onNext, amount }: Props) {
   const { payment } = useSelector((state: AppState) => state.order);
+  const { paymentSettings } = useSelector((state: AppState) => state.setting);
   const { data } = usePaymentQuery(
     { paymentId: Number(payment?.id) },
     {
@@ -28,6 +32,9 @@ function LookUpPayment({ onNext, amount }: Props) {
   );
   const modal = useModal();
   const navigate = useNavigate();
+  const { countDown } = useCountDown(
+    (paymentSettings?.paymentTimeoutInMinutes ?? 0) * 60
+  );
 
   useEffect(() => {
     store.dispatch(
@@ -83,7 +90,25 @@ function LookUpPayment({ onNext, amount }: Props) {
               <div className="font-light mt-4">Nội dung chuyển khoản</div>
               <div className="font-bold mt-4 text-4xl">{payment?.content}</div>
             </div>
+            <div className="font-light mt-4 text-center">
+              {countDown ? (
+                <>
+                  QR thanh toán sẽ hết hiệu lực sau{" "}
+                  <span className="font-bold">{formatTime(countDown)}</span>
+                </>
+              ) : (
+                "QR thanh toán đã hết hiệu lực"
+              )}
+            </div>
           </Card>
+          <Button
+            onClick={() => navigate(PATH.HOME)}
+            type={"primary"}
+            small
+            className="mt-8"
+          >
+            Quay về trang chủ
+          </Button>
         </div>
       </div>
     </>

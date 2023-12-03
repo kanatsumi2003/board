@@ -1,4 +1,3 @@
-
 export enum SERVICE_STATUS {
   ACTIVE = "Active",
   INACTIVE = "Inactive",
@@ -32,5 +31,9 @@ export interface ISettingItem {
   };
   timeSettings: {
     timeZone: string;
+  };
+  paymentSettings: {
+    paymentTimeoutInMinutes: number;
+    minDeposit: number;
   };
 }
