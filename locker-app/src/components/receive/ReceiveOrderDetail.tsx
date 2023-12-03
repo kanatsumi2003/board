@@ -90,7 +90,6 @@ function ReceiveOrderDetail({ onNext, onPrev }: Props) {
                   </div>
                 </>
               )}
-              <div>SĐT người gửi:</div>
 
               {/* <div className="w-full border-b border-solid col-span-2 border-black"></div> */}
               {order.type === ORDER_TYPE.LAUNDRY && (
