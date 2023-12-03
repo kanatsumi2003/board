@@ -75,7 +75,7 @@ function SendCreateOrder({ onNext, onPrev }: Props) {
                 onNext={() =>
                   orderRequest?.type === ORDER_TYPE.LAUNDRY
                     ? setStep(2)
-                    : onSubmitCreateOrder()
+                    : setStep(5)
                 }
                 onPrev={onPrev}
               />

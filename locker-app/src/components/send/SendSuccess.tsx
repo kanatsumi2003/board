@@ -5,6 +5,7 @@ import { AppState } from "@/stores";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Button from "../core/Button";
+import TextBold from "../core/TextBold";
 
 interface Props {
   onNext: () => void;
@@ -52,8 +53,8 @@ function SendSuccess({ onNext }: Props) {
           Vui lòng để đồ vào ô tủ số
         </div>
         <div className="mt-8">
-          Vui lòng để đồ vào tủ và ấn <b>"Xác nhận"</b> trên màn hình để hoàn
-          tất quá trình gửi đồ
+          Vui lòng để đồ vào tủ và ấn <TextBold>"Xác nhận"</TextBold> trên màn
+          hình để hoàn tất quá trình gửi đồ
         </div>
       </div>
       <div className="text-[200px] font-bold text-locker-blue p-4 rounded-full">

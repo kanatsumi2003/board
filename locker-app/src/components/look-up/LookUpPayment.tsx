@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import Title from "../Title";
 import Button from "../core/Button";
 import { Card } from "../core/Card";
+import TextBold from "../core/TextBold";
 
 interface Props {
   onNext: () => void;
@@ -94,7 +95,7 @@ function LookUpPayment({ onNext, amount }: Props) {
               {countDown ? (
                 <>
                   QR thanh toán sẽ hết hiệu lực sau{" "}
-                  <span className="font-bold">{formatTime(countDown)}</span>
+                  <TextBold>{formatTime(countDown)}</TextBold>
                 </>
               ) : (
                 "QR thanh toán đã hết hiệu lực"

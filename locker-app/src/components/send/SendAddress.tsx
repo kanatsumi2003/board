@@ -9,6 +9,8 @@ import BackStepButton from "../core/BackStepButton";
 import Button from "../core/Button";
 import Input from "../core/Input";
 import LocationPicker from "./LocationPicker";
+import Asterisk from "../core/Asterisk";
+import TextBold from "../core/TextBold";
 
 interface Props {
   onNext: () => void;
@@ -84,10 +86,9 @@ function SendAddress({ onNext, onPrev }: Props) {
         />
         <LocationPicker onClear={handleClear} onChange={handleChangeLocation} />
         <div>
-          <span className="text-red-600 text-4xl font-bold">*</span> Nếu bỏ qua
-          bước này, chúng tôi sẽ mặc định{" "}
-          <span className="font-bold">hoàn trả tại Locker hiện tại</span> và gửi
-          thông báo đến bạn.
+          <Asterisk /> Nếu bỏ qua bước này, chúng tôi sẽ mặc định{" "}
+          <TextBold>hoàn trả tại Locker hiện tại</TextBold> và gửi thông báo đến
+          bạn.
         </div>
         <Button
           type="primary"

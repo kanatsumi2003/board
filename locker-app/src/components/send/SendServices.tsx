@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import Button from "../core/Button";
 import { Card } from "../core/Card";
 import { formatCurrency } from "@/utils/formatter";
+import Asterisk from "../core/Asterisk";
+import TextBold from "../core/TextBold";
 
 interface Props {
   onNext: () => void;
@@ -36,9 +38,7 @@ function SendServices({ onNext, clearType, onBack }: Props) {
         <Card className="grid grid-cols-6 mt-8 py-4 items-end">
           <div className="col-span-4">
             Tổng phí dịch vụ:{" "}
-            <span className="font-bold">
-              ({selectedServices.length} dịch vụ)
-            </span>
+            <TextBold>{`(${selectedServices.length} dịch vụ)`}</TextBold>
           </div>
           <div className="font-bold text-5xl text-right col-span-2">
             {formatCurrency(
@@ -60,12 +60,10 @@ function SendServices({ onNext, clearType, onBack }: Props) {
           </Button>
         </Card>
         <div className="col-span-4 mt-4">
-          <span className="text-red-600 text-4xl font-bold">*</span> Tổng phí
-          dịch vụ trên chỉ là
-          <span className="font-bold"> ước tính</span> và
-          <span className="font-bold"> chưa bao gồm phí vận chuyển</span> (nếu
-          có), giá trị thực tế{" "}
-          <span className="font-bold">có thể sẽ thay đổi </span>
+          <Asterisk /> Tổng phí dịch vụ trên chỉ là
+          <TextBold> ước tính</TextBold> và
+          <TextBold> chưa bao gồm phí vận chuyển</TextBold> (nếu có), giá trị
+          thực tế <TextBold>có thể sẽ thay đổi </TextBold>
           bởi nhân viên.
         </div>
       </div>

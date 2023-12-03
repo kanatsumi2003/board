@@ -6,9 +6,11 @@ import { formatCurrency, formatDate } from "@/utils/formatter";
 import { renderOrderTypeText } from "@/utils/orderTypeRender";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import Asterisk from "../core/Asterisk";
 import BackStepButton from "../core/BackStepButton";
 import { Card } from "../core/Card";
 import { Draggable } from "../core/Draggable";
+import TextBold from "../core/TextBold";
 
 interface Props {
   onNext: () => void;
@@ -32,14 +34,30 @@ function SendOrderDetail({ onNext, onPrev }: Props) {
           <div className="text-center">
             <div className="font-light">Tổng giá tiền ước tính</div>
             <div className="text-7xl font-bold mt-4">
-              {formatCurrency(
-                orderRequest.details?.reduce(
-                  (prev, current) => prev + current.price,
-                  0
-                ) ?? 0
-              )}
+              {(() => {
+                switch (orderRequest.type) {
+                  case ORDER_TYPE.LAUNDRY:
+                    return (
+                      <>
+                        {formatCurrency(
+                          orderRequest.details?.reduce(
+                            (prev, current) => prev + current.price,
+                            0
+                          ) ?? 0
+                        )}
+                      </>
+                    );
+                  case ORDER_TYPE.STORAGE:
+                    return (
+                      <>
+                        {formatCurrency(orderSettings?.storagePrice ?? 0)}/giờ
+                      </>
+                    );
+                }
+              })()}
             </div>
           </div>
+
           <div className="flex flex-col gap-12 w-full justify-center mt-12">
             <Card className="grid grid-cols-2 gap-y-3 gap-x-1 basis-3/5 justify-center">
               <div className="font-semibold col-span-2 mb-4 text-4xl">
@@ -73,12 +91,14 @@ function SendOrderDetail({ onNext, onPrev }: Props) {
                   </div>
                 </>
               )}
-              <>
-                <div>Hỗ trợ giao hàng:</div>
-                <div className="font-bold text-end">
-                  {orderRequest.deliveryAddress ? "Có" : "Không"}
-                </div>
-              </>
+              {orderRequest.type === ORDER_TYPE.LAUNDRY && (
+                <>
+                  <div>Hỗ trợ giao hàng:</div>
+                  <div className="font-bold text-end">
+                    {orderRequest.deliveryAddress ? "Có" : "Không"}
+                  </div>
+                </>
+              )}
               {orderRequest.deliveryAddress && (
                 <>
                   <div>Địa chỉ giao hàng:</div>
@@ -170,12 +190,11 @@ function SendOrderDetail({ onNext, onPrev }: Props) {
         </div>
         <div className="flex flex-col gap-4">
           <div>
-            <span className="text-red-600 text-4xl font-bold">*</span> Sau khi
-            ấn xác nhận, hệ thống sẽ tự động kiểm tra và trừ số tiền trả trước
-            là{" "}
-            <span className="font-bold">
+            <Asterisk /> Sau khi ấn xác nhận, hệ thống sẽ tự động kiểm tra và
+            trừ số tiền trả trước là{" "}
+            <TextBold>
               {formatCurrency(orderSettings?.reservationFee ?? 0)}
-            </span>{" "}
+            </TextBold>{" "}
             vào số dư ví của bạn.
           </div>
           <Button type="primary" small onClick={onNext}>

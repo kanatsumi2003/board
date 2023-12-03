@@ -1,3 +1,4 @@
+import TextBold from "@/components/core/TextBold";
 import { PAGE_SIZE_ORDERS } from "@/constants/common";
 import { IPaging } from "@/interfaces";
 import { IOrderDetailItem, ORDER_STATUS, ORDER_TYPE } from "@/interfaces/order";
@@ -47,21 +48,18 @@ function OrderItem({ loading, url, ...order }: OrderItemProps) {
           </div>
           <div className="w-full flex flex-col gap-2">
             <div>
-              <b>Mã pin: </b>
+              <TextBold>Mã pin: </TextBold>
               {order.pinCode}
             </div>
-            {/* <div>
-              <b>Ô tủ: </b>
-              {order.sendBox?.number}
-            </div> */}
+
             <div>
-              <b>Người gửi: </b>
+              <TextBold>Người gửi: </TextBold>
               {order.sender?.fullName
                 ? `${order.sender?.fullName} (${order.sender?.phoneNumber})`
                 : `${order.sender?.phoneNumber}`}
             </div>
             <div>
-              <b>Người nhận: </b>
+              <TextBold>Người nhận: </TextBold>
               {order.receiver
                 ? order.receiver?.fullName
                   ? `${order.receiver?.fullName} (${order.receiver?.phoneNumber})`

@@ -8,6 +8,8 @@ import { useSelector } from "react-redux";
 import BackStepButton from "../core/BackStepButton";
 import Button from "../core/Button";
 import Select from "../core/Select";
+import Asterisk from "../core/Asterisk";
+import TextBold from "../core/TextBold";
 
 interface Props {
   onNext: () => void;
@@ -138,12 +140,9 @@ function SendReceiveTime({ onNext, onPrev }: Props) {
         </div>
 
         <div>
-          <span className="text-red-600 text-4xl font-bold">*</span> Nếu bỏ qua
-          bước này, chúng tôi sẽ{" "}
-          <span className="font-bold">
-            hoàn trả sau khi hoàn tất xử lý đơn hàng
-          </span>{" "}
-          và gửi thông báo đến bạn.
+          <Asterisk /> Nếu bỏ qua bước này, chúng tôi sẽ{" "}
+          <TextBold>hoàn trả sau khi hoàn tất xử lý đơn hàng</TextBold> và gửi
+          thông báo đến bạn.
         </div>
         <Button type="primary" className="mt-8" small onClick={handleNext}>
           {selectedDate ? "Tiếp theo" : "Bỏ qua bước này"}

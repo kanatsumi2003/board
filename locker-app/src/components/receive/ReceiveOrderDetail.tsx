@@ -7,9 +7,11 @@ import { formatCurrency, formatDate } from "@/utils/formatter";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Title from "../Title";
+import Asterisk from "../core/Asterisk";
 import BackStepButton from "../core/BackStepButton";
 import { Card } from "../core/Card";
 import { Draggable } from "../core/Draggable";
+import TextBold from "../core/TextBold";
 
 interface Props {
   onNext: () => void;
@@ -18,6 +20,7 @@ interface Props {
 
 function ReceiveOrderDetail({ onNext, onPrev }: Props) {
   const { order } = useSelector((state: AppState) => state.order);
+  const { orderSettings } = useSelector((state: AppState) => state.setting);
   const [checkOut, { isSuccess, data, isError, error }] =
     useCheckOutOrderMutation();
 
@@ -30,7 +33,7 @@ function ReceiveOrderDetail({ onNext, onPrev }: Props) {
   const handleCheckOut = () => {
     modal.confirm({
       message:
-        "Hệ thống sẽ tự động trừ tiền hoặc hoàn tiền vào số dư của bạn. Bạn có chắc chắn chứ",
+        "Hệ thống sẽ tự động trừ tiền hoặc hoàn tiền vào số dư của bạn. Bạn có chắc chắn chứ?",
       onOk: () => {
         checkOut({ id: order?.id });
       },
@@ -205,7 +208,25 @@ function ReceiveOrderDetail({ onNext, onPrev }: Props) {
           </div>
         </div>
         <div className="flex flex-col gap-4">
-          <Button type="primary" small onClick={handleCheckOut}>
+          <div>
+            <Asterisk /> Số tiền trên chỉ bao gồm phí dịch vụ (chưa bao gồm số
+            tiền trả trước{" "}
+            <TextBold>
+              {formatCurrency(orderSettings?.reservationFee ?? 0)}
+            </TextBold>
+            ).
+          </div>
+          <div>
+            <Asterisk /> Sau khi ấn xác nhận, hệ thống sẽ tự động kiểm tra và{" "}
+            <TextBold>tự động thanh toán</TextBold>, đồng thời cũng hoàn trả lại{" "}
+            <TextBold>tiền trả trước</TextBold> vào số dư ví của bạn
+          </div>
+          <Button
+            type="primary"
+            small
+            onClick={handleCheckOut}
+            className="mt-4"
+          >
             Xác nhận thanh toán
           </Button>
           <BackStepButton onClick={onPrev} />
