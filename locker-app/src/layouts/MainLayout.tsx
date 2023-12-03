@@ -15,7 +15,7 @@ import { useSettingQuery } from "@/services/settingService";
 import TokenService from "@/services/tokenService";
 import store, { AppState } from "@/stores";
 import { setGlobalState } from "@/stores/global.store";
-import { setLockerState } from "@/stores/locker.store";
+import { clearLockerState, setLockerState } from "@/stores/locker.store";
 import { setSettingState } from "@/stores/setting.store";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -110,7 +110,7 @@ function MainLayout({ children }: Props) {
       localStorage.removeItem(LOCAL_STORAGE_ITEMS.LOCKER_ID);
 
       store.dispatch(
-        setLockerState({
+        clearLockerState({
           locker: undefined,
         })
       );

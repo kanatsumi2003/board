@@ -16,9 +16,12 @@ const lockerSlice = createSlice({
     setLockerState(state, action: PayloadAction<Partial<LockerState>>) {
       Object.assign(state, action.payload);
     },
+    clearLockerState(state, action: PayloadAction<Partial<LockerState>>) {
+      return initialState;
+    },
   },
 });
 
-export const { setLockerState } = lockerSlice.actions;
+export const { setLockerState, clearLockerState } = lockerSlice.actions;
 
 export default lockerSlice.reducer;
