@@ -107,10 +107,7 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
   };
 
   useEffect(() => {
-    if (
-      !senderIsFetching &&
-      (!senderIsSuccess || !senderData?.wallet?.balance)
-    ) {
+    if (!senderIsFetching && senderIsSuccess && !senderData?.wallet?.balance) {
       if (senderData?.fullName) {
         setSenderName(senderData.fullName);
       }
@@ -122,8 +119,10 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
       }));
       return;
     }
-    if (!senderIsFetching && senderIsSuccess && senderData?.fullName) {
-      setSenderName(senderData.fullName);
+    if (!senderIsFetching && senderIsSuccess) {
+      if (senderData?.fullName || senderData?.phoneNumber) {
+        setSenderName(senderData.fullName ?? senderData.phoneNumber);
+      }
       return;
     }
 

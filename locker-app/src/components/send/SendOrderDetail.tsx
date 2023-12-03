@@ -3,6 +3,7 @@ import useKeyboard from "@/hooks/useKeyboard";
 import { IOrderServiceItem, ORDER_TYPE } from "@/interfaces/order";
 import { AppState } from "@/stores";
 import { formatCurrency, formatDate } from "@/utils/formatter";
+import { renderOrderTypeText } from "@/utils/orderTypeRender";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import BackStepButton from "../core/BackStepButton";
@@ -16,6 +17,7 @@ interface Props {
 
 function SendOrderDetail({ onNext, onPrev }: Props) {
   const { orderRequest } = useSelector((state: AppState) => state.order);
+  const { orderSettings } = useSelector((state: AppState) => state.setting);
   const { close } = useKeyboard();
   useEffect(() => close(), []);
 
@@ -43,8 +45,14 @@ function SendOrderDetail({ onNext, onPrev }: Props) {
               <div className="font-semibold col-span-2 mb-4 text-4xl">
                 Thông tin đơn hàng:
               </div>
-              <div>Loại dịch vụ:</div>
-              <div className="font-bold text-end">{orderRequest.type}</div>
+              {orderRequest.type && (
+                <>
+                  <div>Loại dịch vụ:</div>
+                  <div className="font-bold text-end">
+                    {renderOrderTypeText(orderRequest.type)}
+                  </div>
+                </>
+              )}
               <div>SĐT người gửi:</div>
               <div className="font-bold text-end">
                 {orderRequest.senderPhone}
@@ -65,6 +73,27 @@ function SendOrderDetail({ onNext, onPrev }: Props) {
                   </div>
                 </>
               )}
+              <>
+                <div>Hỗ trợ giao hàng:</div>
+                <div className="font-bold text-end">
+                  {orderRequest.deliveryAddress ? "Có" : "Không"}
+                </div>
+              </>
+              {orderRequest.deliveryAddress && (
+                <>
+                  <div>Địa chỉ giao hàng:</div>
+                  <div className="font-bold text-end">
+                    {[
+                      orderRequest.deliveryAddress.address,
+                      orderRequest.deliveryAddress.ward,
+                      orderRequest.deliveryAddress.district,
+                      orderRequest.deliveryAddress.province,
+                    ]
+                      .filter((item) => item)
+                      .join(", ")}
+                  </div>
+                </>
+              )}
               {orderRequest.customerNote && (
                 <>
                   <div>Ghi chú đơn hàng:</div>
@@ -73,6 +102,18 @@ function SendOrderDetail({ onNext, onPrev }: Props) {
                   </div>
                 </>
               )}
+              <>
+                <div>
+                  Phí trả trước{" "}
+                  <span className="text-2xl italic">
+                    (phí này sẽ được hoàn trả ngay sau khi kết thúc đơn hàng)
+                  </span>
+                  :
+                </div>
+                <div className="font-bold text-end">
+                  {formatCurrency(orderSettings?.reservationFee ?? 0)}{" "}
+                </div>
+              </>
             </Card>
             {orderRequest.type === ORDER_TYPE.LAUNDRY &&
               orderRequest.details && (
@@ -82,7 +123,7 @@ function SendOrderDetail({ onNext, onPrev }: Props) {
                       {`Dịch vụ đã chọn (${orderRequest.details?.length} dịch vụ):`}
                     </div>
                     <Draggable>
-                      <div className="flex flex-col overflow-y-scroll h-[280px] gap-2 w-full">
+                      <div className="flex flex-col overflow-y-scroll h-[400px] gap-2 w-full">
                         {orderRequest.details?.map(
                           (detail: IOrderServiceItem) => (
                             <div
@@ -128,6 +169,15 @@ function SendOrderDetail({ onNext, onPrev }: Props) {
           </div>
         </div>
         <div className="flex flex-col gap-4">
+          <div>
+            <span className="text-red-600 text-4xl font-bold">*</span> Sau khi
+            ấn xác nhận, hệ thống sẽ tự động kiểm tra và trừ số tiền trả trước
+            là{" "}
+            <span className="font-bold">
+              {formatCurrency(orderSettings?.reservationFee ?? 0)}
+            </span>{" "}
+            vào số dư ví của bạn.
+          </div>
           <Button type="primary" small onClick={onNext}>
             Xác nhận và tiếp tục
           </Button>

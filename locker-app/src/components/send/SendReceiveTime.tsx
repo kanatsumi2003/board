@@ -43,6 +43,7 @@ function SendReceiveTime({ onNext, onPrev }: Props) {
   }, []);
 
   const handleNext = () => {
+    console.log(selectedDate?.toISOString(), selectedTime);
     store.dispatch(
       setOrderRequest({
         intendedReceiveAt: selectedDate
@@ -97,7 +98,7 @@ function SendReceiveTime({ onNext, onPrev }: Props) {
             name="date"
             value={selectedDate?.toISOString()}
             placeholder="Hẹn ngày nhận"
-            onChange={(value) => {
+            onChange={({ value }) => {
               setSelectedDate(value ? dayjs(value) : undefined);
             }}
             onClear={() => {
@@ -125,7 +126,7 @@ function SendReceiveTime({ onNext, onPrev }: Props) {
                 : `${times?.[0]}`
             }
             placeholder="Hẹn giờ nhận"
-            onChange={(value) => {
+            onChange={({ value }) => {
               setSelectedTime(Number(value));
             }}
             onClear={() => {

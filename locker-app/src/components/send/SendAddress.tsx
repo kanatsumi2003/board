@@ -2,6 +2,7 @@ import useKeyboard from "@/hooks/useKeyboard";
 import { ILocation } from "@/interfaces";
 import store, { AppState } from "@/stores";
 import { setOrderRequest } from "@/stores/order.store";
+import { checkLocation } from "@/utils/utils";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import BackStepButton from "../core/BackStepButton";
@@ -17,7 +18,7 @@ interface Props {
 function SendAddress({ onNext, onPrev }: Props) {
   const { orderRequest } = useSelector((state: AppState) => state.order);
 
-  const { open } = useKeyboard();
+  const { open, clear } = useKeyboard();
 
   const showKeyboard = (inputName: string) => {
     open({
@@ -27,7 +28,22 @@ function SendAddress({ onNext, onPrev }: Props) {
     });
   };
 
+  const handleClear = () => {
+    clear(["address"]);
+    store.dispatch(
+      setOrderRequest({
+        deliveryAddress: undefined,
+      })
+    );
+  };
+
   const handleNext = () => {
+    if (
+      !orderRequest?.deliveryAddress?.address ||
+      !checkLocation(orderRequest.deliveryAddress)
+    ) {
+      handleClear();
+    }
     onNext();
   };
 
@@ -35,22 +51,12 @@ function SendAddress({ onNext, onPrev }: Props) {
     showKeyboard("address");
   }, []);
 
-  const handleChangeLocation = ({
-    province,
-    district,
-    ward,
-    latitude,
-    longitude,
-  }: ILocation) => {
+  const handleChangeLocation = (location: ILocation) => {
     store.dispatch(
       setOrderRequest({
         deliveryAddress: {
-          ...orderRequest?.deliveryAddress,
-          provinceCode: province,
-          districtCode: district,
-          wardCode: ward,
-          latitude,
-          longitude,
+          ...location,
+          address: orderRequest?.deliveryAddress?.address,
         },
       })
     );
@@ -76,21 +82,7 @@ function SendAddress({ onNext, onPrev }: Props) {
             );
           }}
         />
-        <LocationPicker
-          onClear={() => {
-            store.dispatch(
-              setOrderRequest({
-                deliveryAddress: {
-                  ...orderRequest?.deliveryAddress,
-                  provinceCode: undefined,
-                  districtCode: undefined,
-                  wardCode: undefined,
-                },
-              })
-            );
-          }}
-          onChange={handleChangeLocation}
-        />
+        <LocationPicker onClear={handleClear} onChange={handleChangeLocation} />
         <div>
           <span className="text-red-600 text-4xl font-bold">*</span> Nếu bỏ qua
           bước này, chúng tôi sẽ mặc định{" "}
@@ -104,9 +96,7 @@ function SendAddress({ onNext, onPrev }: Props) {
           onClick={handleNext}
         >
           {orderRequest?.deliveryAddress?.address &&
-          orderRequest?.deliveryAddress?.wardCode &&
-          orderRequest?.deliveryAddress?.districtCode &&
-          orderRequest?.deliveryAddress?.provinceCode
+          checkLocation(orderRequest?.deliveryAddress)
             ? "Tiếp theo"
             : "Bỏ qua bước này"}
         </Button>

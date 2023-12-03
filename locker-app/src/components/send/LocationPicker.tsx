@@ -3,6 +3,7 @@ import { useAddressesQuery } from "@/services/addressService";
 import { useLazyGeolocationQuery } from "@/services/geolocationService";
 import store, { AppState } from "@/stores";
 import { updateInputs } from "@/stores/global.store";
+import { checkLocation } from "@/utils/utils";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Select from "../core/Select";
@@ -15,57 +16,42 @@ interface Props {
 
 function LocationPicker({ onChange, defaultValue, onClear }: Props) {
   const { orderRequest } = useSelector((state: AppState) => state.order);
-  const [location, setLocation] = useState<Partial<ILocation>>(
-    {
-      district: orderRequest?.deliveryAddress?.districtCode,
-      ward: orderRequest?.deliveryAddress?.wardCode,
-      province: orderRequest?.deliveryAddress?.provinceCode,
-    } ?? {}
+  const [location, setLocation] = useState<ILocation | undefined>(
+    orderRequest?.deliveryAddress
   );
   const { data: provinces } = useAddressesQuery();
   const { data: districts } = useAddressesQuery(
     {
-      parentCode: location.province,
+      parentCode: location?.provinceCode,
     },
     {
-      skip: !location.province,
+      skip: !location?.provinceCode,
     }
   );
   const { data: wards } = useAddressesQuery(
     {
-      parentCode: location.district,
+      parentCode: location?.districtCode,
     },
     {
-      skip: !location.district,
+      skip: !location?.districtCode,
     }
   );
   const [getGeolocation, { data, isSuccess, isFetching }] =
     useLazyGeolocationQuery();
 
   useEffect(() => {
-    if (location.district && location.province && location.ward) {
-      onChange({
-        district: location.district,
-        province: location.province,
-        ward: location.ward,
-      });
-
+    onChange(location as ILocation);
+    if (location && checkLocation(location)) {
       //QUERY LAT LONG
-      const provinceName = provinces?.find(
-        (p) => p.code === location.province
-      )?.name;
-      const districtName = districts?.find(
-        (d) => d.code === location.district
-      )?.name;
-      const wardName = wards?.find((w) => w.code === location.ward)?.name;
-
-      const queryLocation = [provinceName, districtName, wardName]
+      const queryLocation = [
+        location.province,
+        location.district,
+        location.ward,
+      ]
         .filter((item) => item)
         .join(", ");
 
       getGeolocation({ q: queryLocation });
-    } else {
-      onClear();
     }
   }, [location]);
 
@@ -75,17 +61,14 @@ function LocationPicker({ onChange, defaultValue, onClear }: Props) {
       isSuccess &&
       !isFetching &&
       data.features?.[0]?.geometry &&
-      location.district &&
-      location.province &&
-      location.ward
+      location &&
+      checkLocation(location)
     ) {
       onChange({
-        district: location.district,
-        province: location.province,
-        ward: location.ward,
-        latitude: data.features?.[0]?.geometry?.coordinates[1] || undefined,
-        longitude: data.features?.[0]?.geometry?.coordinates[0] || undefined,
-      });
+        ...location,
+        latitude: data.features?.[0]?.geometry.coordinates?.[1],
+        longitude: data.features?.[0]?.geometry.coordinates?.[0],
+      } as ILocation);
     }
   }, [isSuccess, data, isFetching]);
 
@@ -103,13 +86,11 @@ function LocationPicker({ onChange, defaultValue, onClear }: Props) {
           }
           name="province"
           placeholder="Chọn Tỉnh/Thành phố"
-          onChange={(value) => {
-            setLocation((prev) => ({
-              ...prev,
-              province: value,
-              district: undefined,
-              ward: undefined,
-            }));
+          onChange={({ label, value }) => {
+            setLocation({
+              provinceCode: value,
+              province: label,
+            });
             store.dispatch(
               updateInputs({
                 district: "",
@@ -117,14 +98,14 @@ function LocationPicker({ onChange, defaultValue, onClear }: Props) {
               })
             );
           }}
-          value={location.province}
+          value={location?.provinceCode}
           onClear={() => {
             setLocation({});
           }}
         ></Select>
         <Select
           data={
-            location.province
+            location?.provinceCode
               ? districts?.map((district) => ({
                   label: district.name,
                   value: district.code,
@@ -135,11 +116,13 @@ function LocationPicker({ onChange, defaultValue, onClear }: Props) {
           name="district"
           label="Chọn Quận/Huyện"
           placeholder="Chọn Quận/Huyện"
-          onChange={(value) => {
+          onChange={({ label, value }) => {
             setLocation((prev) => ({
               ...prev,
-              district: value,
+              district: label,
+              districtCode: value,
               ward: undefined,
+              wardCode: undefined,
             }));
             store.dispatch(
               updateInputs({
@@ -147,7 +130,7 @@ function LocationPicker({ onChange, defaultValue, onClear }: Props) {
               })
             );
           }}
-          value={location.district}
+          value={location?.districtCode}
           onClear={() =>
             setLocation((prev) => ({
               ...prev,
@@ -158,7 +141,7 @@ function LocationPicker({ onChange, defaultValue, onClear }: Props) {
         ></Select>
         <Select
           data={
-            location.district
+            location?.districtCode
               ? wards?.map((ward) => ({
                   label: ward.name,
                   value: ward.code,
@@ -166,12 +149,12 @@ function LocationPicker({ onChange, defaultValue, onClear }: Props) {
                 })) ?? []
               : []
           }
-          value={location.ward}
+          value={location?.wardCode}
           label="Chọn Phường/Xã"
           placeholder="Chọn Phường/Xã"
           name="ward"
-          onChange={(value) =>
-            setLocation((prev) => ({ ...prev, ward: value }))
+          onChange={({ label, value }) =>
+            setLocation((prev) => ({ ...prev, ward: label, wardCode: value }))
           }
           onClear={() => {
             setLocation((prev) => ({ ...prev, ward: undefined }));

@@ -19,7 +19,7 @@ interface Props {
   name: string;
   value?: string;
   placeholder: string;
-  onChange: (option?: string) => void;
+  onChange: ({ value, label }: { value?: string; label?: string }) => void;
   onClear: () => void;
   menuPlacement?: "top" | "bottom";
   className?: string;
@@ -44,7 +44,10 @@ function Select({
   const { inputs, keyboard, close, clear, open } = useKeyboard();
 
   const handleChange = (selectedOption: IOptionType | null) => {
-    onChange(selectedOption?.value);
+    onChange({
+      label: selectedOption?.label,
+      value: selectedOption?.value,
+    });
     if (selectedOption) {
       close();
     } else {

@@ -24,6 +24,7 @@ export interface ISettingItem {
     extraFee: number;
     maxActiveOrderCount: number;
     minTimeProcessLaundryOrderInHours: number;
+    reservationFee: number;
   };
   zaloAuthSettings: {
     accessToken: string;

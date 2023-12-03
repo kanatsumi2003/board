@@ -94,8 +94,11 @@ export interface ICreateOrderRequest {
   deliveryAddress?: {
     address?: string;
     wardCode?: string;
+    ward?: string;
     districtCode?: string;
+    district?: string;
     provinceCode?: string;
+    province?: string;
     longitude?: number;
     latitude?: number;
   };

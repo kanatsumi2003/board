@@ -1,3 +1,5 @@
+import { ILocation } from "@/interfaces";
+
 export const range = (start: number, end: number) => {
   const result = [];
   for (let i = start; i < end; i++) {
@@ -24,4 +26,15 @@ export function formatTime(duration: number) {
   ret += "" + secs + " giây";
 
   return ret;
+}
+
+export function checkLocation(location: ILocation): boolean {
+  return (
+    !!location.district &&
+    !!location.districtCode &&
+    !!location.province &&
+    !!location.provinceCode &&
+    !!location.ward &&
+    !!location.wardCode
+  );
 }

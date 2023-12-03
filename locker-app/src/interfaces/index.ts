@@ -54,9 +54,12 @@ export interface ITime {
 }
 
 export interface ILocation {
-  province: string;
-  district: string;
-  ward: string;
+  province?: string;
+  provinceCode?: string;
+  district?: string;
+  districtCode?: string;
+  ward?: string;
+  wardCode?: string;
   longitude?: number;
   latitude?: number;
 }
