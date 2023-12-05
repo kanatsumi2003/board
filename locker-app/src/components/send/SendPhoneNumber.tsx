@@ -123,12 +123,10 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
       if (senderData?.fullName || senderData?.phoneNumber) {
         setSenderName(senderData.fullName ?? senderData.phoneNumber);
       }
-      return;
     }
 
     if (!receiverIsFetching && receiverIsSuccess && receiverData?.fullName) {
       setReceiverName(receiverData.fullName);
-      return;
     }
   }, [
     senderIsSuccess,

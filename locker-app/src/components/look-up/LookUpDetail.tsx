@@ -8,6 +8,9 @@ import Title from "../Title";
 import Button from "../core/Button";
 import { Card } from "../core/Card";
 import { Modal } from "../core/Modal";
+import store, { AppState } from "@/stores";
+import { setOrderState } from "@/stores/order.store";
+import { useSelector } from "react-redux";
 
 interface Props {
   onNext: (phoneNumber?: string) => void;
@@ -15,7 +18,10 @@ interface Props {
 
 export default function LookUpDetail({ onNext }: Props) {
   const { open, close } = useKeyboard();
-  const [phoneNumber, setPhoneNumber] = useState<string>();
+  const { lookUpPhoneNumber } = useSelector((state: AppState) => state.order);
+  const [phoneNumber, setPhoneNumber] = useState<string | undefined>(
+    lookUpPhoneNumber
+  );
   const [phoneNumberError, setPhoneNumberError] = useState<string>();
   const [openModal, setOpenModal] = useState(false);
   const { inputs } = useKeyboard();
@@ -32,6 +38,9 @@ export default function LookUpDetail({ onNext }: Props) {
 
   useEffect(() => {
     showKeyboard();
+    if (phoneNumber) {
+      handleLookUp();
+    }
   }, []);
 
   useEffect(() => {
@@ -60,6 +69,13 @@ export default function LookUpDetail({ onNext }: Props) {
 
   useEffect(() => {
     setOpenModal(isSuccess && !isFetching);
+    if (isSuccess && !isFetching) {
+      store.dispatch(
+        setOrderState({
+          lookUpPhoneNumber: phoneNumber,
+        })
+      );
+    }
   }, [isSuccess, isFetching]);
 
   useEffect(() => {
@@ -104,6 +120,7 @@ export default function LookUpDetail({ onNext }: Props) {
           Tra cứu
         </Button>
       </div>
+
       {!phoneNumberError && phoneNumber && data && isSuccess && openModal && (
         <>
           <Modal

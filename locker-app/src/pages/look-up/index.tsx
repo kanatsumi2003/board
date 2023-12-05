@@ -43,12 +43,7 @@ function AddMorePage() {
               />
             );
           case 3:
-            return (
-              <LookUpPayment
-                amount={amount}
-                onNext={() => navigate(PATH.HOME)}
-              />
-            );
+            return <LookUpPayment amount={amount} onNext={() => setStep(1)} />;
         }
       })()}
     </div>

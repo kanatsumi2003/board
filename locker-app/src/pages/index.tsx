@@ -88,7 +88,7 @@ function Home() {
             wrapperClassName="basis-1/4"
             icon={<MdAccountBalanceWallet />}
           >
-            Tra cứu
+            Tra cứu số dư
           </Button>
 
           <div className="flex w-full gap-6 justify-between">

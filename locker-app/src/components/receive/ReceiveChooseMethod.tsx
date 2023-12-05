@@ -1,5 +1,5 @@
 import MomoLogo from "@/assets/momo_logo.png";
-import VNPayLogo from "@/assets/vnpay_logo.jpg";
+import VNPayLogo from "@/assets/vnpay_logo.png";
 import Button from "@/components/core/Button";
 import { VN_PAY_MINIMUM_PAYMENT_ACCEPTANCE } from "@/constants/common";
 import useModal from "@/hooks/useModal";
@@ -28,7 +28,7 @@ function ReceiveChooseMethod({ onNext, onPrev }: Props) {
 
   const handleCheckOut = () => {
     if (order && method) {
-      checkOut({ id: order?.id, method: method });
+      checkOut({ id: order?.id });
     }
   };
 

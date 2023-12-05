@@ -1,7 +1,9 @@
+import MomoLogo from "@/assets/momo_logo.png";
+import VNPayLogo from "@/assets/vnpay_logo.png";
 import { PATH, PAYMENT_POLLING_INTERVAL } from "@/constants/common";
 import useCountDown from "@/hooks/useCountdown";
 import useModal from "@/hooks/useModal";
-import { ORDER_PAYMENT_STATUS } from "@/interfaces/order";
+import { ORDER_PAYMENT_METHOD, ORDER_PAYMENT_STATUS } from "@/interfaces/order";
 import { usePaymentQuery } from "@/services/orderService";
 import store, { AppState } from "@/stores";
 import { setGlobalState } from "@/stores/global.store";
@@ -15,7 +17,6 @@ import Title from "../Title";
 import Button from "../core/Button";
 import { Card } from "../core/Card";
 import TextBold from "../core/TextBold";
-
 interface Props {
   onNext: () => void;
   amount?: number;
@@ -63,9 +64,7 @@ function LookUpPayment({ onNext, amount }: Props) {
     if (data && data?.status === ORDER_PAYMENT_STATUS.FAILED) {
       modal.error({
         message: "Thanh toán thất bại",
-        onClose: () => {
-          navigate(PATH.HOME);
-        },
+        onClose: onNext,
       });
     }
   }, [data]);
@@ -86,7 +85,18 @@ function LookUpPayment({ onNext, amount }: Props) {
             </div>
           </div>
           <Card className="gap-4 flex flex-col items-center mt-12">
-            {payment?.qr && <QRCode value={payment?.qr} size={440} />}
+            {payment?.qr && (
+              <div className="relative">
+                <QRCode value={payment?.qr} size={440} />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-1 bg-white rounded-2xl">
+                  {payment.method === ORDER_PAYMENT_METHOD.MOMO ? (
+                    <img className="w-16" src={MomoLogo} alt="MomoLogo" />
+                  ) : (
+                    <img className="w-16" src={VNPayLogo} alt="MomoLogo" />
+                  )}
+                </div>
+              </div>
+            )}
             <div className="text-center">
               <div className="font-light mt-4">Nội dung chuyển khoản</div>
               <div className="font-bold mt-4 text-4xl">{payment?.content}</div>

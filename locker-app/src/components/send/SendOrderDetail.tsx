@@ -29,10 +29,10 @@ function SendOrderDetail({ onNext, onPrev }: Props) {
 
   return (
     <>
-      <div className="mt-12 flex w-full items-center flex-col h-full justify-between px-12">
+      <div className="mt-8 flex w-full items-center flex-col h-full justify-between px-12">
         <div className="w-full">
           <div className="text-center">
-            <div className="font-light">Tổng giá tiền ước tính</div>
+            <div className="font-light">Tổng tiền dịch vụ ước tính</div>
             <div className="text-7xl font-bold mt-4">
               {(() => {
                 switch (orderRequest.type) {
@@ -58,7 +58,7 @@ function SendOrderDetail({ onNext, onPrev }: Props) {
             </div>
           </div>
 
-          <div className="flex flex-col gap-12 w-full justify-center mt-12">
+          <div className="flex flex-col gap-8 w-full justify-center mt-12">
             <Card className="grid grid-cols-2 gap-y-3 gap-x-1 basis-3/5 justify-center">
               <div className="font-semibold col-span-2 mb-4 text-4xl">
                 Thông tin đơn hàng:
@@ -123,13 +123,7 @@ function SendOrderDetail({ onNext, onPrev }: Props) {
                 </>
               )}
               <>
-                <div>
-                  Phí trả trước{" "}
-                  <span className="text-2xl italic">
-                    (phí này sẽ được hoàn trả ngay sau khi kết thúc đơn hàng)
-                  </span>
-                  :
-                </div>
+                <div>Phí trả trước:</div>
                 <div className="font-bold text-end">
                   {formatCurrency(orderSettings?.reservationFee ?? 0)}{" "}
                 </div>

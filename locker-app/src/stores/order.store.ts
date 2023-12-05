@@ -7,6 +7,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export interface OrderState {
   orderRequest?: Partial<ICreateOrderRequest>;
   order?: IOrderDetailItem;
+  lookUpPhoneNumber?: string;
   payment?: IPaymentItem;
 }
 
