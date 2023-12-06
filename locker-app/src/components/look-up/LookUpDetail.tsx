@@ -1,23 +1,24 @@
 import useKeyboard from "@/hooks/useKeyboard";
 import { useLazyCustomerByPhoneQuery } from "@/services/customerService";
+import store, { AppState } from "@/stores";
+import { setOrderState } from "@/stores/order.store";
 import { formatCurrency, formatDate } from "@/utils/formatter";
 import { isValidPhone } from "@/utils/validator";
 import { useEffect, useState } from "react";
 import { FaAngleRight } from "react-icons/fa6";
+import { IoWallet } from "react-icons/io5";
+import { useSelector } from "react-redux";
 import Title from "../Title";
 import Button from "../core/Button";
 import { Card } from "../core/Card";
 import { Modal } from "../core/Modal";
-import store, { AppState } from "@/stores";
-import { setOrderState } from "@/stores/order.store";
-import { useSelector } from "react-redux";
 
 interface Props {
   onNext: (phoneNumber?: string) => void;
 }
 
 export default function LookUpDetail({ onNext }: Props) {
-  const { open, close } = useKeyboard();
+  const { open, close, update } = useKeyboard();
   const { lookUpPhoneNumber } = useSelector((state: AppState) => state.order);
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>(
     lookUpPhoneNumber
@@ -40,6 +41,7 @@ export default function LookUpDetail({ onNext }: Props) {
     showKeyboard();
     if (phoneNumber) {
       handleLookUp();
+      update("phoneNumber", phoneNumber);
     }
   }, []);
 
@@ -130,24 +132,33 @@ export default function LookUpDetail({ onNext }: Props) {
             <div className="font-semibold col-span-2 mb-4 text-4xl">
               Thông tin khách hàng
             </div>
-            <Card className="flex flex-col ">
-              <div className="text-center">Số dư</div>
-              <div className="text-center font-bold text-6xl mt-2">
-                {formatCurrency(data.wallet?.balance ?? 0)}
+            <Card className="flex !bg-locker-blue !text-white items-center gap-8">
+              <div className="flex items-center h-full">
+                <IoWallet className="text-8xl p-4 bg-white text-locker-blue rounded-2xl" />
+              </div>
+              <div className="flex flex-col items-start">
+                <div className="text-center">Số dư</div>
+                <div className="text-center font-bold text-6xl">
+                  {formatCurrency(data.wallet?.balance ?? 0)}
+                </div>
               </div>
             </Card>
             <div className="grid grid-cols-2 gap-y-6 justify-center p-8">
               <div>Họ và tên:</div>
               <div className="font-bold text-end">
-                {data?.fullName ?? "Chưa có"}
+                {data?.fullName ?? "Chưa cập nhật"}
               </div>
               <div>Số điện thoại:</div>
               <div className="font-bold text-end">{data?.phoneNumber}</div>
+              <div>Mô tả:</div>
+              <div className="font-bold text-end">
+                {data?.description ?? "Chưa cập nhật"}
+              </div>
               <div>Nạp lần cuối:</div>
               <div className="font-bold text-end">
                 {data?.wallet?.lastDepositAt
                   ? formatDate(data?.wallet?.lastDepositAt)
-                  : "Chưa có"}
+                  : "Chưa cập nhật"}
               </div>
             </div>
             <Button onClick={() => onNext(phoneNumber)} type="primary" small>

@@ -1,16 +1,19 @@
+import { PATH } from "@/constants/common";
 import useKeyboard from "@/hooks/useKeyboard";
 import { useLazyCustomerByPhoneQuery } from "@/services/customerService";
 import store, { AppState } from "@/stores";
 import { updateInputs } from "@/stores/global.store";
-import { setOrderRequest } from "@/stores/order.store";
+import { setOrderRequest, setOrderState } from "@/stores/order.store";
+import { formatCurrency } from "@/utils/formatter";
 import { isValidPhone } from "@/utils/validator";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import BackStepButton from "../core/BackStepButton";
 import Button from "../core/Button";
 import Input from "../core/Input";
 import Switch from "../core/Switch";
-import { formatCurrency } from "@/utils/formatter";
+import { MdPayments } from "react-icons/md";
 
 interface CreateOrderFormError {
   senderPhone?: string;
@@ -29,6 +32,7 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
   const [senderName, setSenderName] = useState<string>();
   const [error, setError] = useState<CreateOrderFormError>();
   const { open } = useKeyboard();
+  const navigate = useNavigate();
 
   const [
     getSender,
@@ -174,6 +178,26 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
             />
           </div>
         )}
+        {orderRequest?.senderPhone &&
+          isValidPhone(orderRequest?.senderPhone) &&
+          !senderData?.wallet?.balance && (
+            <Button
+              type="secondary"
+              className="!w-full"
+              small
+              icon={<MdPayments />}
+              onClick={() => {
+                store.dispatch(
+                  setOrderState({
+                    lookUpPhoneNumber: orderRequest.senderPhone,
+                  })
+                );
+                navigate(PATH.LOOK_UP);
+              }}
+            >
+              Nạp thêm tiền
+            </Button>
+          )}
         <Switch
           label="Thêm người nhận"
           onChange={(value) => {

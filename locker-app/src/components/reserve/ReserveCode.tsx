@@ -73,7 +73,7 @@ function ReserveCode({ onNext }: Props) {
 
   return (
     <>
-      <Title subtitle="Đặt trước">Vui lòng nhập mã đặt trước</Title>
+      <Title subtitle="Đã đặt chỗ">Vui lòng nhập mã đặt trước</Title>
       <div className="mt-52 flex w-full items-center flex-col gap-24 h-full">
         <div className="flex w-full items-center flex-col gap-8">
           <OtpForm onSubmit={handleReserveOrder} />

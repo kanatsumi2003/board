@@ -50,7 +50,7 @@ function ReserveSuccess({ onNext }: Props) {
 
   return (
     <>
-      <Title subtitle="Đặt trước">Vui lòng để đồ vào ô tủ số</Title>
+      <Title subtitle="Đã đặt chỗ">Vui lòng để đồ vào ô tủ số</Title>
       <div className="flex w-full items-center flex-col justify-between h-full mt-52">
         <div className="text-center">
           Vui lòng để đồ vào tủ và ấn <TextBold>"Xác nhận"</TextBold> trên màn
