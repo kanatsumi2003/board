@@ -37,6 +37,9 @@ export const renderOrderStatus = (status: ORDER_STATUS) => {
     case ORDER_STATUS.RESERVED: {
       return "Đã đặt trước";
     }
+    case ORDER_STATUS.RETURNED: {
+      return "Đã hoàn trả";
+    }
   }
 };
 

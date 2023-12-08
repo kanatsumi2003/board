@@ -69,13 +69,18 @@ function BoxItem({ boxNo, status, empty, type, onClick }: BoxItemProps) {
       </div>
     );
   }
-  if (status === ORDER_STATUS.RESERVED) {
+
+  if (status === ORDER_STATUS.RESERVED || status === ORDER_STATUS.RETURNED) {
     return (
       <div className="relative w-full h-96  col-span-1 border-2 flex justify-center items-center rounded-xl border-locker-blue text-locker-blue p-8 flex-col gap-2">
         <div className="absolute top-8 left-8 right-8 font-bold text-5xl flex justify-between">
           <div>{boxNo}</div>
           <div>
-            <MdOutlineLockClock className="text-locker-red" />
+            {status === ORDER_STATUS.RESERVED ? (
+              <MdOutlineLockClock className="text-locker-red" />
+            ) : (
+              <MdOutlineLock className="text-locker-red" />
+            )}
           </div>
         </div>{" "}
         <MdLocalLaundryService
@@ -88,6 +93,7 @@ function BoxItem({ boxNo, status, empty, type, onClick }: BoxItemProps) {
       </div>
     );
   }
+
   return (
     <div
       className="relative w-full h-96 col-span-1 border-2 flex justify-center items-center rounded-xl text-white p-8 flex-col gap-2"
