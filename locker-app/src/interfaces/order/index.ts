@@ -58,6 +58,7 @@ export interface IOrderDetailItem {
   totalPrice: number;
   createdAt: string;
   updatedAt: string;
+  staffNote?: string;
   sender: IAccountItem;
   receiver: IAccountItem;
   details: IDetailItem[];

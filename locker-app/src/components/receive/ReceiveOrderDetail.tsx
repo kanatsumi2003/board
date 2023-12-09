@@ -99,6 +99,14 @@ function ReceiveOrderDetail({ onNext, onPrev }: Props) {
                   </div>
                 </>
               )}
+              {order.staffNote && (
+                <>
+                  <div>Ghi chú đơn hàng:</div>
+                  <div className="font-bold text-end overflow-hidden line-clamp-2">
+                    {order.staffNote}
+                  </div>
+                </>
+              )}
 
               {/* <div className="w-full border-b border-solid col-span-2 border-black"></div> */}
               {order.type === ORDER_TYPE.LAUNDRY && (

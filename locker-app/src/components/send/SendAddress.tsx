@@ -86,16 +86,12 @@ function SendAddress({ onNext, onPrev }: Props) {
         />
         <LocationPicker onClear={handleClear} onChange={handleChangeLocation} />
         <div>
-          <Asterisk /> Đây là địa chỉ nhận hàng, nếu bỏ qua bước này, chúng tôi
-          sẽ mặc định <TextBold>hoàn trả tại Locker hiện tại</TextBold> và gửi
-          thông báo đến bạn.
+          <Asterisk /> Đây là<TextBold> địa chỉ nhận hàng</TextBold>, nếu bỏ qua
+          bước này, chúng tôi sẽ mặc định{" "}
+          <TextBold>hoàn trả tại Locker hiện tại</TextBold> và gửi thông báo đến
+          bạn.
         </div>
-        <Button
-          type="primary"
-          className="mt-8 !w-full"
-          small
-          onClick={handleNext}
-        >
+        <Button type="primary" className="!w-full" small onClick={handleNext}>
           {orderRequest?.deliveryAddress?.address &&
           checkLocation(orderRequest?.deliveryAddress)
             ? "Tiếp theo"

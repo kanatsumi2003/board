@@ -80,7 +80,9 @@ function ProcessCode({ onNext }: Props) {
         <div
           className={`absolute top-0 left-0 right-0 bg-locker-blue h-40 rounded-b-[120px] -z-10`}
         ></div>
-        <div className="font-bold text-white">Vui lòng nhập mã đơn hàng</div>
+        <div className="font-bold text-white">
+          Vui lòng nhập mã PIN đơn hàng
+        </div>
         <div className="flex w-full items-center flex-col gap-8">
           <OtpForm onSubmit={handleProcessOrder} />
         </div>

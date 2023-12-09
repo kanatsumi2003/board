@@ -55,7 +55,7 @@ function ReceiveCode({ onNext }: Props) {
 
   return (
     <>
-      <Title subtitle="Nhận hàng">Nhập mã đơn hàng</Title>
+      <Title subtitle="Nhận hàng">Vui lòng nhập mã PIN đơn hàng</Title>
       <div className="mt-52 flex w-full items-center flex-col gap-24 h-full">
         <div className="flex w-full items-center flex-col gap-8">
           <OtpForm onSubmit={handleGetOrderDetail} />

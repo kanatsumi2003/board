@@ -78,7 +78,7 @@ function ReturnCode({ onNext }: Props) {
           className={`absolute top-0 left-0 right-0 bg-locker-blue h-48 rounded-b-[120px] -z-10`}
         ></div>
         <div className="font-bold text-white text-5xl">
-          Vui lòng nhập mã đơn hàng
+          Vui lòng nhập mã PIN đơn hàng
         </div>
         <div className="flex w-full items-center flex-col gap-8">
           <OtpForm onSubmit={handleReturnOrder} />
