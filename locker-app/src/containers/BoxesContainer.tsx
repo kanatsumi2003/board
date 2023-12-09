@@ -17,6 +17,7 @@ import { renderOrderTypeText } from "@/utils/orderTypeRender";
 import { useEffect, useState } from "react";
 import { FaBoxesPacking } from "react-icons/fa6";
 import {
+  MdBlock,
   MdLocalLaundryService,
   MdOutlineLock,
   MdOutlineLockClock,
@@ -52,7 +53,7 @@ function BoxItem({
         <div className="absolute top-8 left-8 right-8 font-bold text-5xl flex justify-between">
           <div>{boxNo}</div>
           <div>
-            <MdOutlineLock className="text-locker-red" />
+            <MdBlock className="text-locker-red" />
           </div>
         </div>
         <div className="text-4xl text-center">Ô tủ không hoạt động</div>
