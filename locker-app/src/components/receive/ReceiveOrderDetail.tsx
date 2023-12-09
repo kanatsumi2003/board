@@ -118,17 +118,6 @@ function ReceiveOrderDetail({ onNext, onPrev }: Props) {
                   <div className="font-bold text-end">
                     {formatCurrency(order.reservationFee ?? 0)}
                   </div>
-                  <div>Phụ thu:</div>
-                  <div className="font-bold text-end">
-                    {`${formatCurrency(order.totalExtraFee ?? 0)}`}{" "}
-                    {order.totalExtraFee > 0 ? (
-                      <span className="font-normal">{`(${formatCurrency(
-                        order.extraCount ?? 0
-                      )} giờ)`}</span>
-                    ) : (
-                      ""
-                    )}
-                  </div>
                   {order.reservationFee > order.totalPrice && (
                     <>
                       <div>Hoàn trả:</div>

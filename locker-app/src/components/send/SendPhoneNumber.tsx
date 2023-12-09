@@ -180,7 +180,10 @@ function SendPhoneNumber({ onNext, onPrev }: Props) {
         )}
         {orderRequest?.senderPhone &&
           isValidPhone(orderRequest?.senderPhone) &&
-          !senderData?.wallet?.balance && (
+          !senderData?.wallet?.balance &&
+          senderIsSuccess &&
+          !senderIsFetching &&
+          orderRequest?.senderPhone && (
             <Button
               type="secondary"
               className="!w-full"

@@ -32,12 +32,34 @@ interface BoxItemProps extends Partial<IOrderDetailItem> {
   boxNo?: number;
   status?: ORDER_STATUS;
   empty?: boolean;
+  active?: boolean;
   type?: ORDER_TYPE;
   orderId?: number;
   onClick: () => void;
 }
 
-function BoxItem({ boxNo, status, empty, type, onClick }: BoxItemProps) {
+function BoxItem({
+  boxNo,
+  status,
+  empty,
+  type,
+  onClick,
+  active,
+}: BoxItemProps) {
+  if (!active) {
+    return (
+      <div className="relative w-full h-96  col-span-1 border-2 flex justify-center items-center rounded-xl border-locker-blue text-locker-blue p-8 flex-col">
+        <div className="absolute top-8 left-8 right-8 font-bold text-5xl flex justify-between">
+          <div>{boxNo}</div>
+          <div>
+            <MdOutlineLock className="text-locker-red" />
+          </div>
+        </div>
+        <div className="text-4xl text-center">Ô tủ không hoạt động</div>
+      </div>
+    );
+  }
+
   if (empty || !status || !type) {
     return (
       <div className="relative w-full h-96  col-span-1 border-2 flex justify-center items-center rounded-xl border-locker-blue text-locker-blue p-8 flex-col">
@@ -47,7 +69,7 @@ function BoxItem({ boxNo, status, empty, type, onClick }: BoxItemProps) {
             <MdOutlineLockOpen className="text-locker-green" />
           </div>
         </div>
-        <div className="text-4xl">Ô trống</div>
+        <div className="text-4xl text-center">Ô tủ trống</div>
       </div>
     );
   }
@@ -219,6 +241,7 @@ function BoxesContainer({ onEmpty }: Props) {
           type={box.lastOrder?.type}
           status={box.lastOrder?.status}
           orderId={box.lastOrder?.id}
+          active={box.isActive}
         />
       ))}
       {order && (

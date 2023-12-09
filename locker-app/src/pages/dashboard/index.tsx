@@ -53,9 +53,9 @@ function Home() {
               {boxes?.filter(
                 (box) =>
                   !box.isAvailable &&
-                  (box.lastOrder.status === ORDER_STATUS.WAITING ||
-                    box.lastOrder.status === ORDER_STATUS.OVERTIME) &&
-                  box.lastOrder.type === ORDER_TYPE.LAUNDRY
+                  (box.lastOrder?.status === ORDER_STATUS.WAITING ||
+                    box.lastOrder?.status === ORDER_STATUS.OVERTIME) &&
+                  box.lastOrder?.type === ORDER_TYPE.LAUNDRY
               ).length ?? 0}
               )
             </span>
