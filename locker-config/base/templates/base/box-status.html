@@ -32,6 +32,7 @@
                         <option value="{{board}}">{{board}}</option>
                       {% endif%}
                     {% endfor %}
+                    <option value="1">1</option>
                   </select>
                 </div>
                 <div class="mb-3 form-group required col-4">
@@ -137,13 +138,51 @@
                       Open box
                     </button>
                     <button
-                      id="{{box.number}}"
-                      number={{box.number}}
                       type="button"
-                      class="btn-remove btn btn-danger mb-1"
+                      class="btn btn-danger mb-1"
+                      data-bs-toggle="modal"
+                      data-bs-target="#removeBox-{{box.number}}"
                     >
                       Remove
                     </button>
+                    <div
+                      class="modal fade"
+                      id="removeBox-{{box.number}}"
+                      tabindex="-1"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">
+                              Remove box confirmation
+                            </h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">Are you sure to remove box {{ box.number }}</div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                            >
+                              Close
+                            </button>
+                            <button 
+                              id="{{box.number}}"
+                              number={{box.number}}
+                              type="button" 
+                              class="btn-remove btn btn-success" 
+                              data-bs-dismiss="modal">Confirm</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                 </div>
               </td>
             </tr>
@@ -317,24 +356,73 @@
           $('#table-boxes > tbody:last-child').html('');
           response.boxes?.forEach(function(box) {
             $('#table-boxes > tbody:last-child').append(
-              `<tr>
-               <td class="text-center">${box?.number}</td> 
-                <td class="text-center">${box?.board_no}</td> 
-                <td class="text-center">${box?.pin}</td> 
-                <td>
-                <div class="btn-toolbar flex align-center justify-content-center"> 
-                    <button  id="${box?.number}" type="button"  class="btn-open btn btn-primary me-2 mb-1"> Open box</button>
-                    <button
+            `
+            <tr>
+              <td class="text-center">${box?.number}</td> 
+              <td class="text-center">${box?.board_no}</td> 
+              <td class="text-center">${box?.pin}</td>
+              <td>
+                <div
+                  class="btn-toolbar flex align-center justify-content-center"
+                >
+                    <button 
                       id="${box?.number}"
                       number=${box?.number}
+                      type="button" 
+                      class="btn-open btn btn-primary me-2 mb-1"
+                    >
+                      Open box
+                    </button>
+                    <button
                       type="button"
-                      class="btn-remove btn btn-danger mb-1"
+                      class="btn btn-danger mb-1"
+                      data-bs-toggle="modal"
+                      data-bs-target="#removeBox-${box?.number}"
                     >
                       Remove
                     </button>
+                    <div
+                      class="modal fade"
+                      id="removeBox-${box?.number}"
+                      tabindex="-1"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">
+                              Remove box confirmation
+                            </h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">Are you sure to remove box ${box?.number}</div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                            >
+                              Close
+                            </button>
+                            <button 
+                              id="${box?.number}"
+                              number=${box?.number}
+                              type="button" 
+                              class="btn-remove btn btn-success" 
+                              data-bs-dismiss="modal">Confirm</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                 </div>
               </td>
-            </tr>`);
+            </tr>
+            `);
             
             $("#box-count").html(response?.boxes?.length)
           })

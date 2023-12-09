@@ -12,6 +12,15 @@ class LockerInfo:
     locker_code: str
     api_host: str
     api_key: str
+    boxes: []
+
+
+@dataclass_json
+@dataclass
+class BoxInfo:
+    number: int
+    board_no: int
+    pin: int
 
 @dataclass_json
 @dataclass

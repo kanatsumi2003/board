@@ -140,11 +140,16 @@ def subscribe(topic, locker_code) -> bool:
                     locker_name=data["lockerName"],
                     locker_status=data["lockerStatus"],
                     api_host=data["apiHost"],
-                    api_key=data["apiKey"])
-                
+                    api_key=data["apiKey"],
+                    boxes=data["boxes"])
                 logging.info(f"[MQTT] Updated information: {locker_info}")
             
                 services.SettingService.save_setting(key=constants.LOCKER_INFO_SETTING_KEY, value=locker_info)
+                
+                # Save boxes
+                services.BoxService.reset_boxes();
+                for box in locker_info.boxes:
+                    services.BoxService.add_box(box_number=box["number"], board_no=box["boardNo"], pin=box["pin"])
                 
         except Exception as ex:
             logging.error(f"[MQTT] Error when receive message. {str(ex)}")
