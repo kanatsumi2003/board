@@ -130,6 +130,8 @@ def mqttConnect(request):
                     # check locker info
                     locker_info = SettingService.get_settings(
                         key=constants.LOCKER_INFO_SETTING_KEY)
+                    
+                    # check boxes
 
                     if mqtt_connected and locker_info is not None:
                         SettingService.save_setting(key=constants.MQTT_SETTING_KEY, value=mqtt_config)
@@ -159,6 +161,7 @@ def disconnectMqtt(request):
 
         SettingService.remove_setting(key=constants.MQTT_SETTING_KEY)
         SettingService.remove_setting(key=constants.LOCKER_INFO_SETTING_KEY)
+        BoxService.reset_boxes()
         
         return JsonResponse({"message": "Disconnect from MQTT broker successfully"}, status=200)  
     
@@ -250,13 +253,15 @@ def addBox(request):
             if BoxService.get_box(board_no=board_no, pin=pin) is not None:
                 return JsonResponse({"message": f"Pin: {pin}, board: {board_no}  has been located"}, status=400)
             
-         
+            print(board_no, pin)
 
             if BoxService.add_box(box_number=box_number, board_no=board_no, pin=pin):
                 mqtt_settings = SettingService.get_settings(key=constants.MQTT_SETTING_KEY)
                 mqtt_client.publish(topic=topics.TOPIC_ADD_BOX, message=json.dumps({
                     "lockerCode": mqtt_settings["locker_code"],
-                    "boxNumber": int(box_number)
+                    "boxNumber": int(box_number),
+                    "boardNo": int(board_no),
+                    "pin": int(pin)
                 }))
                 
                 return JsonResponse({"message": "Add new box successfully"}, status=200)
