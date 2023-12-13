@@ -1,9 +1,10 @@
 interface Props {
   children: string;
+  className?: string;
 }
 
-function TextBold({ children }: Props) {
-  return <span className="font-bold">{children}</span>;
+function TextBold({ children, className }: Props) {
+  return <span className={`${className} font-bold`}>{children}</span>;
 }
 
 export default TextBold;
