@@ -17,6 +17,7 @@ const BASE_URL_STAFF = "/staffs";
 const BASE_URL_STORE = "/stores";
 const BASE_URL_PAYMENT = "/payments";
 const BASE_URL_WALLET = "/wallets";
+const BASE_URL_SHIPPING_PRICE = "/shipping-prices";
 
 const getBaseUrl = () => {
   return `${localStorage.getItem(LOCAL_STORAGE_ITEMS.BASE_URL)}/api/v1`;
@@ -126,6 +127,12 @@ const getStaffEndpoints = () => {
   };
 };
 
+const getShippingPriceEndPoints = () => {
+  return {
+    shippingPrices: `${BASE_URL_SHIPPING_PRICE}/`,
+  };
+};
+
 const getDashboardEndPoints = () => {
   return {
     overview: `${BASE_URL_DASHBOARD}/overview`,
@@ -153,6 +160,7 @@ const endpoints = {
   getPaymentEndpoints,
   getBaseUrl,
   getWalletEndpoints,
+  getShippingPriceEndPoints,
 };
 
 export default endpoints;

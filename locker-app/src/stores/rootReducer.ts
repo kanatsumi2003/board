@@ -16,6 +16,7 @@ import { settingApi } from "@/services/settingService";
 import { addressApi } from "@/services/addressService";
 import { geolocationApi } from "@/services/geolocationService";
 import { walletApi } from "@/services/walletService";
+import { shippingPriceApi } from "@/services/shippingPriceService";
 
 const rootReducer = combineReducers({
   global: globalReducer,
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   [addressApi.reducerPath]: addressApi.reducer,
   [geolocationApi.reducerPath]: geolocationApi.reducer,
   [walletApi.reducerPath]: walletApi.reducer,
+  [shippingPriceApi.reducerPath]: shippingPriceApi.reducer,
 });
 
 export default rootReducer;
