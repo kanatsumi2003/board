@@ -45,15 +45,22 @@ def check_boxes_closed() -> bool:
     if not board_addresses:
         return False;
 
-    for board in board_addresses:
-        instrument = minimalmodbus.Instrument(SERIAL_PORT, board)
-        instrument.serial.baudrate = SERIAL_BAURATE; 
-        instrument.close_port_after_each_call= True 
+    try: 
+        for board in board_addresses:
+            instrument = minimalmodbus.Instrument(SERIAL_PORT, board)
+            instrument.serial.baudrate = SERIAL_BAURATE; 
+            instrument.close_port_after_each_call= True 
+            
+            closed = instrument.read_register(SWITCH_PIN_INDEX, 0)
+            if closed == 1:
+                return False
+    except Exception as ex:
+        logging.error(f"[Modbus] Error {ex}")
+        return False
         
-        closed = instrument.read_register(SWITCH_PIN_INDEX, 0)
-        if closed == 1:
-            return False
     return True
+
+        
 
 def scan_slave_addresses(start_address=1, end_address=8, baudrate=SERIAL_BAURATE, port=SERIAL_PORT) :
     logging.info("[MOBUS] Start scan slave address...")
@@ -76,7 +83,7 @@ def scan_slave_addresses(start_address=1, end_address=8, baudrate=SERIAL_BAURATE
     
         except Exception as ex:
             logging.error(f"[Modbus] Error {ex}")
-            raise ex;
+            # raise ex;
             
     return board_addresses
 
