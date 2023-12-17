@@ -85,7 +85,7 @@ function ServiceItem({
                 Đơn vị: <span>{service?.unit}</span>
               </div>
 
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 justify-end">
                 Số lượng:{" "}
                 <QuantityInput
                   value={quantity ?? 0}

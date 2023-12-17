@@ -1,5 +1,6 @@
 import useKeyboard from "@/hooks/useKeyboard";
 import { useEffect } from "react";
+import Asterisk from "./Asterisk";
 
 interface Props {
   placeHolder: string;
@@ -36,7 +37,7 @@ function Input({
     <>
       <div className="flex flex-col gap-2">
         <label className="font-medium">
-          {label} {required && <span className="text-red-600 text-lg">*</span>}
+          {label} {required && <Asterisk />}
         </label>
         <input
           type="text"
