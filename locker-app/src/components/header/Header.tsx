@@ -15,6 +15,9 @@ import {
 import { useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Tooltip } from "../core/Tooltip";
+import useCheckBoxes from "@/hooks/useCheckBoxes";
+import { useCheckBoxesQuery } from "@/services/boardService";
+import { ROLE } from "@/interfaces/account";
 
 interface Props {
   name?: string;
@@ -35,6 +38,11 @@ function Header({ name, online, code }: Props) {
       skip: pathname !== PATH.DASHBOARD,
     }
   );
+  const {
+    data: dataCheckBoxes,
+    isSuccess: checkBoxesIsSuccess,
+    refetch: checkBoxesRefetch,
+  } = useCheckBoxesQuery();
 
   const handleLogout = () => {
     TokenService.clearToken();
@@ -51,6 +59,10 @@ function Header({ name, online, code }: Props) {
   useEffect(() => {
     handleLogout();
   }, []);
+
+  useEffect(() => {
+    checkBoxesRefetch();
+  }, [account, pathname]);
 
   useEffect(() => {
     if (!countDown && !disableCountDown) {
@@ -112,7 +124,22 @@ function Header({ name, online, code }: Props) {
         {!isError && account?.fullName ? (
           <div className="flex gap-2 flex-wrap">
             <span className="font-bold line-clamp-1 overflow-hidden">
-              {account?.fullName}
+              <div className="text-ellipsis line-clamp-1">
+                {account?.fullName}
+              </div>
+              {checkBoxesIsSuccess && (
+                <>
+                  {dataCheckBoxes?.closed ? (
+                    <div className="bg-locker-green mt-2 px-6 py-2 text-2xl font-normal rounded-2xl text-white">
+                      Tất cả ô tủ đều đóng
+                    </div>
+                  ) : (
+                    <div className="bg-locker-red mt-2 px-6 py-2 text-2xl font-normal rounded-2xl text-white">
+                      Có ô tủ chưa được đóng
+                    </div>
+                  )}
+                </>
+              )}
             </span>
           </div>
         ) : (

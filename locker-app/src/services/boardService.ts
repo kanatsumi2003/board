@@ -32,5 +32,6 @@ export const boardApi = createApi({
 export const {
   useLockerInfoQuery,
   useLazyLockerInfoQuery,
+  useCheckBoxesQuery,
   useLazyCheckBoxesQuery,
 } = boardApi;
