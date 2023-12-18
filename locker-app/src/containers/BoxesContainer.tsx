@@ -306,7 +306,7 @@ function BoxesContainer({ onEmpty }: Props) {
           >
             {(() => {
               if (order.status === ORDER_STATUS.WAITING) {
-                return <>Nhận đơn hàng về cửa hảng</>;
+                return <>Nhận đơn hàng về cửa hàng</>;
               }
               if (order.status === ORDER_STATUS.OVERTIME) {
                 return <>Xử lý đơn hàng quá hạn</>;
