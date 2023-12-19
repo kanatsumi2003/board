@@ -107,7 +107,7 @@ function Header({ name, online, code }: Props) {
   }, []);
 
   return (
-    <div className="px-12 py-8 bg-gray-50 justify-between shadow-sm grid grid-cols-3 items-center gap-8">
+    <div className="px-12 py-8 bg-gray-50 justify-between shadow-sm grid grid-cols-3 items-center gap-4">
       <div
         className="col-span-1 flex items-center gap-2 cursor-pointer group hover:text-locker-blue"
         onClick={handleBack}
@@ -130,11 +130,11 @@ function Header({ name, online, code }: Props) {
               {checkBoxesIsSuccess && (
                 <>
                   {dataCheckBoxes?.closed ? (
-                    <div className="bg-locker-green mt-2 px-6 py-2 text-2xl font-normal rounded-2xl text-white">
+                    <div className="bg-locker-green mt-2 px-4 py-2 text-xl font-normal rounded-2xl text-white">
                       Tất cả ô tủ đều đóng
                     </div>
                   ) : (
-                    <div className="bg-locker-red mt-2 px-6 py-2 text-2xl font-normal rounded-2xl text-white">
+                    <div className="bg-locker-red mt-2 px-4 py-2 text-xl font-normal rounded-2xl text-white">
                       Có ô tủ chưa được đóng
                     </div>
                   )}
