@@ -48,7 +48,15 @@ def connect_mqtt(host, port, username, password, locker_code) -> mqtt_client:
             subscribe(topic=f"{topics.TOPIC_OPEN_BOX}/{locker_code}", locker_code=locker_code)
             subscribe(topic=f"{topics.TOPIC_UPDATE_INFO}/{locker_code}", locker_code=locker_code)
 
-
+    # Disconnect current connection
+    if connected:
+        try:
+            global MQTT_CLIENT
+            MQTT_CLIENT.disconnect()
+            MQTT_CLIENT = None
+        except Exception as ex:
+             logging.error("[MQTT] Error when disconnected from MQTT!")
+            
     client = mqtt_client.Client(protocol=MQTTv5)
     client.username_pw_set(username, password)
 
